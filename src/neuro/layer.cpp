@@ -7,18 +7,18 @@
 
 namespace neuro {
 
-Layer::Layer(Layer& layer)
-    : weights(layer.weights),
-      bias(layer.bias),
-      activation(layer.activation) {}
-
-Layer::Layer(std::vector<std::vector<float>>& weights, ActivationFunction activation)
+Layer::Layer(const layer_weight_t& weights, ActivationFunction activation)
     : weights(weights),
       bias(weights.size()),
       activation(activation) {};
 
+Layer::Layer(const layer_weight_t& weights, const layer_bias_t& bias, ActivationFunction activation)
+    : weights(weights),
+      bias(bias),
+      activation(activation) {};
+
 Layer::Layer(int inputSize, int outputSize, ActivationFunction activation)
-    : weights(outputSize, std::vector<float>(inputSize)),
+    : weights(outputSize, neuro_layer_t(inputSize)),
       bias(outputSize),
       activation(activation) {};
 
@@ -44,8 +44,8 @@ void Layer::loadBias(float rangeMin, float rangeMax) {
   }
 }
 
-std::vector<float> Layer::process(const std::vector<float>& inputs) const {
-  std::vector<float> outputs(bias.size());
+neuro_layer_t Layer::process(const neuro_layer_t& inputs) const {
+  neuro_layer_t outputs(bias.size());
 
   for (size_t i = 0; i < outputs.size(); ++i) {
     float total = bias[i];

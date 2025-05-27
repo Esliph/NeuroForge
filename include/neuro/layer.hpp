@@ -6,17 +6,22 @@
 
 namespace neuro {
 
+typedef std::vector<float> neuro_layer_t;
+
+typedef std::vector<neuro_layer_t> layer_weight_t;
+typedef neuro_layer_t layer_bias_t;
+
 class Layer {
-  std::vector<std::vector<float>> weights;
-  std::vector<float> bias;
+  layer_weight_t weights;
+  layer_bias_t bias;
 
   ActivationFunction activation;
 
  public:
-  Layer(Layer& layer);
+  Layer(const Layer&) = default;
   Layer(int inputSize, int outputSize, ActivationFunction activation);
-  Layer(std::vector<std::vector<float>>& weights, ActivationFunction activation);
-  Layer(std::vector<std::vector<float>>& weights, std::vector<float>& bias, ActivationFunction activation);
+  Layer(const layer_weight_t& weights, ActivationFunction activation);
+  Layer(const layer_weight_t& weights, const layer_bias_t& bias, ActivationFunction activation);
 
   inline void loadWeights(float range = 1.0f) { return loadWeights(-range, range); }
   void loadWeights(float rangeMin, float rangeMax);
@@ -24,7 +29,9 @@ class Layer {
   inline void loadBias(float range = 1.0f) { return loadBias(-range, range); }
   void loadBias(float rangeMin, float rangeMax);
 
-  std::vector<float> process(const std::vector<float>& inputs) const;
+  neuro_layer_t process(const neuro_layer_t& inputs) const;
+
+  Layer& operator=(const Layer&) = default;
 };
 
 };  // namespace neuro
