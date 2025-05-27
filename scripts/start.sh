@@ -3,7 +3,7 @@
 echo "-- Start application"
 echo ""
 
-./build/NeuroForge.exe
+./build/NeuroForge
 
 echo ""
 echo "-- Close application"

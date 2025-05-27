@@ -12,4 +12,12 @@ file(GLOB_RECURSE SOURCES
   src/*.cpp
 )
 
+option(ENABLE_ASAN "Enable Address Sanitizer" OFF)
+
+if(ENABLE_ASAN)
+  message("-- Debug ON")
+  add_compile_options(-fsanitize=address -g)
+  add_link_options(-fsanitize=address)
+endif()
+
 add_executable(NeuroForge ${SOURCES})
