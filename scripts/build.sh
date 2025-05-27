@@ -11,10 +11,6 @@ while getopts "cpa" opt; do
   p)
     is_copy_exe=true
     ;;
-  a)
-    is_clean_build=true
-    is_copy_exe=true
-    ;;
   esac
 done
 
@@ -23,11 +19,11 @@ if [[ $is_clean_build == true ]]; then
 fi
 
 echo "-- Start building"
-mkdir -p build && cd build && cmake .. -G "MinGW Makefiles" .. && make
+mkdir -p build && cd build && cmake .. -G "MinGW Makefiles" && make
 
 if [[ $? -ne 0 ]]; then
   echo "-- Build failed"
-  exit 0
+  exit 1
 fi
 
 echo "-- Build success"
