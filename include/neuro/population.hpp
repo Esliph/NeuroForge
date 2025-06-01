@@ -16,12 +16,18 @@ class Population {
   Population(int size, const std::vector<int>& structure, const ActivationFunction& activation);
   Population(int size, const std::vector<int>& structure, const std::vector<ActivationFunction>& activations);
 
+  inline void loadWeights(float range = 1.0f) { return loadWeights(-range, range); }
+  void loadWeights(float rangeMin, float rangeMax);
+
+  inline void loadBias(float range = 1.0f) { return loadBias(-range, range); }
+  void loadBias(float rangeMin, float rangeMax);
+
   const Individual& getBest() const;
   void evolve(float mutationRate, float mutationStrength, unsigned int eliteCount);
 
   Population& operator=(const Population&) = default;
 
-  const std::vector<Individual> getIndividuals() const;
+  std::vector<Individual>& getIndividuals();
   inline float size() const;
 
  private:

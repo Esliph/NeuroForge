@@ -22,6 +22,18 @@ Population::Population(int size, const std::vector<int>& structure, const std::v
   }
 }
 
+void Population::loadWeights(float rangeMin, float rangeMax) {
+  for (size_t i = 0; i < individuals.size(); ++i) {
+    individuals[i].loadWeights(rangeMin, rangeMax);
+  }
+}
+
+void Population::loadBias(float rangeMin, float rangeMax) {
+  for (size_t i = 0; i < individuals.size(); ++i) {
+    individuals[i].loadBias(rangeMin, rangeMax);
+  }
+}
+
 const Individual& Population::getBest() const {
   return *std::max_element(individuals.begin(), individuals.end(), [](const Individual& a, const Individual& b) {
     return a.getFitness() > b.getFitness();
@@ -70,7 +82,7 @@ const Individual& Population::tournamentSelect(int rounds) const {
   return *winner;
 }
 
-const std::vector<Individual> Population::getIndividuals() const {
+std::vector<Individual>& Population::getIndividuals() {
   return individuals;
 }
 
