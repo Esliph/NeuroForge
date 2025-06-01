@@ -27,6 +27,7 @@ class NeuralNetwork {
   neuro_layer_t feedforward(const neuro_layer_t& input) const;
 
   void mutate(float rate, float strength, std::default_random_engine& engine);
+  NeuralNetwork crossover(const NeuralNetwork& partner, std::default_random_engine& engine) const;
 
   NeuralNetwork& operator=(const NeuralNetwork&) = default;
 

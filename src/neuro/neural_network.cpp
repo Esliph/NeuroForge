@@ -51,6 +51,16 @@ void NeuralNetwork::mutate(float rate, float strength, std::default_random_engin
   }
 }
 
+NeuralNetwork NeuralNetwork::crossover(const NeuralNetwork& partner, std::default_random_engine& engine) const {
+  std::vector<Layer> newLayers;
+
+  for (size_t i = 0; i < layers.size(); ++i) {
+    newLayers.emplace_back(layers[i].crossover(partner.layers[i], engine));
+  }
+
+  return NeuralNetwork(newLayers);
+}
+
 const std::vector<Layer>& NeuralNetwork::getLayers() const {
   return layers;
 }

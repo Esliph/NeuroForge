@@ -34,6 +34,7 @@ class Layer {
   neuro_layer_t process(const neuro_layer_t& inputs) const;
 
   void mutate(float rate, float strength, std::default_random_engine& engine);
+  Layer crossover(const Layer& partner, std::default_random_engine& engine) const;
 
   Layer& operator=(const Layer&) = default;
 };

@@ -79,4 +79,27 @@ void Layer::mutate(float rate, float strength, std::default_random_engine& engin
   }
 }
 
+Layer Layer::crossover(const Layer& partner, std::default_random_engine& engine) const {
+  std::uniform_int_distribution<int> choose(0, 1);
+
+  layer_weight_t newWeights = weights;
+  layer_bias_t newBias = bias;
+
+  for (size_t i = 0; i < weights.size(); ++i) {
+    for (size_t j = 0; j < weights[i].size(); ++j) {
+      if (choose(engine) == 1) {
+        newWeights[i][j] = partner.weights[i][j];
+      }
+    }
+  }
+
+  for (size_t i = 0; i < weights.size(); ++i) {
+    if (choose(engine) == 1) {
+      newBias[i] = partner.bias[i];
+    }
+  }
+
+  return Layer(newWeights, newBias, activation);
+}
+
 };  // namespace neuro
