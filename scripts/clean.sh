@@ -2,7 +2,7 @@
 
 echo "-- Cleaning project"
 
-rm -r build packages --force
+rm -r build --force
 
 echo "-- Project cleaned"
 

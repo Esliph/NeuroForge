@@ -2,14 +2,15 @@
 
 is_clean_build=false
 is_copy_exe=false
+is_install=false
 
-while getopts "cpa" opt; do
+while getopts "ci" opt; do
   case $opt in
   c)
     is_clean_build=true
     ;;
-  p)
-    is_copy_exe=true
+  i)
+    is_install=true
     ;;
   esac
 done
@@ -28,8 +29,8 @@ fi
 
 echo "-- Build success"
 
-if [[ $is_copy_exe == true ]]; then
-  cd .. && ./scripts/copy-package.sh
+if [[ $is_install == true ]]; then
+  cd .. && ./scripts/make-install.sh
 fi
 
 exit 0
