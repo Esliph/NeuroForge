@@ -12,12 +12,13 @@ typedef std::vector<neuro_layer_t> layer_weight_t;
 typedef neuro_layer_t layer_bias_t;
 
 class Layer {
-  layer_weight_t weights;
-  layer_bias_t bias;
+  layer_weight_t weights{};
+  layer_bias_t bias{};
 
   ActivationFunction activation;
 
  public:
+  Layer() = default;
   Layer(const Layer&) = default;
   Layer(int inputSize, int outputSize, ActivationFunction activation);
   Layer(const layer_weight_t& weights, ActivationFunction activation);

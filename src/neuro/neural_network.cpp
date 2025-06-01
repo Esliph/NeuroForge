@@ -7,13 +7,18 @@
 
 namespace neuro {
 
-NeuralNetwork::NeuralNetwork(NeuralNetwork& neuralNetwork) : layers(neuralNetwork.layers) {}
-
-NeuralNetwork::NeuralNetwork(const std::vector<Layer>& layers) : layers(layers) {}
+NeuralNetwork::NeuralNetwork(const std::vector<Layer>& layers)
+    : layers(layers) {}
 
 NeuralNetwork::NeuralNetwork(const std::vector<int>& structure, const ActivationFunction& activation) {
   for (size_t i = 0; i < structure.size() - 1; ++i) {
     layers.emplace_back(structure[0], structure[i + 1], activation);
+  }
+}
+
+NeuralNetwork::NeuralNetwork(const std::vector<int>& structure, const std::vector<ActivationFunction>& activations) {
+  for (size_t i = 0; i < structure.size() - 1; ++i) {
+    layers.emplace_back(structure[0], structure[i + 1], activations[i]);
   }
 }
 
@@ -37,6 +42,10 @@ neuro_layer_t NeuralNetwork::feedforward(const neuro_layer_t& input) const {
   }
 
   return current;
+}
+
+const std::vector<Layer>& NeuralNetwork::getLayers() const {
+  return layers;
 }
 
 };  // namespace neuro
