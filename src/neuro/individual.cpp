@@ -37,6 +37,10 @@ void Individual::loadBias(float rangeMin, float rangeMax) {
   neuralNetwork.loadBias(rangeMin, rangeMax);
 }
 
+neuro_layer_t Individual::predict(const neuro_layer_t& input) const {
+  return neuralNetwork.feedforward(input);
+}
+
 void Individual::mutate(float rate, float strength) {
   std::random_device rd;
   std::default_random_engine engine(rd());
@@ -59,6 +63,10 @@ const NeuralNetwork& Individual::getNeuralNetwork() const {
 
 float Individual::getFitness() const {
   return fitness;
+}
+
+void Individual::setFitness(float newFitness) {
+  fitness = newFitness;
 }
 
 };  // namespace neuro

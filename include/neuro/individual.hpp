@@ -26,6 +26,8 @@ class Individual {
   inline void loadBias(float range = 1.0f);
   void loadBias(float rangeMin, float rangeMax);
 
+  neuro_layer_t predict(const neuro_layer_t& input) const;
+
   void mutate(float rate, float strength);
   Individual crossover(const Individual& partner) const;
 
@@ -33,6 +35,7 @@ class Individual {
 
   const NeuralNetwork& getNeuralNetwork() const;
   float getFitness() const;
+  void setFitness(float newFitness);
 };
 
 };  // namespace neuro
