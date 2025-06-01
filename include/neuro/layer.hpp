@@ -1,5 +1,6 @@
 #pragma once
 
+#include <random>
 #include <vector>
 
 #include "neuro/activation.hpp"
@@ -31,6 +32,8 @@ class Layer {
   void loadBias(float rangeMin, float rangeMax);
 
   neuro_layer_t process(const neuro_layer_t& inputs) const;
+
+  void mutate(float rate, float strength, std::default_random_engine& engine);
 
   Layer& operator=(const Layer&) = default;
 };

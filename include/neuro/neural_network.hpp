@@ -1,5 +1,6 @@
 #pragma once
 
+#include <random>
 #include <vector>
 
 #include "neuro/activation.hpp"
@@ -25,10 +26,11 @@ class NeuralNetwork {
 
   neuro_layer_t feedforward(const neuro_layer_t& input) const;
 
+  void mutate(float rate, float strength, std::default_random_engine& engine);
+
   NeuralNetwork& operator=(const NeuralNetwork&) = default;
 
-  const std::vector<Layer>&
-  getLayers() const;
+  const std::vector<Layer>& getLayers() const;
 };
 
 };  // namespace neuro

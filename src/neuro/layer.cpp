@@ -60,4 +60,23 @@ neuro_layer_t Layer::process(const neuro_layer_t& inputs) const {
   return outputs;
 }
 
+void Layer::mutate(float rate, float strength, std::default_random_engine& engine) {
+  std::uniform_real_distribution<float> chance(0.0f, 1.0f);
+  std::normal_distribution<float> perturbation(0.0f, strength);
+
+  for (size_t i = 0; i < weights.size(); ++i) {
+    for (size_t j = 0; j < weights[i].size(); ++j) {
+      if (chance(engine) < rate) {
+        weights[i][j] += perturbation(engine);
+      }
+    }
+  }
+
+  for (float& b : bias) {
+    if (chance(engine) < rate) {
+      b += perturbation(engine);
+    }
+  }
+}
+
 };  // namespace neuro

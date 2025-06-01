@@ -1,5 +1,6 @@
 #include "neuro/neural_network.hpp"
 
+#include <random>
 #include <vector>
 
 #include "neuro/activation.hpp"
@@ -42,6 +43,12 @@ neuro_layer_t NeuralNetwork::feedforward(const neuro_layer_t& input) const {
   }
 
   return current;
+}
+
+void NeuralNetwork::mutate(float rate, float strength, std::default_random_engine& engine) {
+  for (auto& layer : layers) {
+    layer.mutate(rate, strength, engine);
+  }
 }
 
 const std::vector<Layer>& NeuralNetwork::getLayers() const {
