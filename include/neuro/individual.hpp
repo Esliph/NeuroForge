@@ -31,8 +31,8 @@ class Individual {
 
   Individual& operator=(const Individual&) = default;
 
-  const NeuralNetwork& getNeuralNetwork();
-  float getFitness();
+  const NeuralNetwork& getNeuralNetwork() const;
+  float getFitness() const;
 };
 
 };  // namespace neuro

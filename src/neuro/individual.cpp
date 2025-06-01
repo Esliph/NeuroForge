@@ -53,11 +53,11 @@ Individual Individual::crossover(const Individual& partner) const {
   return Individual(newNeuralNetwork);
 }
 
-const NeuralNetwork& Individual::getNeuralNetwork() {
+const NeuralNetwork& Individual::getNeuralNetwork() const {
   return neuralNetwork;
 }
 
-float Individual::getFitness() {
+float Individual::getFitness() const {
   return fitness;
 }
 
