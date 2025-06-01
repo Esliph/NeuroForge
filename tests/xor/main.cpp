@@ -6,9 +6,10 @@
 
 #include <iomanip>
 #include <iostream>
+#include <neuro/activation.hpp>
+#include <neuro/individual.hpp>
+#include <neuro/population.hpp>
 #include <vector>
-
-#include "neuro/population.hpp"
 
 using namespace std;
 using namespace neuro;
