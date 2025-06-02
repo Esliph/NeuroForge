@@ -61,6 +61,22 @@ NeuralNetwork NeuralNetwork::crossover(const NeuralNetwork& partner, std::defaul
   return NeuralNetwork(newLayers);
 }
 
+std::vector<Layer>::const_iterator NeuralNetwork::begin() const {
+  return layers.begin();
+}
+
+std::vector<Layer>::const_iterator NeuralNetwork::end() const {
+  return layers.end();
+}
+
+std::vector<Layer>::iterator NeuralNetwork::begin() {
+  return layers.begin();
+}
+
+std::vector<Layer>::iterator NeuralNetwork::end() {
+  return layers.end();
+}
+
 const std::vector<Layer>& NeuralNetwork::getLayers() const {
   return layers;
 }

@@ -18,10 +18,16 @@ class NeuralNetwork {
   NeuralNetwork(const std::vector<int>& structure, const ActivationFunction& activation);
   NeuralNetwork(const std::vector<int>& structure, const std::vector<ActivationFunction>& activations);
 
-  inline void loadWeights(float range = 1.0f) { return loadWeights(-range, range); }
+  inline void loadWeights(float range = 1.0f) {
+    loadWeights(-range, range);
+  }
+
   void loadWeights(float rangeMin, float rangeMax);
 
-  inline void loadBias(float range = 1.0f) { return loadBias(-range, range); }
+  inline void loadBias(float range = 1.0f) {
+    loadBias(-range, range);
+  }
+
   void loadBias(float rangeMin, float rangeMax);
 
   neuro_layer_t feedforward(const neuro_layer_t& input) const;
@@ -31,7 +37,17 @@ class NeuralNetwork {
 
   NeuralNetwork& operator=(const NeuralNetwork&) = default;
 
+  std::vector<Layer>::const_iterator begin() const;
+  std::vector<Layer>::const_iterator end() const;
+
+  std::vector<Layer>::iterator begin();
+  std::vector<Layer>::iterator end();
+
   const std::vector<Layer>& getLayers() const;
+
+  inline size_t size() const {
+    return layers.size();
+  }
 };
 
 };  // namespace neuro

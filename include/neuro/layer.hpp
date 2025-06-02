@@ -25,10 +25,16 @@ class Layer {
   Layer(const layer_weight_t& weights, ActivationFunction activation);
   Layer(const layer_weight_t& weights, const layer_bias_t& bias, ActivationFunction activation);
 
-  inline void loadWeights(float range = 1.0f) { return loadWeights(-range, range); }
+  inline void loadWeights(float range = 1.0f) {
+    loadWeights(-range, range);
+  }
+
   void loadWeights(float rangeMin, float rangeMax);
 
-  inline void loadBias(float range = 1.0f) { return loadBias(-range, range); }
+  inline void loadBias(float range = 1.0f) {
+    loadBias(-range, range);
+  }
+
   void loadBias(float rangeMin, float rangeMax);
 
   neuro_layer_t process(const neuro_layer_t& inputs) const;
@@ -37,6 +43,18 @@ class Layer {
   Layer crossover(const Layer& partner, std::default_random_engine& engine) const;
 
   Layer& operator=(const Layer&) = default;
+
+  inline const layer_weight_t getWeights() const {
+    return weights;
+  }
+
+  inline const layer_bias_t getBias() const {
+    return bias;
+  }
+
+  inline const ActivationFunction& getActivationFunction() const {
+    return activation;
+  }
 };
 
 };  // namespace neuro

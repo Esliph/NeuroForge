@@ -21,22 +21,6 @@ Individual::Individual(const std::vector<int>& structure, const ActivationFuncti
 Individual::Individual(const std::vector<int>& structure, const std::vector<ActivationFunction>& activations)
     : neuralNetwork(structure, activations) {}
 
-inline void Individual::loadWeights(float range) {
-  neuralNetwork.loadWeights(range);
-}
-
-void Individual::loadWeights(float rangeMin, float rangeMax) {
-  neuralNetwork.loadWeights(rangeMin, rangeMax);
-}
-
-inline void Individual::loadBias(float range) {
-  neuralNetwork.loadBias(range);
-}
-
-void Individual::loadBias(float rangeMin, float rangeMax) {
-  neuralNetwork.loadBias(rangeMin, rangeMax);
-}
-
 neuro_layer_t Individual::predict(const neuro_layer_t& input) const {
   return neuralNetwork.feedforward(input);
 }

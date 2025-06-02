@@ -27,8 +27,17 @@ class Population {
 
   Population& operator=(const Population&) = default;
 
+  std::vector<Individual>::const_iterator begin() const;
+  std::vector<Individual>::const_iterator end() const;
+
+  std::vector<Individual>::iterator begin();
+  std::vector<Individual>::iterator end();
+
   std::vector<Individual>& getIndividuals();
-  inline float size() const;
+
+  inline size_t size() const {
+    return individuals.size();
+  }
 
  private:
   const Individual& tournamentSelect(int rounds = 3) const;

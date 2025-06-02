@@ -82,12 +82,24 @@ const Individual& Population::tournamentSelect(int rounds) const {
   return *winner;
 }
 
-std::vector<Individual>& Population::getIndividuals() {
-  return individuals;
+std::vector<Individual>::const_iterator Population::begin() const {
+  return individuals.begin();
 }
 
-inline float Population::size() const {
-  return individuals.size();
+std::vector<Individual>::const_iterator Population::end() const {
+  return individuals.end();
+}
+
+std::vector<Individual>::iterator Population::begin() {
+  return individuals.begin();
+}
+
+std::vector<Individual>::iterator Population::end() {
+  return individuals.end();
+}
+
+std::vector<Individual>& Population::getIndividuals() {
+  return individuals;
 }
 
 };  // namespace neuro
