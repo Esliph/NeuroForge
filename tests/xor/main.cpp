@@ -1,7 +1,7 @@
 #define POPULATION_SIZE 100
 #define GENERATIONS 100
-#define MUTATION_RATE 0.1f
-#define MUTATION_STRENGTH 0.5f
+#define MUTATION_RATE 0.2f
+#define MUTATION_STRENGTH 0.8f
 #define ELITE_COUNT 5
 
 #include <iomanip>
@@ -40,8 +40,8 @@ int main() {
 
   Population population(POPULATION_SIZE, structure, activation);
 
-  population.loadWeights();
-  population.loadBias();
+  population.loadWeights(-5, 5);
+  population.loadBias(-5, 5);
 
   for (int generation = 0; generation <= GENERATIONS; ++generation) {
     for (auto& individual : population.getIndividuals()) {
