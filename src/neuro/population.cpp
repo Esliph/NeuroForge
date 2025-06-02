@@ -4,6 +4,7 @@
 
 #include "neuro/activation.hpp"
 #include "neuro/individual.hpp"
+#include "neuro/util.hpp"
 
 namespace neuro {
 
@@ -65,14 +66,12 @@ void Population::evolve(float mutationRate, float mutationStrength, unsigned int
 }
 
 const Individual& Population::tournamentSelect(int rounds) const {
-  std::random_device rd;
-  std::default_random_engine engine(rd());
   std::uniform_int_distribution<int> dist(0, individuals.size() - 1);
 
   const Individual* winner = nullptr;
 
   for (int i = 0; i < rounds; ++i) {
-    const Individual& candidate = individuals[dist(engine)];
+    const Individual& candidate = individuals[dist(random_engine)];
 
     if (!winner || candidate.getFitness() > winner->getFitness()) {
       winner = &candidate;

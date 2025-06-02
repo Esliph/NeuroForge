@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "neuro/activation.hpp"
+#include "neuro/util.hpp"
 
 namespace neuro {
 
@@ -23,24 +24,20 @@ Layer::Layer(int inputSize, int outputSize, ActivationFunction activation)
       activation(activation) {};
 
 void Layer::loadWeights(float rangeMin, float rangeMax) {
-  std::random_device rd;
-  std::default_random_engine engine(rd());
   std::uniform_real_distribution<float> dist(rangeMin, rangeMax);
 
   for (auto& line : weights) {
     for (auto& weight : line) {
-      weight = dist(engine);
+      weight = dist(random_engine);
     }
   }
 }
 
 void Layer::loadBias(float rangeMin, float rangeMax) {
-  std::random_device rd;
-  std::default_random_engine engine(rd());
   std::uniform_real_distribution<float> dist(rangeMin, rangeMax);
 
   for (auto& b : bias) {
-    b = dist(engine);
+    b = dist(random_engine);
   }
 }
 
@@ -60,6 +57,10 @@ neuro_layer_t Layer::process(const neuro_layer_t& inputs) const {
   return outputs;
 }
 
+void Layer::mutate(float rate, float strength) {
+  mutate(rate, strength, random_engine);
+}
+
 void Layer::mutate(float rate, float strength, std::default_random_engine& engine) {
   std::uniform_real_distribution<float> chance(0.0f, 1.0f);
   std::normal_distribution<float> perturbation(0.0f, strength);
@@ -77,6 +78,10 @@ void Layer::mutate(float rate, float strength, std::default_random_engine& engin
       b += perturbation(engine);
     }
   }
+}
+
+Layer Layer::crossover(const Layer& partner) const {
+  return crossover(partner, random_engine);
 }
 
 Layer Layer::crossover(const Layer& partner, std::default_random_engine& engine) const {

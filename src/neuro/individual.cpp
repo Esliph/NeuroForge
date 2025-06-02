@@ -6,6 +6,7 @@
 #include "neuro/activation.hpp"
 #include "neuro/layer.hpp"
 #include "neuro/neural_network.hpp"
+#include "neuro/util.hpp"
 
 namespace neuro {
 
@@ -26,17 +27,11 @@ neuro_layer_t Individual::predict(const neuro_layer_t& input) const {
 }
 
 void Individual::mutate(float rate, float strength) {
-  std::random_device rd;
-  std::default_random_engine engine(rd());
-
-  neuralNetwork.mutate(rate, strength, engine);
+  neuralNetwork.mutate(rate, strength, random_engine);
 }
 
 Individual Individual::crossover(const Individual& partner) const {
-  std::random_device rd;
-  std::default_random_engine engine(rd());
-
-  auto newNeuralNetwork(neuralNetwork.crossover(partner.neuralNetwork, engine));
+  auto newNeuralNetwork(neuralNetwork.crossover(partner.neuralNetwork, random_engine));
 
   return Individual(newNeuralNetwork);
 }

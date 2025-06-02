@@ -5,6 +5,7 @@
 
 #include "neuro/activation.hpp"
 #include "neuro/layer.hpp"
+#include "neuro/util.hpp"
 
 namespace neuro {
 
@@ -45,10 +46,18 @@ neuro_layer_t NeuralNetwork::feedforward(const neuro_layer_t& input) const {
   return current;
 }
 
+void NeuralNetwork::mutate(float rate, float strength) {
+  mutate(rate, strength, random_engine);
+}
+
 void NeuralNetwork::mutate(float rate, float strength, std::default_random_engine& engine) {
   for (auto& layer : layers) {
     layer.mutate(rate, strength, engine);
   }
+}
+
+NeuralNetwork NeuralNetwork::crossover(const NeuralNetwork& partner) const {
+  return crossover(partner, random_engine);
 }
 
 NeuralNetwork NeuralNetwork::crossover(const NeuralNetwork& partner, std::default_random_engine& engine) const {
