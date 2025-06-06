@@ -2,11 +2,12 @@
 
 #include <vector>
 
-#include "neuro/interfaces/i_layer.hpp"
+#include "neuro/common/i_iterable.hpp"
+#include "neuro/interfaces/layer/i_layer.hpp"
 
 namespace neuro {
 
-class INeuralNetwork {
+class INeuralNetwork : IIterable<ILayer> {
  public:
   INeuralNetwork(INeuralNetwork&) = default;
   virtual ~INeuralNetwork() = default;
@@ -43,12 +44,6 @@ class INeuralNetwork {
 
   virtual const std::shared_ptr<ILayer> getLayer(size_t index) const = 0;
   virtual size_t getNumLayers() const = 0;
-
-  std::vector<ILayer>::const_iterator begin() const;
-  std::vector<ILayer>::const_iterator end() const;
-
-  std::vector<ILayer>::iterator begin();
-  std::vector<ILayer>::iterator end();
 
   virtual INeuralNetwork& operator=(const INeuralNetwork&) = default;
 };

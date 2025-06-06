@@ -3,7 +3,8 @@
 #include <random>
 #include <vector>
 
-#include "neuro/activation.hpp"
+#include "neuro/common/activation.hpp"
+#include "neuro/common/i_iterable.hpp"
 
 namespace neuro {
 
@@ -40,6 +41,9 @@ class ILayer {
 
   virtual const layer_weight_t& getWeights() const = 0;
   virtual const layer_bias_t& getBiases() const = 0;
+
+  virtual layer_weight_t& getWeights() = 0;
+  virtual layer_bias_t& getBiases() = 0;
 
   virtual float getWeight(int indexX, int indexY) const = 0;
   virtual float getBias(int index) const = 0;
