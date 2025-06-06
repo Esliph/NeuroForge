@@ -1,7 +1,7 @@
 #pragma once
 
-#include "neuro/common/i_crossable.hpp"
 #include "neuro/interfaces/neural_network/i_neural_network.hpp"
+#include "neuro/utils/interfaces/i_crossable.hpp"
 
 namespace neuro {
 
