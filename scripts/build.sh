@@ -1,11 +1,15 @@
 #!/bin/bash
 
 is_clean_build=false
+is_install=false
 
-while getopts "c" opt; do
+while getopts "ci" opt; do
   case $opt in
   c)
     is_clean_build=true
+    ;;
+  i)
+    is_install=true
     ;;
   esac
 done
@@ -20,7 +24,13 @@ fi
 
 echo "-- Start building"
 
-cmake -B build -G "MinGW Makefiles" && cmake --build build --target install
+cmake -B build -G "MinGW Makefiles"
+
+if [[ $is_install == true ]]; then
+  cmake --build build --target install
+else
+  cmake --build build
+fi
 
 if [[ $? -ne 0 ]]; then
   echo "-- Build failed"

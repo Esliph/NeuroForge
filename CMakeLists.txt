@@ -15,7 +15,7 @@ endif()
 
 file(GLOB_RECURSE SOURCES
   CONFIGURE_DEPENDS
-  src/neuro/*.cpp
+  src/*.cpp
 )
 
 add_library(NeuroForge STATIC ${SOURCES})
