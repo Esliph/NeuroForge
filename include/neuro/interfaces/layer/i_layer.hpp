@@ -19,7 +19,7 @@ class ILayer {
   ILayer(const ILayer&) = default;
   virtual ~ILayer() = default;
 
-  virtual std::vector<float> feedforward(const neuro_layer_t& input) = 0;
+  virtual neuro_layer_t feedforward(const neuro_layer_t& inputs) = 0;
 
   virtual void randomizeWeights(float max = 1.0f) {
     randomizeWeights(-max, max);
@@ -48,6 +48,8 @@ class ILayer {
 
   virtual float getWeight(int indexX, int indexY) const = 0;
   virtual float getBias(int index) const = 0;
+
+  virtual const ActivationFunction& getActivationFunction() const = 0;
 
   virtual size_t inputSize() const = 0;
   virtual size_t outputSize() const = 0;
