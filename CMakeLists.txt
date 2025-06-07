@@ -5,13 +5,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/packages/NeuroForge-${PROJECT_VERSION}" CACHE PATH "Install path prefix" FORCE)
 
-option(ENABLE_ASAN "Enable Address Sanitizer" OFF)
-
-if(ENABLE_ASAN)
-  message("-- ASAN ENABLED")
-  add_compile_options(-fsanitize=address -g)
-  add_link_options(-fsanitize=address)
-endif()
+option(CONSTRUCT_INSTALLATION "Build the lib installer" OFF)
+option(ENABLE_TEST "Build unit tests" OFF)
 
 file(GLOB_RECURSE SOURCES
   CONFIGURE_DEPENDS
@@ -20,48 +15,68 @@ file(GLOB_RECURSE SOURCES
 
 add_library(NeuroForge STATIC ${SOURCES})
 
-target_include_directories(NeuroForge
-  PUBLIC
-  $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>
-)
+if(CONSTRUCT_INSTALLATION)
+  target_include_directories(NeuroForge
+    PUBLIC
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+  )
 
-add_library(NeuroForge::NeuroForge ALIAS NeuroForge)
+  add_library(NeuroForge::NeuroForge ALIAS NeuroForge)
 
-install(TARGETS NeuroForge
-  EXPORT NeuroForgeTargets
-  LIBRARY DESTINATION lib
-  ARCHIVE DESTINATION lib
-  RUNTIME DESTINATION bin
-  INCLUDES DESTINATION include
-)
+  install(TARGETS NeuroForge
+    EXPORT NeuroForgeTargets
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+    RUNTIME DESTINATION bin
+    INCLUDES DESTINATION include
+  )
 
-install(DIRECTORY include/
-  DESTINATION include
-)
+  install(DIRECTORY include/
+    DESTINATION include
+  )
 
-install(EXPORT NeuroForgeTargets
-  FILE NeuroForgeTargets.cmake
-  NAMESPACE NeuroForge::
-  DESTINATION lib/cmake/NeuroForge
-)
+  install(EXPORT NeuroForgeTargets
+    FILE NeuroForgeTargets.cmake
+    NAMESPACE NeuroForge::
+    DESTINATION lib/cmake/NeuroForge
+  )
 
-include(CMakePackageConfigHelpers)
+  include(CMakePackageConfigHelpers)
 
-write_basic_package_version_file(
-  "${CMAKE_CURRENT_BINARY_DIR}/NeuroForgeConfigVersion.cmake"
-  VERSION ${PROJECT_VERSION}
-  COMPATIBILITY SameMajorVersion
-)
+  write_basic_package_version_file(
+    "${CMAKE_CURRENT_BINARY_DIR}/NeuroForgeConfigVersion.cmake"
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY SameMajorVersion
+  )
 
-configure_package_config_file(
-  "${PROJECT_SOURCE_DIR}/cmake/Config.cmake.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/NeuroForgeConfig.cmake"
-  INSTALL_DESTINATION lib/cmake/NeuroForge
-)
+  configure_package_config_file(
+    "${PROJECT_SOURCE_DIR}/cmake/Config.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/NeuroForgeConfig.cmake"
+    INSTALL_DESTINATION lib/cmake/NeuroForge
+  )
 
-install(FILES
-  "${CMAKE_CURRENT_BINARY_DIR}/NeuroForgeConfig.cmake"
-  "${CMAKE_CURRENT_BINARY_DIR}/NeuroForgeConfigVersion.cmake"
-  DESTINATION lib/cmake/NeuroForge
-)
+  install(FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/NeuroForgeConfig.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/NeuroForgeConfigVersion.cmake"
+    DESTINATION lib/cmake/NeuroForge
+  )
+else()
+  include_directories(include)
+endif()
+
+if(ENABLE_TEST)
+  include(FetchContent)
+
+  FetchContent_Declare(
+    Catch2
+    GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+    GIT_TAG devel
+  )
+
+  FetchContent_MakeAvailable(Catch2)
+
+  include(CTest)
+  enable_testing()
+  add_subdirectory(tests)
+endif()
