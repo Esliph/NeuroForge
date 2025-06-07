@@ -5,10 +5,10 @@
 
 namespace neuro {
 
-class IReinforcementNeuralNetwork : public INeuralNetwork, public IReinforcementNeuralNetwork {
+class ReinforcementNeuralNetwork : public INeuralNetwork, public IReinforcementTrainable {
  public:
-  IReinforcementNeuralNetwork() = default;
-  virtual ~IReinforcementNeuralNetwork() = default;
+  ReinforcementNeuralNetwork() = default;
+  virtual ~ReinforcementNeuralNetwork() = default;
 };
 
 };  // namespace neuro
