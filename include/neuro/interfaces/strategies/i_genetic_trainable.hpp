@@ -5,7 +5,7 @@
 
 namespace neuro {
 
-class IGeneticTrainable : ICrossable<INeuralNetwork> {
+class IGeneticTrainable : public ICrossable<INeuralNetwork> {
  public:
   IGeneticTrainable() = default;
   virtual ~IGeneticTrainable() = default;

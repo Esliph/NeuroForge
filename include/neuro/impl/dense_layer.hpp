@@ -5,7 +5,7 @@
 
 namespace neuro {
 
-class DenseLayer : ILayer {
+class DenseLayer : public ILayer {
   layer_weight_t weights{};
   layer_bias_t biases{};
 
@@ -15,8 +15,8 @@ class DenseLayer : ILayer {
   DenseLayer() = default;
   DenseLayer(const DenseLayer&) = default;
 
-  DenseLayer(int inputSize, int outputSize, ActivationFunction ActivationFunction);
-  DenseLayer(const layer_weight_t& weights, ActivationFunction ActivationFunction);
+  DenseLayer(int inputSize, int outputSize, ActivationFunction& activation);
+  DenseLayer(const layer_weight_t& weights, ActivationFunction& activation);
   DenseLayer(const layer_weight_t& weights, const layer_bias_t& biases, ActivationFunction& activation);
 
   virtual ~DenseLayer() = default;

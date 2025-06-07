@@ -5,7 +5,7 @@
 
 namespace neuro {
 
-class IReinforcementNeuralNetwork : INeuralNetwork, IReinforcementNeuralNetwork {
+class IReinforcementNeuralNetwork : public INeuralNetwork, public IReinforcementNeuralNetwork {
  public:
   IReinforcementNeuralNetwork() = default;
   virtual ~IReinforcementNeuralNetwork() = default;

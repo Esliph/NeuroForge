@@ -7,7 +7,7 @@
 
 namespace neuro {
 
-class INeuralNetwork : IIterable<ILayer> {
+class INeuralNetwork : public IIterable<ILayer> {
  public:
   INeuralNetwork() = default;
   INeuralNetwork(const INeuralNetwork&) = default;

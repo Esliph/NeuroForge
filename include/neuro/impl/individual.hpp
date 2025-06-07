@@ -4,7 +4,7 @@
 
 namespace neuro {
 
-class Individual : IIndividual {
+class Individual : public IIndividual {
  public:
   Individual() = default;
   Individual(const Individual&) = default;

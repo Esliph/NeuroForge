@@ -5,7 +5,7 @@
 
 namespace neuro {
 
-class GeneticPopulation : Population, IGeneticPopulation {
+class GeneticPopulation : public Population, public IGeneticPopulation {
  public:
   GeneticPopulation() = default;
   GeneticPopulation(const GeneticPopulation&) = default;

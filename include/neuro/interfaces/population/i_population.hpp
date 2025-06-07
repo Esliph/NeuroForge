@@ -5,7 +5,7 @@
 
 namespace neuro {
 
-class IPopulation : IIterable<IIndividual> {
+class IPopulation : public IIterable<IIndividual> {
  public:
   IPopulation() = default;
   IPopulation(const IPopulation&) = default;

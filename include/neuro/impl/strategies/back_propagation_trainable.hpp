@@ -5,7 +5,7 @@
 
 namespace neuro {
 
-class BackPropagationNeuralNetwork : INeuralNetwork, IBackPropagationTrainable {
+class BackPropagationNeuralNetwork : public INeuralNetwork, public IBackPropagationTrainable {
  public:
   BackPropagationNeuralNetwork() = default;
   virtual ~BackPropagationNeuralNetwork() = default;

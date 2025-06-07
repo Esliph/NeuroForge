@@ -4,7 +4,7 @@
 
 namespace neuro {
 
-class Population : IPopulation {
+class Population : public IPopulation {
  public:
   Population() = default;
   Population(const Population&) = default;

@@ -4,7 +4,7 @@
 
 namespace neuro {
 
-class NeuralNetwork : INeuralNetwork {
+class NeuralNetwork : public INeuralNetwork {
  public:
   NeuralNetwork() = default;
   NeuralNetwork(const NeuralNetwork&) = default;
