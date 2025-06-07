@@ -6,6 +6,7 @@ namespace neuro {
 
 class NeuralNetwork : INeuralNetwork {
  public:
+  NeuralNetwork() = default;
   NeuralNetwork(const NeuralNetwork&) = default;
   virtual ~NeuralNetwork() = default;
 };

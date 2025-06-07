@@ -9,6 +9,7 @@ namespace neuro {
 
 class IStatefulLayer : public ILayer {
  public:
+  IStatefulLayer() = default;
   IStatefulLayer(const IStatefulLayer&) = default;
   virtual ~IStatefulLayer() = default;
 

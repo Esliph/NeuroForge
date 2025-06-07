@@ -6,11 +6,11 @@ namespace neuro {
 
 template <typename T>
 class IIterable {
-  std::vector<T>::const_iterator begin() const;
-  std::vector<T>::const_iterator end() const;
+  virtual typename std::vector<T>::const_iterator begin() const;
+  virtual typename std::vector<T>::const_iterator end() const;
 
-  std::vector<T>::iterator begin();
-  std::vector<T>::iterator end();
+  virtual typename std::vector<T>::iterator begin();
+  virtual typename std::vector<T>::iterator end();
 };
 
 };  // namespace neuro

@@ -7,6 +7,7 @@ namespace neuro {
 
 class GeneticNeuralNetwork : INeuralNetwork, IGeneticTrainable {
  public:
+  GeneticNeuralNetwork() = default;
   virtual ~GeneticNeuralNetwork() = default;
 };
 

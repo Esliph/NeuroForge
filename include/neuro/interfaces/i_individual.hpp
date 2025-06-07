@@ -7,6 +7,7 @@ namespace neuro {
 
 class IIndividual : ICrossable<IIndividual> {
  public:
+  IIndividual() = default;
   IIndividual(const IIndividual&) = default;
   virtual ~IIndividual() = default;
 

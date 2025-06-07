@@ -7,6 +7,7 @@ namespace neuro {
 
 class IGeneticTrainable : ICrossable<INeuralNetwork> {
  public:
+  IGeneticTrainable() = default;
   virtual ~IGeneticTrainable() = default;
 
   virtual void mutate(float rate, float intensity) = 0;

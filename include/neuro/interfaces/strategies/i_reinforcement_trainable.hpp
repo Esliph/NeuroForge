@@ -8,6 +8,7 @@ namespace neuro {
 
 class IReinforcementTrainable {
  public:
+  IReinforcementTrainable() = default;
   virtual ~IReinforcementTrainable() = default;
 
   virtual void updateFromReward(float reward) = 0;

@@ -7,6 +7,7 @@ namespace neuro {
 
 class GeneticPopulation : Population, IGeneticPopulation {
  public:
+  GeneticPopulation() = default;
   GeneticPopulation(const GeneticPopulation&) = default;
   virtual ~GeneticPopulation() = default;
 };
