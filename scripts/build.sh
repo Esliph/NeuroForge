@@ -1,42 +1,95 @@
 #!/bin/bash
 
+env="PROD" # PROD | TEST | NONE
 is_clean_build=false
-is_install=false
 
-while getopts "ci" opt; do
+exit_with_error() {
+  echo "$1"
+  exit 1
+}
+
+validate_env() {
+  if [[ "$env" != "PROD" && "$env" != "TEST" && "$env" != "NONE" ]]; then
+    exit_with_error "Invalid argument \"$env\" for flag \"-e\". Valid values are 'PROD', 'TEST' or 'NONE'."
+  fi
+}
+
+clean_project() {
+  echo "-- Cleaning project"
+  case "$env" in
+  "PROD")
+    rm -rf build/production
+    ;;
+  "TEST")
+    rm -rf build/tests
+    ;;
+  "NONE")
+    rm -rf build/temp
+    ;;
+  esac
+  echo "-- Project cleaned"
+}
+
+build_production() {
+  echo "-- Building Production"
+  cmake -B build/production -G "MinGW Makefiles" -DCONSTRUCT_INSTALLATION=ON
+  cmake --build build/production --target install
+}
+
+build_test() {
+  echo "-- Building Tests"
+  cmake -B build/tests -G "MinGW Makefiles" -DENABLE_TEST=ON
+  cmake --build build/tests
+  ctest --output-on-failure
+}
+
+build_no_target() {
+  echo "-- Building with no Target"
+  cmake -B build/temp -G "MinGW Makefiles"
+  cmake --build build/temp
+}
+
+start_build() {
+  case "$env" in
+  "PROD")
+    build_production
+    ;;
+  "TEST")
+    build_test
+    ;;
+  "NONE")
+    build_no_target
+    ;;
+  esac
+}
+
+while getopts "e:c" opt; do
   case $opt in
   c)
     is_clean_build=true
     ;;
-  i)
-    is_install=true
+  e)
+    env="${OPTARG^^}"
+    ;;
+  *)
+    exit_with_error "Invalid flag"
     ;;
   esac
 done
 
-if [[ $is_clean_build == true ]]; then
-  echo "-- Cleaning project"
+validate_env
 
-  rm -r build --force
-
-  echo "-- Project cleaned"
+if $is_clean_build; then
+  clean_project
 fi
 
 echo "-- Start building"
 
-cmake -B build -G "MinGW Makefiles"
-
-if [[ $is_install == true ]]; then
-  cmake --build build --target install
-else
-  cmake --build build
-fi
+start_build
 
 if [[ $? -ne 0 ]]; then
-  echo "-- Build failed"
-  exit 1
+  exit_with_error "-- Build failed"
 fi
 
 echo "-- Build success"
-
 exit 0
