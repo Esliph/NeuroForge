@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <vector>
 
 #include "neuro/interfaces/layer/i_layer.hpp"

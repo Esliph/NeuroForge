@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "neuro/interfaces/i_individual.hpp"
 #include "neuro/utils/interfaces/i_iterable.hpp"
 

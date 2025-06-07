@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "neuro/interfaces/i_neural_network.hpp"
 #include "neuro/utils/interfaces/i_crossable.hpp"
 
