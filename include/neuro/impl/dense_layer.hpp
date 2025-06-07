@@ -6,7 +6,7 @@ namespace neuro {
 
 class DenseLayer : ILayer {
  public:
-  DenseLayer(DenseLayer&) = default;
+  DenseLayer(const DenseLayer&) = default;
   virtual ~DenseLayer() = default;
 };
 
