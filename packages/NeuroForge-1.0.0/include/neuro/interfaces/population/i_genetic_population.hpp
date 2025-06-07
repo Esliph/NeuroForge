@@ -3,7 +3,7 @@
 #include <functional>
 
 #include "neuro/interfaces/i_individual.hpp"
-#include "neuro/interfaces/neural_network/i_neural_network.hpp"
+#include "neuro/interfaces/i_neural_network.hpp"
 
 namespace neuro {
 

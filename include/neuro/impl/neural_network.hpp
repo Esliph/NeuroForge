@@ -1,6 +1,6 @@
 #pragma once
 
-#include "neuro/interfaces/neural_network/i_neural_network.hpp"
+#include "neuro/interfaces/i_neural_network.hpp"
 
 namespace neuro {
 
