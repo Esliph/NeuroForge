@@ -9,7 +9,7 @@ namespace neuro {
 
 class IGeneticPopulation {
  public:
-  IGeneticPopulation(IGeneticPopulation&) = default;
+  IGeneticPopulation(const IGeneticPopulation&) = default;
   virtual ~IGeneticPopulation() = default;
 
   virtual void evaluate(const std::function<float(const INeuralNetwork&)>& evaluateFunction) = 0;

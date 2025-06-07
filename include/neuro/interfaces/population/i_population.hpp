@@ -7,7 +7,7 @@ namespace neuro {
 
 class IPopulation : IIterable<IIndividual> {
  public:
-  IPopulation(IPopulation&) = default;
+  IPopulation(const IPopulation&) = default;
   virtual ~IPopulation() = default;
 
   virtual void evolve() = 0;

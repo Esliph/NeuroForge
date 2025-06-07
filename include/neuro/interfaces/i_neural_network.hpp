@@ -9,7 +9,7 @@ namespace neuro {
 
 class INeuralNetwork : IIterable<ILayer> {
  public:
-  INeuralNetwork(INeuralNetwork&) = default;
+  INeuralNetwork(const INeuralNetwork&) = default;
   virtual ~INeuralNetwork() = default;
 
   virtual void addLayer(std::unique_ptr<ILayer>) = 0;
