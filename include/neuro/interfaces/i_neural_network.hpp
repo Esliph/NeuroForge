@@ -8,7 +8,7 @@
 
 namespace neuro {
 
-class INeuralNetwork : public IIterable<ILayer> {
+class INeuralNetwork {
  public:
   INeuralNetwork() = default;
   INeuralNetwork(const INeuralNetwork&) = default;
@@ -26,7 +26,10 @@ class INeuralNetwork : public IIterable<ILayer> {
     randomizeAll(min, max, min, max);
   }
 
-  virtual void randomizeAll(float minWeight, float maxWeight, float minBias, float maxBias) = 0;
+  virtual void randomizeAll(float minWeight, float maxWeight, float minBias, float maxBias) {
+    randomizeWeights(minWeight, maxWeight);
+    randomizeBiases(minBias, maxBias);
+  }
 
   virtual void randomizeWeights(float max = 1.0f) {
     randomizeWeights(-max, max);
@@ -42,9 +45,7 @@ class INeuralNetwork : public IIterable<ILayer> {
   virtual void setAllWeights(const std::vector<layer_weight_t>&) = 0;
   virtual void setAllBiases(const std::vector<layer_bias_t>&) = 0;
 
-  virtual const neuro_layer_t& getLastOutput() const = 0;
-
-  virtual const std::shared_ptr<ILayer> getLayer(size_t index) const = 0;
+  virtual const ILayer& getLayer(size_t index) const = 0;
   virtual size_t getNumLayers() const = 0;
 
   virtual INeuralNetwork& operator=(const INeuralNetwork&) = default;
