@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "neuro/interfaces/i_layer.hpp"
+#include "neuro/utils/ref_proxy.hpp"
 
 namespace neuro {
 
@@ -13,43 +14,40 @@ class INeuralNetwork {
   INeuralNetwork(const INeuralNetwork&) = default;
   virtual ~INeuralNetwork() = default;
 
+  virtual neuro_layer_t evaluate(const neuro_layer_t& inputs) const = 0;
+
   virtual void addLayer(std::unique_ptr<ILayer>) = 0;
 
+  virtual void reset() = 0;
+
   virtual void clearLayers() = 0;
-
-  virtual void randomizeAll(float max = 1.0f) {
-    randomizeAll(-max, max, -max, max);
-  }
-
-  virtual void randomizeAll(float min, float max) {
-    randomizeAll(min, max, min, max);
-  }
-
-  virtual void randomizeAll(float minWeight, float maxWeight, float minBias, float maxBias) {
-    randomizeWeights(minWeight, maxWeight);
-    randomizeBiases(minBias, maxBias);
-  }
-
-  virtual void randomizeWeights(float max = 1.0f) {
-    randomizeWeights(-max, max);
-  }
-
-  virtual void randomizeBiases(float max = 1.0f) {
-    randomizeBiases(-max, max);
-  }
 
   virtual void randomizeWeights(float min, float max) = 0;
   virtual void randomizeBiases(float min, float max) = 0;
 
+  virtual size_t inputSize() const = 0;
+  virtual size_t outputSize() const = 0;
+
   virtual void setAllWeights(const std::vector<layer_weight_t>&) = 0;
   virtual void setAllBiases(const std::vector<layer_bias_t>&) = 0;
 
-  virtual void setLayers(const std::vector<std::unique_ptr<ILayer>>&) = 0;
+  virtual void setLayers(std::vector<std::unique_ptr<ILayer>>) = 0;
 
-  virtual const ILayer& getLayer(size_t index) const = 0;
-  virtual size_t getNumLayers() const = 0;
+  virtual std::vector<layer_weight_t> getAllWeights() const = 0;
+  virtual std::vector<layer_bias_t> getAllBiases() const = 0;
 
-  virtual INeuralNetwork& operator=(const INeuralNetwork&) = default;
+  virtual const std::vector<ILayer>& getLayers() const = 0;
+  virtual std::vector<ILayer>& getLayers() = 0;
+
+  virtual const RefProxy<ILayer> layer(size_t index) const = 0;
+  virtual RefProxy<ILayer> layer(size_t index) = 0;
+
+  virtual size_t sizeLayers() const = 0;
+
+  virtual neuro_layer_t operator()(const neuro_layer_t& inputs) const = 0;
+  virtual INeuralNetwork& operator=(const INeuralNetwork&) = 0;
+
+  virtual std::unique_ptr<INeuralNetwork> clone() const = 0;
 };
 
 };  // namespace neuro
