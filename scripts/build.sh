@@ -21,7 +21,7 @@ clean_project() {
     rm -rf build/production
     ;;
   "TEST")
-    rm -rf build/tests
+    find build/tests -type f -not -path "/build/tests/_deps/*" -delete
     ;;
   "NONE")
     rm -rf build/temp
