@@ -11,7 +11,13 @@ class RefProxy {
   RefProxy(T&);
 
   operator T() const;
+  operator T*();
+
   RefProxy<T>& operator=(const T& val);
+  RefProxy<T>& operator=(T* val);
+
+  T& operator*();
+  T* operator->();
 };
 
 };  // namespace neuro
