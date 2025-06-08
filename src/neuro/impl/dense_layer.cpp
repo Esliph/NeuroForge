@@ -7,19 +7,19 @@
 
 namespace neuro {
 
-DenseLayer::DenseLayer(int inputSize, int outputSize, ActivationFunction& activation)
+DenseLayer::DenseLayer(int inputSize, int outputSize, const ActivationFunction& activation)
     : ILayer(),
       weights(outputSize, neuro_layer_t(inputSize)),
       biases(outputSize),
       activation(activation) {}
 
-DenseLayer::DenseLayer(const layer_weight_t& weights, const layer_bias_t& biases, ActivationFunction& activation)
+DenseLayer::DenseLayer(const layer_weight_t& weights, const layer_bias_t& biases, const ActivationFunction& activation)
     : ILayer(),
       weights(weights),
       biases(biases),
       activation(activation) {}
 
-DenseLayer::DenseLayer(const layer_weight_t& weights, ActivationFunction& activation)
+DenseLayer::DenseLayer(const layer_weight_t& weights, const ActivationFunction& activation)
     : ILayer(),
       weights(weights),
       biases(weights.size()),
@@ -95,16 +95,16 @@ layer_bias_t& DenseLayer::getBiases() {
   return biases;
 }
 
+const ActivationFunction& DenseLayer::getActivationFunction() const {
+  return activation;
+}
+
 float DenseLayer::getWeight(int indexX, int indexY) const {
   return weights[indexX][indexY];
 }
 
 float DenseLayer::getBias(int index) const {
   return biases[index];
-}
-
-const ActivationFunction& DenseLayer::getActivationFunction() const {
-  return activation;
 }
 
 size_t DenseLayer::inputSize() const {
