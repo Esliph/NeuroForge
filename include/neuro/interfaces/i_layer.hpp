@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "neuro/utils/activation.hpp"
+#include "neuro/utils/ref_proxy.hpp"
 
 namespace neuro {
 
@@ -19,14 +20,6 @@ class ILayer {
   virtual ~ILayer() = default;
 
   virtual neuro_layer_t feedforward(const neuro_layer_t& inputs) = 0;
-
-  virtual void randomizeWeights(float max = 1.0f) {
-    randomizeWeights(-max, max);
-  }
-
-  virtual void randomizeBiases(float max = 1.0f) {
-    randomizeBiases(-max, max);
-  }
 
   virtual void randomizeWeights(float min, float max) = 0;
   virtual void randomizeBiases(float min, float max) = 0;
@@ -45,15 +38,15 @@ class ILayer {
   virtual layer_weight_t& getWeights() = 0;
   virtual layer_bias_t& getBiases() = 0;
 
-  virtual const ActivationFunction& getActivationFunction() const = 0;
+  virtual RefProxy<float> weight(int indexX, int indexY) = 0;
+  virtual RefProxy<float> bias(int index) = 0;
 
-  virtual float getWeight(int indexX, int indexY) const = 0;
-  virtual float getBias(int index) const = 0;
+  virtual const ActivationFunction& getActivationFunction() const = 0;
 
   virtual size_t inputSize() const = 0;
   virtual size_t outputSize() const = 0;
 
-  virtual ILayer& operator=(const ILayer&) = default;
+  virtual ILayer& operator=(const ILayer&) = 0;
 };
 
 };  // namespace neuro
