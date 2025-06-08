@@ -14,7 +14,7 @@ class INeuralNetwork {
   INeuralNetwork(const INeuralNetwork&) = default;
   virtual ~INeuralNetwork() = default;
 
-  virtual neuro_layer_t evaluate(const neuro_layer_t& inputs) const = 0;
+  virtual neuro_layer_t feedforward(const neuro_layer_t& inputs) const = 0;
 
   virtual void addLayer(std::unique_ptr<ILayer>) = 0;
 

@@ -20,7 +20,7 @@ class ILayer {
   ILayer(const ILayer&) = default;
   virtual ~ILayer() = default;
 
-  virtual neuro_layer_t feedforward(const neuro_layer_t& inputs) = 0;
+  virtual neuro_layer_t feedforward(const neuro_layer_t& inputs) const = 0;
 
   virtual void reset() = 0;
 
