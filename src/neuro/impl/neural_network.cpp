@@ -73,6 +73,14 @@ void NeuralNetwork::setAllBiases(const std::vector<layer_bias_t>& biases) {
   }
 }
 
+void NeuralNetwork::setLayers(const std::vector<std::unique_ptr<ILayer>>& layers) {
+  this->layers.clear();
+
+  for (auto& layer : layers) {
+    this->layers.push_back(std::move(layer));
+  }
+}
+
 const ILayer& NeuralNetwork::getLayer(size_t index) const {
   return *layers[index];
 }

@@ -36,6 +36,8 @@ class NeuralNetwork : public INeuralNetwork {
   void setAllWeights(const std::vector<layer_weight_t>&) override;
   void setAllBiases(const std::vector<layer_bias_t>&) override;
 
+  void setLayers(const std::vector<std::unique_ptr<ILayer>>&) override;
+
   const ILayer& getLayer(size_t index) const override;
   size_t getNumLayers() const override;
 };
