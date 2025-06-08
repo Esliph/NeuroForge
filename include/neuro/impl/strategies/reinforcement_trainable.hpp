@@ -1,11 +1,11 @@
 #pragma once
 
-#include "neuro/interfaces/i_neural_network.hpp"
+#include "neuro/impl/neural_network.hpp"
 #include "neuro/interfaces/strategies/i_reinforcement_trainable.hpp"
 
 namespace neuro {
 
-class ReinforcementNeuralNetwork : public INeuralNetwork, public IReinforcementTrainable {
+class ReinforcementNeuralNetwork : public NeuralNetwork, public IReinforcementTrainable {
  public:
   ReinforcementNeuralNetwork() = default;
   virtual ~ReinforcementNeuralNetwork() = default;
