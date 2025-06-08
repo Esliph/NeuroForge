@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "neuro/interfaces/layer/i_layer.hpp"
+#include "neuro/interfaces/i_layer.hpp"
 
 namespace neuro {
 

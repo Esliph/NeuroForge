@@ -20,6 +20,9 @@ Individual::Individual(std::unique_ptr<INeuralNetwork>, int fitness)
       neuralNetwork(std::move(neuralNetwork)),
       fitness(fitness) {}
 
+std::unique_ptr<IIndividual> Individual::crossover(const IIndividual& partner) const {
+}
+
 void Individual::setNeuralNetwork(std::unique_ptr<INeuralNetwork> neuralNetwork) {
   this->neuralNetwork = std::move(neuralNetwork);
 }

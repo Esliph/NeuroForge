@@ -14,7 +14,7 @@ class IIndividual {
 
   virtual void evaluateFitness(const std::function<float(const INeuralNetwork&)>& evaluateFunction) = 0;
 
-  virtual IIndividual crossover(const IIndividual& partner) const = 0;
+  virtual std::unique_ptr<IIndividual> crossover(const IIndividual& partner) const = 0;
 
   virtual void setNeuralNetwork(std::unique_ptr<INeuralNetwork>) = 0;
   virtual float setFitness(float) = 0;

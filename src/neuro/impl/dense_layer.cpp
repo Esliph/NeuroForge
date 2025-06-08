@@ -2,7 +2,7 @@
 
 #include <random>
 
-#include "neuro/interfaces/layer/i_layer.hpp"
+#include "neuro/interfaces/i_layer.hpp"
 #include "neuro/utils/random_engine.hpp"
 
 namespace neuro {

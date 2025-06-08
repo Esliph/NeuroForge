@@ -1,6 +1,6 @@
 #pragma once
 
-#include "neuro/interfaces/population/i_population.hpp"
+#include "neuro/interfaces/i_population.hpp"
 
 namespace neuro {
 

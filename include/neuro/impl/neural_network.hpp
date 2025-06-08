@@ -3,8 +3,8 @@
 #include <memory>
 #include <vector>
 
+#include "neuro/interfaces/i_layer.hpp"
 #include "neuro/interfaces/i_neural_network.hpp"
-#include "neuro/interfaces/layer/i_layer.hpp"
 #include "neuro/utils/activation.hpp"
 
 namespace neuro {
