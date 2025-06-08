@@ -12,10 +12,13 @@ class IPopulation {
   IPopulation(const IPopulation&) = default;
   virtual ~IPopulation() = default;
 
-  virtual const std::vector<std::unique_ptr<IIndividual>>& getIndividuals() const = 0;
-  virtual std::vector<std::unique_ptr<IIndividual>>& getIndividuals() = 0;
+  virtual void removeIndividual(size_t index) = 0;
+  virtual void popIndividual() = 0;
 
   virtual const IIndividual& getBestIndividual() const = 0;
+
+  virtual const std::vector<std::unique_ptr<IIndividual>>& getIndividuals() const = 0;
+  virtual std::vector<std::unique_ptr<IIndividual>>& getIndividuals() = 0;
 
   virtual const IIndividual& get(size_t index) const = 0;
   virtual IIndividual& get(size_t index) = 0;

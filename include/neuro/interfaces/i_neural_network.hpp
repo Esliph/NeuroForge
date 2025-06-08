@@ -22,6 +22,9 @@ class INeuralNetwork {
 
   virtual void clearLayers() = 0;
 
+  virtual void removeLayer(size_t index) = 0;
+  virtual void popLayer() = 0;
+
   virtual void randomizeWeights(float min, float max) = 0;
   virtual void randomizeBiases(float min, float max) = 0;
 
