@@ -3,11 +3,10 @@
 #include <memory>
 
 #include "neuro/interfaces/i_individual.hpp"
-#include "neuro/utils/interfaces/i_iterable.hpp"
 
 namespace neuro {
 
-class IPopulation : public IIterable<IIndividual> {
+class IPopulation {
  public:
   IPopulation() = default;
   IPopulation(const IPopulation&) = default;

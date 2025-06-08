@@ -7,7 +7,6 @@
 #include "neuro/interfaces/i_neural_network.hpp"
 #include "neuro/interfaces/layer/i_layer.hpp"
 #include "neuro/utils/activation.hpp"
-#include "neuro/utils/interfaces/i_iterable.hpp"
 
 namespace neuro {
 

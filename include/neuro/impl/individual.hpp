@@ -20,6 +20,8 @@ class Individual : public IIndividual {
 
   virtual ~Individual() = default;
 
+  IIndividual crossover(const IIndividual& partner) const override;
+
   void setNeuralNetwork(std::unique_ptr<INeuralNetwork>) override;
   float setFitness(float) override;
 

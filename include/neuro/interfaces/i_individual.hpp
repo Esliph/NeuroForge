@@ -3,17 +3,18 @@
 #include <memory>
 
 #include "neuro/interfaces/i_neural_network.hpp"
-#include "neuro/utils/interfaces/i_crossable.hpp"
 
 namespace neuro {
 
-class IIndividual : public ICrossable<IIndividual> {
+class IIndividual {
  public:
   IIndividual() = default;
   IIndividual(const IIndividual&) = default;
   virtual ~IIndividual() = default;
 
   virtual void evaluateFitness(const std::function<float(const INeuralNetwork&)>& evaluateFunction) = 0;
+
+  virtual IIndividual crossover(const IIndividual& partner) const = 0;
 
   virtual void setNeuralNetwork(std::unique_ptr<INeuralNetwork>) = 0;
   virtual float setFitness(float) = 0;

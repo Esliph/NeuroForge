@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "neuro/utils/activation.hpp"
-#include "neuro/utils/interfaces/i_iterable.hpp"
 
 namespace neuro {
 
