@@ -15,8 +15,6 @@ class IIndividual : public ICrossable<IIndividual> {
 
   virtual void evaluateFitness(const std::function<float(const INeuralNetwork&)>& evaluateFunction) = 0;
 
-  virtual void mutate(float rate, float intensity) = 0;
-
   virtual void setNeuralNetwork(std::unique_ptr<INeuralNetwork>) = 0;
   virtual float setFitness(float) = 0;
 
