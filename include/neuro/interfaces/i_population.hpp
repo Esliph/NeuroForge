@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 
 #include "neuro/interfaces/i_individual.hpp"
 
@@ -25,8 +26,18 @@ class IPopulation {
 
   virtual size_t size() const = 0;
 
-  virtual std::unique_ptr<IPopulation> clone() const = 0;
+  virtual std::vector<IIndividual>::const_iterator begin() const;
+  virtual std::vector<IIndividual>::iterator begin();
+
+  virtual std::vector<IIndividual>::const_iterator end() const;
+  virtual std::vector<IIndividual>::iterator end();
+
   virtual IPopulation& operator=(const IPopulation&) = default;
+
+  virtual const IIndividual& operator[](int index) const = 0;
+  virtual IIndividual& operator[](int index) = 0;
+
+  virtual std::unique_ptr<IPopulation> clone() const = 0;
 };
 
 };  // namespace neuro

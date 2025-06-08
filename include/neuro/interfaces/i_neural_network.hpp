@@ -47,8 +47,18 @@ class INeuralNetwork {
 
   virtual size_t sizeLayers() const = 0;
 
+  virtual std::vector<ILayer>::const_iterator begin() const;
+  virtual std::vector<ILayer>::iterator begin();
+
+  virtual std::vector<ILayer>::const_iterator end() const;
+  virtual std::vector<ILayer>::iterator end();
+
   virtual neuro_layer_t operator()(const neuro_layer_t& inputs) const = 0;
+
   virtual INeuralNetwork& operator=(const INeuralNetwork&) = 0;
+
+  virtual const ILayer& operator[](int index) const = 0;
+  virtual ILayer& operator[](int index) = 0;
 
   virtual std::unique_ptr<INeuralNetwork> clone() const = 0;
 };
