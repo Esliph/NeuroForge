@@ -11,21 +11,21 @@
 
 namespace neuro {
 
-struct GeneticTrainableOptions {
+struct GeneticTrainerOptions {
   float rate = 0.5f;
   float intensity = 0.5f;
   size_t eliteCount = 5;
 };
 
-class GeneticTrainable : public IStrategyEvolution {
-  GeneticTrainableOptions options{};
+class GeneticTrainer : public IStrategyEvolution {
+  GeneticTrainerOptions options{};
 
  public:
-  GeneticTrainable() = default;
-  GeneticTrainable(float rate, float intensity = 0.5f, size_t eliteCount = 5);
-  GeneticTrainable(const GeneticTrainableOptions& options);
+  GeneticTrainer() = default;
+  GeneticTrainer(float rate, float intensity = 0.5f, size_t eliteCount = 5);
+  GeneticTrainer(const GeneticTrainerOptions& options);
 
-  virtual ~GeneticTrainable() = default;
+  virtual ~GeneticTrainer() = default;
 
   virtual void mutate(IIndividual& individual) const;
   virtual void mutate(INeuralNetwork& neuralNetwork) const;
@@ -55,12 +55,12 @@ class GeneticTrainable : public IStrategyEvolution {
   virtual std::vector<std::unique_ptr<IIndividual>> select(const IPopulation& population, size_t eliteCount) const;
   virtual std::vector<std::unique_ptr<IIndividual>> select(const std::vector<IIndividual>& individuals, size_t eliteCount) const;
 
-  virtual void setOptions(const GeneticTrainableOptions&);
+  virtual void setOptions(const GeneticTrainerOptions&);
   virtual void setRate(float);
   virtual void setIntensity(float);
   virtual void setEliteCount(size_t);
 
-  virtual const GeneticTrainableOptions& getOptions() const;
+  virtual const GeneticTrainerOptions& getOptions() const;
 };
 
 };  // namespace neuro
