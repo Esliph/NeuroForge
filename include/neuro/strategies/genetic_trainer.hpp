@@ -11,19 +11,19 @@
 
 namespace neuro {
 
-struct GeneticTrainerOptions {
+struct GeneticOptions {
   float rate = 0.5f;
   float intensity = 0.5f;
   size_t eliteCount = 5;
 };
 
 class GeneticTrainer : public IStrategyEvolution {
-  GeneticTrainerOptions options{};
+  GeneticOptions options{};
 
  public:
   GeneticTrainer() = default;
   GeneticTrainer(float rate, float intensity = 0.5f, size_t eliteCount = 5);
-  GeneticTrainer(const GeneticTrainerOptions& options);
+  GeneticTrainer(const GeneticOptions& options);
 
   virtual ~GeneticTrainer() = default;
 
@@ -55,12 +55,12 @@ class GeneticTrainer : public IStrategyEvolution {
   virtual std::vector<std::unique_ptr<IIndividual>> select(const IPopulation& population, size_t eliteCount) const;
   virtual std::vector<std::unique_ptr<IIndividual>> select(const std::vector<IIndividual>& individuals, size_t eliteCount) const;
 
-  virtual void setOptions(const GeneticTrainerOptions&);
+  virtual void setOptions(const GeneticOptions&);
   virtual void setRate(float);
   virtual void setIntensity(float);
   virtual void setEliteCount(size_t);
 
-  virtual const GeneticTrainerOptions& getOptions() const;
+  virtual const GeneticOptions& getOptions() const;
 };
 
 };  // namespace neuro
