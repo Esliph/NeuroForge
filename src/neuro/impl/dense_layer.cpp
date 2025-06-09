@@ -1,9 +1,13 @@
 #include "neuro/impl/dense_layer.hpp"
 
+#include <memory>
 #include <random>
+#include <vector>
 
 #include "neuro/interfaces/i_layer.hpp"
+#include "neuro/utils/activation.hpp"
 #include "neuro/utils/random_engine.hpp"
+#include "neuro/utils/ref_proxy.hpp"
 
 namespace neuro {
 
@@ -25,7 +29,7 @@ DenseLayer::DenseLayer(const layer_weight_t& weights, const ActivationFunction& 
       biases(weights.size()),
       activation(activation) {}
 
-neuro_layer_t DenseLayer::feedforward(const neuro_layer_t& inputs) {
+neuro_layer_t DenseLayer::feedforward(const neuro_layer_t& inputs) const {
   neuro_layer_t outputs(biases.size());
 
   for (size_t i = 0; i < outputs.size(); i++) {
@@ -39,6 +43,13 @@ neuro_layer_t DenseLayer::feedforward(const neuro_layer_t& inputs) {
   }
 
   return outputs;
+}
+
+void DenseLayer::reset() {
+  size_t outputLength = outputSize();
+
+  weights = layer_weight_t(outputLength, neuro_layer_t(inputSize()));
+  biases = layer_bias_t(outputLength);
 }
 
 void DenseLayer::randomizeWeights(float min, float max) {
@@ -57,6 +68,22 @@ void DenseLayer::randomizeBiases(float min, float max) {
   for (auto& bias : biases) {
     bias = dist(random_engine);
   }
+}
+
+size_t DenseLayer::inputSize() const {
+  return weights.empty() ? 0 : weights[0].size();
+}
+
+size_t DenseLayer::outputSize() const {
+  return weights.size();
+}
+
+RefProxy<float> DenseLayer::weight(int indexX, int indexY) {
+  return RefProxy<float>(weights[indexX][indexY]);
+}
+
+RefProxy<float> DenseLayer::bias(int index) {
+  return RefProxy<float>(biases[index]);
 }
 
 void DenseLayer::setActivationFunction(const ActivationFunction& activation) {
@@ -99,20 +126,14 @@ const ActivationFunction& DenseLayer::getActivationFunction() const {
   return activation;
 }
 
-float DenseLayer::getWeight(int indexX, int indexY) const {
-  return weights[indexX][indexY];
+ILayer& DenseLayer::operator=(const ILayer& other) {
+  activation = other.getActivationFunction();
+  biases = other.getBiases();
+  weights = other.getWeights();
 }
 
-float DenseLayer::getBias(int index) const {
-  return biases[index];
-}
-
-size_t DenseLayer::inputSize() const {
-  return weights.empty() ? 0 : weights[0].size();
-}
-
-size_t DenseLayer::outputSize() const {
-  return weights.size();
+std::unique_ptr<ILayer> DenseLayer::clone() const {
+  return std::make_unique<DenseLayer>(*this);
 }
 
 };  // namespace neuro

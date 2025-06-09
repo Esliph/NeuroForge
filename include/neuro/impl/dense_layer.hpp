@@ -1,7 +1,10 @@
 #pragma once
 
+#include <memory>
+
 #include "neuro/interfaces/i_layer.hpp"
 #include "neuro/utils/activation.hpp"
+#include "neuro/utils/ref_proxy.hpp"
 
 namespace neuro {
 
@@ -21,10 +24,18 @@ class DenseLayer : public ILayer {
 
   virtual ~DenseLayer() = default;
 
-  neuro_layer_t feedforward(const neuro_layer_t& inputs) override;
+  neuro_layer_t feedforward(const neuro_layer_t& inputs) const override;
+
+  void reset() override;
 
   void randomizeWeights(float min, float max) override;
   void randomizeBiases(float min, float max) override;
+
+  size_t inputSize() const override;
+  size_t outputSize() const override;
+
+  RefProxy<float> weight(int indexX, int indexY) override;
+  RefProxy<float> bias(int index) override;
 
   void setActivationFunction(const ActivationFunction&) override;
 
@@ -42,11 +53,9 @@ class DenseLayer : public ILayer {
 
   const ActivationFunction& getActivationFunction() const override;
 
-  float getWeight(int indexX, int indexY) const override;
-  float getBias(int index) const override;
+  ILayer& operator=(const ILayer&) override;
 
-  size_t inputSize() const override;
-  size_t outputSize() const override;
+  std::unique_ptr<ILayer> clone() const override;
 };
 
 };  // namespace neuro
