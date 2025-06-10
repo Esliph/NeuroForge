@@ -13,7 +13,9 @@ class IPopulation {
   IPopulation(const IPopulation&) = default;
   virtual ~IPopulation() = default;
 
+  virtual void addIndividual(std::unique_ptr<IIndividual>) = 0;
   virtual void removeIndividual(size_t index) = 0;
+  virtual void clearIndividuals() = 0;
   virtual void popIndividual() = 0;
 
   virtual const IIndividual& getBestIndividual() const = 0;
@@ -26,13 +28,11 @@ class IPopulation {
 
   virtual size_t size() const = 0;
 
-  virtual std::vector<IIndividual>::const_iterator begin() const;
-  virtual std::vector<IIndividual>::iterator begin();
+  virtual std::vector<std::unique_ptr<IIndividual>>::const_iterator begin() const = 0;
+  virtual std::vector<std::unique_ptr<IIndividual>>::iterator begin() = 0;
 
-  virtual std::vector<IIndividual>::const_iterator end() const;
-  virtual std::vector<IIndividual>::iterator end();
-
-  virtual IPopulation& operator=(const IPopulation&) = default;
+  virtual std::vector<std::unique_ptr<IIndividual>>::const_iterator end() const = 0;
+  virtual std::vector<std::unique_ptr<IIndividual>>::iterator end() = 0;
 
   virtual const IIndividual& operator[](int index) const = 0;
   virtual IIndividual& operator[](int index) = 0;

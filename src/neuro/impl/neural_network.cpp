@@ -143,12 +143,15 @@ size_t NeuralNetwork::sizeLayers() const {
 }
 
 std::vector<std::unique_ptr<ILayer>>::const_iterator NeuralNetwork::begin() const {
+  return layers.begin();
 }
 
 std::vector<std::unique_ptr<ILayer>>::iterator NeuralNetwork::begin() {
+  return layers.begin();
 }
 
 std::vector<std::unique_ptr<ILayer>>::const_iterator NeuralNetwork::end() const {
+  return layers.end();
 }
 
 std::vector<std::unique_ptr<ILayer>>::iterator NeuralNetwork::end() {
