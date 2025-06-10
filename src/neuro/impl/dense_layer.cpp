@@ -130,6 +130,8 @@ ILayer& DenseLayer::operator=(const ILayer& other) {
   activation = other.getActivationFunction();
   biases = other.getBiases();
   weights = other.getWeights();
+
+  return *this;
 }
 
 std::unique_ptr<ILayer> DenseLayer::clone() const {

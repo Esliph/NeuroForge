@@ -1,7 +1,9 @@
 #include "neuro/impl/individual.hpp"
 
 #include <memory>
+#include <vector>
 
+#include "neuro/impl/neural_network.hpp"
 #include "neuro/interfaces/i_individual.hpp"
 #include "neuro/interfaces/i_neural_network.hpp"
 
@@ -19,6 +21,14 @@ Individual::Individual(std::unique_ptr<INeuralNetwork>, int fitness)
     : IIndividual(),
       neuralNetwork(std::move(neuralNetwork)),
       fitness(fitness) {}
+
+Individual::Individual(const std::vector<int>& structure, const ActivationFunction& activation)
+    : IIndividual(),
+      neuralNetwork(std::make_unique<NeuralNetwork>(structure, activation)) {}
+
+Individual::Individual(const std::vector<int>& structure, const std::vector<ActivationFunction>& activations)
+    : IIndividual(),
+      neuralNetwork(std::make_unique<NeuralNetwork>(structure, activations)) {}
 
 void Individual::evaluateFitness(const std::function<float(const INeuralNetwork&)>& evaluateFunction) {
   auto newFitness = evaluateFunction(*neuralNetwork);
@@ -63,7 +73,7 @@ neuro_layer_t Individual::operator()(const neuro_layer_t& inputs) const {
 }
 
 std::unique_ptr<IIndividual> Individual::clone() const {
-  return std::make_unique<IIndividual>(*this);
+  return std::make_unique<Individual>(*this);
 }
 
 };  // namespace neuro
