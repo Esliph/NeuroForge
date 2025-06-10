@@ -39,19 +39,19 @@ class INeuralNetwork {
   virtual std::vector<layer_weight_t> getAllWeights() const = 0;
   virtual std::vector<layer_bias_t> getAllBiases() const = 0;
 
-  virtual const std::vector<ILayer>& getLayers() const = 0;
-  virtual std::vector<ILayer>& getLayers() = 0;
+  virtual const std::vector<std::unique_ptr<ILayer>>& getLayers() const = 0;
+  virtual std::vector<std::unique_ptr<ILayer>>& getLayers() = 0;
 
   virtual const RefProxy<ILayer> layer(size_t index) const = 0;
   virtual RefProxy<ILayer> layer(size_t index) = 0;
 
   virtual size_t sizeLayers() const = 0;
 
-  virtual std::vector<ILayer>::const_iterator begin() const;
-  virtual std::vector<ILayer>::iterator begin();
+  virtual std::vector<std::unique_ptr<ILayer>>::const_iterator begin() const = 0;
+  virtual std::vector<std::unique_ptr<ILayer>>::iterator begin() = 0;
 
-  virtual std::vector<ILayer>::const_iterator end() const;
-  virtual std::vector<ILayer>::iterator end();
+  virtual std::vector<std::unique_ptr<ILayer>>::const_iterator end() const = 0;
+  virtual std::vector<std::unique_ptr<ILayer>>::iterator end() = 0;
 
   virtual neuro_layer_t operator()(const neuro_layer_t& inputs) const = 0;
 
