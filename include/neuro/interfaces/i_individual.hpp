@@ -29,8 +29,6 @@ class IIndividual {
   virtual std::vector<layer_weight_t> getAllWeights() const = 0;
   virtual std::vector<layer_bias_t> getAllBiases() const = 0;
 
-  virtual IIndividual& operator=(IIndividual&) = 0;
-
   virtual neuro_layer_t operator()(const neuro_layer_t& inputs) const = 0;
   virtual std::unique_ptr<IIndividual> clone() const = 0;
 };
