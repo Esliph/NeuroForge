@@ -10,7 +10,6 @@ namespace neuro {
 class IPopulation {
  public:
   IPopulation() = default;
-  IPopulation(const IPopulation&) = default;
   virtual ~IPopulation() = default;
 
   virtual void addIndividual(std::unique_ptr<IIndividual>) = 0;

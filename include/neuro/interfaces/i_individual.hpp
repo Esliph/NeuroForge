@@ -11,7 +11,6 @@ namespace neuro {
 class IIndividual {
  public:
   IIndividual() = default;
-  IIndividual(const IIndividual&) = default;
   virtual ~IIndividual() = default;
 
   virtual void evaluateFitness(const std::function<float(const INeuralNetwork&)>& evaluateFunction) = 0;

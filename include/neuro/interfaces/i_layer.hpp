@@ -17,7 +17,6 @@ typedef neuro_layer_t layer_bias_t;
 class ILayer {
  public:
   ILayer() = default;
-  ILayer(const ILayer&) = default;
   virtual ~ILayer() = default;
 
   virtual neuro_layer_t feedforward(const neuro_layer_t& inputs) const = 0;

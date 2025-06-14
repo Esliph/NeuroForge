@@ -11,7 +11,6 @@ namespace neuro {
 class INeuralNetwork {
  public:
   INeuralNetwork() = default;
-  INeuralNetwork(const INeuralNetwork&) = default;
   virtual ~INeuralNetwork() = default;
 
   virtual neuro_layer_t feedforward(const neuro_layer_t& inputs) const = 0;
