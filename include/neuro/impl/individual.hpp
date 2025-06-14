@@ -16,7 +16,7 @@ class Individual : public IIndividual {
 
  public:
   Individual() = default;
-  Individual(const Individual&) = default;
+  Individual(const Individual&);
   Individual(int fitness);
   Individual(std::unique_ptr<INeuralNetwork>);
   Individual(std::unique_ptr<INeuralNetwork>, int fitness);

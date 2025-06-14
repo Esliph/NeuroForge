@@ -9,6 +9,11 @@
 
 namespace neuro {
 
+Individual::Individual(const Individual& individual)
+    : IIndividual(),
+      fitness(individual.fitness),
+      neuralNetwork(std::move(individual.getNeuralNetwork().clone())) {}
+
 Individual::Individual(int fitness)
     : IIndividual(),
       fitness(fitness) {}
@@ -70,10 +75,6 @@ std::vector<layer_bias_t> Individual::getAllBiases() const {
 
 neuro_layer_t Individual::operator()(const neuro_layer_t& inputs) const {
   return feedforward(inputs);
-}
-
-std::unique_ptr<IIndividual> Individual::clone() const {
-  return std::make_unique<Individual>(*this);
 }
 
 };  // namespace neuro

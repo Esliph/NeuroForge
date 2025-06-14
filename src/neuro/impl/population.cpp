@@ -1,5 +1,6 @@
 #include "neuro/impl/population.hpp"
 
+#include <algorithm>
 #include <memory>
 #include <vector>
 
@@ -10,16 +11,18 @@
 
 namespace neuro {
 
-Population::Population(const std::vector<std::unique_ptr<IIndividual>>& individuals)
-    : individuals(individuals) {}
+Population::Population(std::vector<std::unique_ptr<IIndividual>>& individuals)
+    : individuals(std::move(individuals)) {}
 
-Population::Population(int size, const std::vector<int>& structure, const ActivationFunction& activation) : individuals(size) {
+Population::Population(int size, const std::vector<int>& structure, const ActivationFunction& activation)
+    : individuals(size) {
   for (size_t i = 0; i < size; i++) {
     individuals.emplace_back(std::make_unique<Individual>(structure, activation));
   }
 }
 
-Population::Population(int size, const std::vector<int>& structure, const std::vector<ActivationFunction>& activations) : individuals(size) {
+Population::Population(int size, const std::vector<int>& structure, const std::vector<ActivationFunction>& activations)
+    : individuals(size) {
   for (size_t i = 0; i < size; i++) {
     individuals.emplace_back(std::make_unique<Individual>(structure, activations));
   }
@@ -42,8 +45,8 @@ void Population::popIndividual() {
 }
 
 const IIndividual& Population::getBestIndividual() const {
-  return **std::max_element(individuals.begin(), individuals.end(), [](const IIndividual& individualA, const IIndividual& individualB) {
-    return individualA.getFitness() > individualB.getFitness();
+  return **std::max_element(individuals.begin(), individuals.end(), [](const std::unique_ptr<IIndividual>& individualA, const std::unique_ptr<IIndividual>& individualB) {
+    return individualA->getFitness() > individualB->getFitness();
   });
 }
 
@@ -89,10 +92,6 @@ const IIndividual& Population::operator[](int index) const {
 
 IIndividual& Population::operator[](int index) {
   return *individuals[index];
-}
-
-std::unique_ptr<IPopulation> Population::clone() const {
-  return std::make_unique<Population>(*this);
 }
 
 };  // namespace neuro

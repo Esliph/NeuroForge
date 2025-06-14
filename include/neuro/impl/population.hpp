@@ -14,8 +14,7 @@ class Population : public IPopulation {
 
  public:
   Population() = default;
-  Population(const Population&) = default;
-  Population(const std::vector<std::unique_ptr<IIndividual>>& individuals);
+  Population(std::vector<std::unique_ptr<IIndividual>>& individuals);
   Population(int size, const std::vector<int>& structure, const ActivationFunction& activation);
   Population(int size, const std::vector<int>& structure, const std::vector<ActivationFunction>& activations);
 
@@ -44,8 +43,6 @@ class Population : public IPopulation {
 
   const IIndividual& operator[](int index) const override;
   IIndividual& operator[](int index) override;
-
-  std::unique_ptr<IPopulation> clone() const override;
 };
 
 };  // namespace neuro

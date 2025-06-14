@@ -14,9 +14,10 @@ class NeuralNetwork : public INeuralNetwork {
 
  public:
   NeuralNetwork() = default;
-  NeuralNetwork(const NeuralNetwork&) = default;
+  NeuralNetwork(const NeuralNetwork&);
 
-  NeuralNetwork(const std::vector<std::unique_ptr<ILayer>>& layers);
+  NeuralNetwork(std::vector<std::unique_ptr<ILayer>>& layers);
+  NeuralNetwork(const std::vector<ILayer>& layers);
   NeuralNetwork(const std::vector<int>& structure, const ActivationFunction& activation);
   NeuralNetwork(const std::vector<int>& structure, const std::vector<ActivationFunction>& activations);
 

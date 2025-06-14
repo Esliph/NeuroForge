@@ -11,10 +11,24 @@
 
 namespace neuro {
 
-NeuralNetwork::NeuralNetwork(const std::vector<std::unique_ptr<ILayer>>& layers)
+NeuralNetwork::NeuralNetwork(const NeuralNetwork& neuralNetwork)
+    : INeuralNetwork() {
+  for (const auto& layer : neuralNetwork.layers) {
+    layers.push_back(std::move(layer->clone()));
+  }
+}
+
+NeuralNetwork::NeuralNetwork(std::vector<std::unique_ptr<ILayer>>& layers)
     : INeuralNetwork() {
   for (auto& layer : layers) {
     this->layers.push_back(std::move(layer));
+  }
+}
+
+NeuralNetwork::NeuralNetwork(const std::vector<ILayer>& layers)
+    : INeuralNetwork() {
+  for (auto& layer : layers) {
+    this->layers.push_back(std::move(layer.clone()));
   }
 }
 
