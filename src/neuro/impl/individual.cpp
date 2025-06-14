@@ -45,6 +45,10 @@ neuro_layer_t Individual::feedforward(const neuro_layer_t& inputs) const {
   return neuralNetwork->feedforward(inputs);
 }
 
+void Individual::setNeuralNetwork(const INeuralNetwork& neuralNetwork) {
+  this->neuralNetwork = std::move(neuralNetwork.clone());
+}
+
 void Individual::setNeuralNetwork(std::unique_ptr<INeuralNetwork> neuralNetwork) {
   this->neuralNetwork = std::move(neuralNetwork);
 }

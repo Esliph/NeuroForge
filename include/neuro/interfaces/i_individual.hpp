@@ -16,6 +16,7 @@ class IIndividual {
   virtual void evaluateFitness(const std::function<float(const INeuralNetwork&)>& evaluateFunction) = 0;
   virtual neuro_layer_t feedforward(const neuro_layer_t& inputs) const = 0;
 
+  virtual void setNeuralNetwork(const INeuralNetwork&) = 0;
   virtual void setNeuralNetwork(std::unique_ptr<INeuralNetwork>) = 0;
 
   virtual void setFitness(float) = 0;

@@ -28,6 +28,7 @@ class Individual : public IIndividual {
   void evaluateFitness(const std::function<float(const INeuralNetwork&)>& evaluateFunction) override;
   neuro_layer_t feedforward(const neuro_layer_t& inputs) const override;
 
+  void setNeuralNetwork(const INeuralNetwork&) override;
   void setNeuralNetwork(std::unique_ptr<INeuralNetwork>) override;
 
   void setFitness(float) override;
