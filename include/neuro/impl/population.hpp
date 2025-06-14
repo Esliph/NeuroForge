@@ -10,39 +10,47 @@
 namespace neuro {
 
 class Population : public IPopulation {
-  std::vector<std::unique_ptr<IIndividual>> individuals{};
+  std::vector<std::shared_ptr<IIndividual>> individuals{};
 
  public:
   Population() = default;
-  Population(std::vector<std::unique_ptr<IIndividual>>& individuals);
+  Population(const Population&);
+  Population(const std::vector<IIndividual>& individuals);
+  Population(std::vector<std::shared_ptr<IIndividual>>& individuals);
   Population(int size, const std::vector<int>& structure, const ActivationFunction& activation);
   Population(int size, const std::vector<int>& structure, const std::vector<ActivationFunction>& activations);
 
   virtual ~Population() = default;
 
-  void addIndividual(std::unique_ptr<IIndividual>) override;
+  void addIndividuals(const std::vector<IIndividual>&) override;
+  void addIndividual(const IIndividual&) override;
+  void addIndividuals(std::vector<std::shared_ptr<IIndividual>>&) override;
+  void addIndividual(std::shared_ptr<IIndividual>) override;
+
   void removeIndividual(size_t index) override;
   void clearIndividuals() override;
   void popIndividual() override;
 
   const IIndividual& getBestIndividual() const override;
 
-  const std::vector<std::unique_ptr<IIndividual>>& getIndividuals() const override;
-  std::vector<std::unique_ptr<IIndividual>>& getIndividuals() override;
+  const std::vector<std::shared_ptr<IIndividual>>& getIndividuals() const override;
+  std::vector<std::shared_ptr<IIndividual>>& getIndividuals() override;
 
   const IIndividual& get(size_t index) const override;
   IIndividual& get(size_t index) override;
 
   size_t size() const override;
 
-  std::vector<std::unique_ptr<IIndividual>>::const_iterator begin() const override;
-  std::vector<std::unique_ptr<IIndividual>>::iterator begin() override;
+  std::vector<std::shared_ptr<IIndividual>>::const_iterator begin() const override;
+  std::vector<std::shared_ptr<IIndividual>>::iterator begin() override;
 
-  std::vector<std::unique_ptr<IIndividual>>::const_iterator end() const override;
-  std::vector<std::unique_ptr<IIndividual>>::iterator end() override;
+  std::vector<std::shared_ptr<IIndividual>>::const_iterator end() const override;
+  std::vector<std::shared_ptr<IIndividual>>::iterator end() override;
 
   const IIndividual& operator[](int index) const override;
   IIndividual& operator[](int index) override;
+
+  virtual std::unique_ptr<IPopulation> clone() const;
 };
 
 };  // namespace neuro

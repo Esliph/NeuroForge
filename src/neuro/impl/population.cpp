@@ -11,25 +11,47 @@
 
 namespace neuro {
 
-Population::Population(std::vector<std::unique_ptr<IIndividual>>& individuals)
+Population::Population(const std::vector<IIndividual>& individuals) {
+  for (const auto& individual : individuals) {
+    this->individuals.push_back(std::move(individual.clone()));
+  }
+}
+
+Population::Population(std::vector<std::shared_ptr<IIndividual>>& individuals)
     : individuals(std::move(individuals)) {}
 
 Population::Population(int size, const std::vector<int>& structure, const ActivationFunction& activation)
     : individuals(size) {
   for (size_t i = 0; i < size; i++) {
-    individuals.emplace_back(std::make_unique<Individual>(structure, activation));
+    individuals.emplace_back(std::make_shared<Individual>(structure, activation));
   }
 }
 
 Population::Population(int size, const std::vector<int>& structure, const std::vector<ActivationFunction>& activations)
     : individuals(size) {
   for (size_t i = 0; i < size; i++) {
-    individuals.emplace_back(std::make_unique<Individual>(structure, activations));
+    individuals.emplace_back(std::make_shared<Individual>(structure, activations));
   }
 }
 
-void Population::addIndividual(std::unique_ptr<IIndividual> individual) {
-  individuals.push_back(std::move(individual));
+void Population::addIndividuals(const std::vector<IIndividual>& individuals) {
+  for (const auto& individual : individuals) {
+    this->individuals.push_back(std::move(individual.clone()));
+  }
+}
+
+void Population::addIndividual(const IIndividual& individual) {
+  individuals.push_back(individual.clone());
+}
+
+void Population::addIndividuals(std::vector<std::shared_ptr<IIndividual>>& individuals) {
+  for (auto& individual : individuals) {
+    this->individuals.push_back(individual);
+  }
+}
+
+void Population::addIndividual(std::shared_ptr<IIndividual> individual) {
+  individuals.push_back(individual);
 }
 
 void Population::removeIndividual(size_t index) {
@@ -45,16 +67,16 @@ void Population::popIndividual() {
 }
 
 const IIndividual& Population::getBestIndividual() const {
-  return **std::max_element(individuals.begin(), individuals.end(), [](const std::unique_ptr<IIndividual>& individualA, const std::unique_ptr<IIndividual>& individualB) {
+  return **std::max_element(individuals.begin(), individuals.end(), [](const std::shared_ptr<IIndividual>& individualA, const std::shared_ptr<IIndividual>& individualB) {
     return individualA->getFitness() > individualB->getFitness();
   });
 }
 
-const std::vector<std::unique_ptr<IIndividual>>& Population::getIndividuals() const {
+const std::vector<std::shared_ptr<IIndividual>>& Population::getIndividuals() const {
   return individuals;
 }
 
-std::vector<std::unique_ptr<IIndividual>>& Population::getIndividuals() {
+std::vector<std::shared_ptr<IIndividual>>& Population::getIndividuals() {
   return individuals;
 }
 
@@ -70,19 +92,19 @@ size_t Population::size() const {
   return individuals.size();
 }
 
-std::vector<std::unique_ptr<IIndividual>>::const_iterator Population::begin() const {
+std::vector<std::shared_ptr<IIndividual>>::const_iterator Population::begin() const {
   return individuals.begin();
 }
 
-std::vector<std::unique_ptr<IIndividual>>::iterator Population::begin() {
+std::vector<std::shared_ptr<IIndividual>>::iterator Population::begin() {
   return individuals.begin();
 }
 
-std::vector<std::unique_ptr<IIndividual>>::const_iterator Population::end() const {
+std::vector<std::shared_ptr<IIndividual>>::const_iterator Population::end() const {
   return individuals.end();
 }
 
-std::vector<std::unique_ptr<IIndividual>>::iterator Population::end() {
+std::vector<std::shared_ptr<IIndividual>>::iterator Population::end() {
   return individuals.end();
 }
 
@@ -94,4 +116,7 @@ IIndividual& Population::operator[](int index) {
   return *individuals[index];
 }
 
+std::unique_ptr<IPopulation> Population::clone() const {
+  return std::make_unique<Population>(*this);
+}
 };  // namespace neuro
