@@ -3,18 +3,18 @@
 #include <functional>
 #include <memory>
 
+#include "neuro/interfaces/common/i_neural_operable.hpp"
 #include "neuro/interfaces/i_layer.hpp"
 #include "neuro/interfaces/i_neural_network.hpp"
 
 namespace neuro {
 
-class IIndividual {
+class IIndividual : public INeuralOperable {
  public:
   IIndividual() = default;
   virtual ~IIndividual() = default;
 
   virtual void evaluateFitness(const std::function<float(const INeuralNetwork&)>& evaluateFunction) = 0;
-  virtual neuro_layer_t feedforward(const neuro_layer_t& inputs) const = 0;
 
   virtual void setNeuralNetwork(const INeuralNetwork&) = 0;
   virtual void setNeuralNetwork(std::unique_ptr<INeuralNetwork>) = 0;
@@ -26,10 +26,6 @@ class IIndividual {
 
   virtual float getFitness() const = 0;
 
-  virtual std::vector<layer_weight_t> getAllWeights() const = 0;
-  virtual std::vector<layer_bias_t> getAllBiases() const = 0;
-
-  virtual neuro_layer_t operator()(const neuro_layer_t& inputs) const = 0;
   virtual std::unique_ptr<IIndividual> clone() const = 0;
 };
 
