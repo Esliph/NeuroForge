@@ -3,9 +3,6 @@
 namespace neuro {
 
 template <typename T>
-RefProxy<T>::RefProxy(T& value) : ref(value) {}
-
-template <typename T>
 RefProxy<T>::operator T() const {
   return ref;
 }

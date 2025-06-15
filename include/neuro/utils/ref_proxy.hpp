@@ -8,7 +8,7 @@ class RefProxy {
 
  public:
   RefProxy() = delete;
-  RefProxy(T&);
+  RefProxy(T& value) : ref(value) {}
 
   operator T() const;
   operator T*();
