@@ -48,8 +48,6 @@ class ILayer {
 
   virtual const ActivationFunction& getActivationFunction() const = 0;
 
-  virtual ILayer& operator=(const ILayer&) = 0;
-
   virtual std::unique_ptr<ILayer> clone() const = 0;
 };
 

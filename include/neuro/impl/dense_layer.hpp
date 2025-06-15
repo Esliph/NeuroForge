@@ -53,7 +53,7 @@ class DenseLayer : public ILayer {
 
   const ActivationFunction& getActivationFunction() const override;
 
-  ILayer& operator=(const ILayer&) override;
+  ILayer& operator=(const ILayer&);
 
   std::unique_ptr<ILayer> clone() const override;
 };
