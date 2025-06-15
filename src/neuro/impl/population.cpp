@@ -26,15 +26,13 @@ Population::Population(const std::vector<IIndividual>& individuals) {
 Population::Population(std::vector<std::shared_ptr<IIndividual>>& individuals)
     : individuals(std::move(individuals)) {}
 
-Population::Population(size_t size, const std::vector<int>& structure, const ActivationFunction& activation)
-    : individuals(size) {
+Population::Population(size_t size, const std::vector<int>& structure, const ActivationFunction& activation) {
   for (size_t i = 0; i < size; i++) {
     individuals.emplace_back(std::make_shared<Individual>(structure, activation));
   }
 }
 
-Population::Population(size_t size, const std::vector<int>& structure, const std::vector<ActivationFunction>& activations)
-    : individuals(size) {
+Population::Population(size_t size, const std::vector<int>& structure, const std::vector<ActivationFunction>& activations) {
   for (size_t i = 0; i < size; i++) {
     individuals.emplace_back(std::make_shared<Individual>(structure, activations));
   }
