@@ -10,6 +10,10 @@
 
 namespace neuro {
 
+Individual::Individual()
+    : IIndividual(),
+      neuralNetwork(std::make_unique<NeuralNetwork>()) {}
+
 Individual::Individual(const Individual& individual)
     : IIndividual(),
       neuralNetwork(std::move(individual.getNeuralNetwork().clone())),
@@ -17,6 +21,7 @@ Individual::Individual(const Individual& individual)
 
 Individual::Individual(int fitness)
     : IIndividual(),
+      neuralNetwork(std::make_unique<NeuralNetwork>()),
       fitness(fitness) {}
 
 Individual::Individual(std::unique_ptr<INeuralNetwork> neuralNetwork)
@@ -37,9 +42,7 @@ Individual::Individual(const std::vector<int>& structure, const std::vector<Acti
       neuralNetwork(std::make_unique<NeuralNetwork>(structure, activations)) {}
 
 void Individual::evaluateFitness(const std::function<float(const INeuralNetwork&)>& evaluateFunction) {
-  auto newFitness = evaluateFunction(*neuralNetwork);
-
-  fitness = newFitness;
+  fitness = evaluateFunction(*neuralNetwork);
 }
 
 void Individual::randomizeWeights(float min, float max) {

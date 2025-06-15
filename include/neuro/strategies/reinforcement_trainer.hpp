@@ -22,6 +22,7 @@ class ReinforcementTrainer : public IStrategyEvolution {
 
  public:
   ReinforcementTrainer() = default;
+
   ReinforcementTrainer(float learningRate, float discountFactor = 0.99f, float explorationRate = 0.1f, float explorationDecay = 0.99f);
   ReinforcementTrainer(const ReinforcementOptions& options);
 

@@ -22,6 +22,7 @@ class BackPropagationTrainer : public IStrategyEvolution {
 
  public:
   BackPropagationTrainer() = default;
+
   BackPropagationTrainer(float learningRate, float momentum = 0.0f, float minLoss = 0.001f, size_t maxEpochs = 1000);
   BackPropagationTrainer(const BackPropagationOptions& options);
 
