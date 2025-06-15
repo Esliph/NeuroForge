@@ -11,6 +11,12 @@
 
 namespace neuro {
 
+Population::Population(const Population& population) {
+  for (const auto& individual : population) {
+    this->individuals.push_back(std::move(individual->clone()));
+  }
+}
+
 Population::Population(const std::vector<IIndividual>& individuals) {
   for (const auto& individual : individuals) {
     this->individuals.push_back(std::move(individual.clone()));
@@ -31,6 +37,18 @@ Population::Population(int size, const std::vector<int>& structure, const std::v
     : individuals(size) {
   for (size_t i = 0; i < size; i++) {
     individuals.emplace_back(std::make_shared<Individual>(structure, activations));
+  }
+}
+
+void Population::randomizeWeights(float min, float max) {
+  for (const auto& individual : individuals) {
+    individual->randomizeWeights(min, max);
+  }
+}
+
+void Population::randomizeBiases(float min, float max) {
+  for (const auto& individual : individuals) {
+    individual->randomizeBiases(min, max);
   }
 }
 

@@ -12,6 +12,9 @@ class IPopulation {
   IPopulation() = default;
   virtual ~IPopulation() = default;
 
+  virtual void randomizeWeights(float min, float max) = 0;
+  virtual void randomizeBiases(float min, float max) = 0;
+
   virtual void addIndividuals(const std::vector<IIndividual>&) = 0;
   virtual void addIndividual(const IIndividual&) = 0;
   virtual void addIndividuals(std::vector<std::shared_ptr<IIndividual>>&) = 0;

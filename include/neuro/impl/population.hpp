@@ -22,6 +22,9 @@ class Population : public IPopulation {
 
   virtual ~Population() = default;
 
+  void randomizeWeights(float min, float max) override;
+  void randomizeBiases(float min, float max) override;
+
   void addIndividuals(const std::vector<IIndividual>&) override;
   void addIndividual(const IIndividual&) override;
   void addIndividuals(std::vector<std::shared_ptr<IIndividual>>&) override;
