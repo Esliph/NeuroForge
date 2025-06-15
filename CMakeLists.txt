@@ -63,6 +63,8 @@ if(CONSTRUCT_INSTALLATION)
   )
 else()
   include_directories(include)
+
+  add_executable(CampoMinado ${SOURCES} src/main.cpp)
 endif()
 
 if(ENABLE_TEST)
