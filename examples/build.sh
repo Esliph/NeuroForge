@@ -52,7 +52,7 @@ fi
 
 echo "-- Build success"
 
-mkdir -p ../executables && cp -r "./build/$test_name.exe" "./../executables/$test_name.exe"
+cp -r "./build/$test_name.exe" "./$test_name.exe"
 
 if [[ $is_run == true ]]; then
   cd ..

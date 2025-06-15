@@ -6,26 +6,21 @@
 
 #include <iomanip>
 #include <iostream>
-#include <neuro/activation.hpp>
-#include <neuro/individual.hpp>
-#include <neuro/population.hpp>
+#include <neuro/neuro.hpp>
 #include <vector>
 
-using namespace std;
-using namespace neuro;
-
-const vector<pair<neuro_layer_t, float>> DATASET = {
+const std::vector<std::pair<neuro::neuro_layer_t, float>> DATASET = {
     {{0.0f, 0.0f}, 0.0f},
     {{0.0f, 1.0f}, 1.0f},
     {{1.0f, 0.0f}, 1.0f},
     {{1.0f, 1.0f}, 0.0f},
 };
 
-float evaluateIndividual(const Individual& individual) {
+float evaluateIndividual(const neuro::IIndividual& individual) {
   float totalError = 0.0f;
 
   for (const auto& [input, expected] : DATASET) {
-    float output = individual.predict(input)[0];
+    float output = 0.0f;
     float error = expected - output;
 
     totalError += error * error;
@@ -35,39 +30,41 @@ float evaluateIndividual(const Individual& individual) {
 }
 
 int main() {
-  vector<int> structure = {2, 4, 1};
-  ActivationFunction activation = makeSigmoid();
+  std::vector<int> structure = {2, 4, 1};
+  neuro::ActivationFunction activation = neuro::makeSigmoid();
 
-  Population population(POPULATION_SIZE, structure, activation);
+  neuro::IPopulation* population = new neuro::Population(POPULATION_SIZE, structure, activation);
 
-  population.loadWeights(-5, 5);
-  population.loadBias(-5, 5);
+  population->randomizeWeights(-5, 5);
+  population->randomizeBiases(-5, 5);
 
   for (int generation = 0; generation <= GENERATIONS; ++generation) {
-    for (auto& individual : population.getIndividuals()) {
-      float fitness = evaluateIndividual(individual);
+    for (const auto& individual : (*population)) {
+      float fitness = evaluateIndividual(*individual);
 
-      individual.setFitness(fitness);
+      individual->setFitness(fitness);
     }
 
-    const Individual& best = population.getBest();
+    const auto& best = population->getBestIndividual();
     float bestFitness = best.getFitness();
 
-    cout << "Generation " << setw(3) << generation << " | Best fitness: " << fixed << setprecision(6) << bestFitness << endl;
+    std::cout << "Generation " << std::setw(3) << generation << " | Best fitness: " << std::fixed << std::setprecision(6) << bestFitness << std::endl;
 
-    population.evolve(MUTATION_RATE, MUTATION_STRENGTH, ELITE_COUNT);
+    // population->evolve(MUTATION_RATE, MUTATION_STRENGTH, ELITE_COUNT);
   }
 
-  const Individual& best = population.getBest();
+  const auto& best = population->getBestIndividual();
 
-  cout << endl
-       << "Best individual (XOR):" << endl;
+  std::cout << std::endl
+            << "Best individual (XOR):" << std::endl;
 
   for (const auto& [input, expected] : DATASET) {
     float output = best.getNeuralNetwork().feedforward(input)[0];
 
-    cout << "Input: [" << input[0] << ", " << input[1] << "] | Expect: " << expected << " | Result: " << fixed << setprecision(4) << output << endl;
+    std::cout << "Input: [" << input[0] << ", " << input[1] << "] | Expect: " << expected << " | Result: " << std::fixed << std::setprecision(4) << output << std::endl;
   }
+
+  delete population;
 
   return 0;
 }

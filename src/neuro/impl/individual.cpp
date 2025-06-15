@@ -138,4 +138,8 @@ ILayer& Individual::operator[](int index) {
   return (*neuralNetwork)[index];
 }
 
+std::unique_ptr<IIndividual> Individual::clone() const {
+  return std::make_unique<Individual>(*this);
+};
+
 };  // namespace neuro
