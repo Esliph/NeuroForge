@@ -12,8 +12,8 @@ namespace neuro {
 
 Individual::Individual(const Individual& individual)
     : IIndividual(),
-      fitness(individual.fitness),
-      neuralNetwork(std::move(individual.getNeuralNetwork().clone())) {}
+      neuralNetwork(std::move(individual.getNeuralNetwork().clone())),
+      fitness(individual.fitness) {}
 
 Individual::Individual(int fitness)
     : IIndividual(),
