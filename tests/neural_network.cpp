@@ -17,9 +17,7 @@ TEST_CASE("Tests for NeuralNetwork class") {
 }
 
 TEST_CASE("Tests for NeuralNetwork class 2") {
-  std::cout << "!";
   neuro::Individual individual;
 
   CHECK(individual.sizeLayers() == 0);
-  std::cout << "!";
 }
