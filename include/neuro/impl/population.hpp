@@ -17,8 +17,8 @@ class Population : public IPopulation {
   Population(const Population&);
   Population(const std::vector<IIndividual>& individuals);
   Population(std::vector<std::shared_ptr<IIndividual>>& individuals);
-  Population(int size, const std::vector<int>& structure, const ActivationFunction& activation);
-  Population(int size, const std::vector<int>& structure, const std::vector<ActivationFunction>& activations);
+  Population(size_t size, const std::vector<int>& structure, const ActivationFunction& activation);
+  Population(size_t size, const std::vector<int>& structure, const std::vector<ActivationFunction>& activations);
 
   virtual ~Population() = default;
 
