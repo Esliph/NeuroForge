@@ -40,7 +40,12 @@ build_test() {
   echo "-- Building Tests"
   cmake -B build/tests -G "MinGW Makefiles" -DENABLE_TEST=ON
   cmake --build build/tests
-  ctest --test-dir build/tests/tests
+
+  if [[ $? -ne 0 ]]; then
+    exit_with_error "-- Build failed"
+  fi
+
+  ./build/tests/tests/NeuroForgeTests --reporters=console --durations=yes --force-colors --order-by=name
 }
 
 build_no_target() {

@@ -21,7 +21,10 @@ target_include_directories(NeuroForgeTests
 
 target_link_libraries(NeuroForgeTests
   PRIVATE doctest::doctest
+  PRIVATE NeuroForge
 )
 
 enable_testing()
-add_test(NAME NeuroForgeTests COMMAND NeuroForgeTests)
+add_test(NAME NeuroForgeTests
+  COMMAND NeuroForgeTests --success --durations yes --exitcode
+)
