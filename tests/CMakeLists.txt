@@ -1,19 +1,27 @@
+include(FetchContent)
+
+FetchContent_Declare(
+  doctest
+  GIT_REPOSITORY https://github.com/doctest/doctest.git
+  GIT_TAG v2.4.12
+)
+
+FetchContent_MakeAvailable(doctest)
+
 file(GLOB_RECURSE TEST_SOURCES
   CONFIGURE_DEPENDS
-  *.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
 )
 
 add_executable(NeuroForgeTests ${TEST_SOURCES})
 
-target_link_libraries(NeuroForgeTests
-  PRIVATE
-  Catch2::Catch2WithMain
-)
-
 target_include_directories(NeuroForgeTests
-  PRIVATE ${PROJECT_SOURCE_DIR}/include
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../include
 )
 
-include(CTest)
-include(Catch)
-catch_discover_tests(NeuroForgeTests)
+target_link_libraries(NeuroForgeTests
+  PRIVATE doctest::doctest
+)
+
+enable_testing()
+add_test(NAME NeuroForgeTests COMMAND NeuroForgeTests)

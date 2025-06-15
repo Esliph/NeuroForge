@@ -15,19 +15,19 @@ validate_env() {
 }
 
 clean_project() {
-  echo "-- Cleaning project"
+  echo "-- Cleaning build"
   case "$env" in
   "PROD")
     rm -rf build/production
     ;;
   "TEST")
-    find build/tests -type f -not -path "/build/tests/_deps/*" -delete
+    rm -rf build/tests
     ;;
   "NONE")
     rm -rf build/temp
     ;;
   esac
-  echo "-- Project cleaned"
+  echo "-- Build cleaned"
 }
 
 build_production() {
@@ -40,7 +40,7 @@ build_test() {
   echo "-- Building Tests"
   cmake -B build/tests -G "MinGW Makefiles" -DENABLE_TEST=ON
   cmake --build build/tests
-  ctest --output-on-failure
+  ctest --test-dir build/tests/tests
 }
 
 build_no_target() {

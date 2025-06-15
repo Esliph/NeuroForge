@@ -4,7 +4,7 @@ project(NeuroForge VERSION 1.0.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -g")
-set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/packages/NeuroForge-${PROJECT_VERSION}" CACHE PATH "Install path prefix" FORCE)
+set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/packages/NeuroForge-${PROJECT_VERSION}" CACHE PATH "Install path prefix" FORCE)
 
 option(CONSTRUCT_INSTALLATION "Build the lib installer" OFF)
 option(ENABLE_TEST "Build unit tests" OFF)
@@ -64,22 +64,10 @@ if(CONSTRUCT_INSTALLATION)
   )
 else()
   include_directories(include)
-
-  add_executable(CampoMinado ${SOURCES} src/main.cpp)
 endif()
 
 if(ENABLE_TEST)
-  include(FetchContent)
-
-  FetchContent_Declare(
-    Catch2
-    GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-    GIT_TAG v3.8.1
-  )
-
-  FetchContent_MakeAvailable(Catch2)
-
-  include(CTest)
-  enable_testing()
   add_subdirectory(tests)
+elseif(!CONSTRUCT_INSTALLATION)
+  add_executable(CampoMinado ${SOURCES} src/main.cpp)
 endif()
