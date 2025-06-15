@@ -80,7 +80,7 @@ void NeuralNetwork::popLayer() {
 
 void NeuralNetwork::randomizeWeights(float min, float max) {
   for (const auto& layer : layers) {
-    layer->randomizeBiases(min, max);
+    layer->randomizeWeights(min, max);
   }
 }
 
