@@ -15,6 +15,7 @@ class Population : public IPopulation {
  public:
   Population() = default;
   Population(const Population&);
+
   Population(const std::vector<IIndividual>& individuals);
   Population(std::vector<std::shared_ptr<IIndividual>>& individuals);
   Population(size_t size, const std::vector<int>& structure, const ActivationFunction& activation);

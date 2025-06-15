@@ -11,12 +11,13 @@
 namespace neuro {
 
 class Individual : public IIndividual {
-  std::unique_ptr<INeuralNetwork> neuralNetwork{};
+  std::unique_ptr<INeuralNetwork> neuralNetwork;
   float fitness{};
 
  public:
-  Individual() = default;
+  Individual();
   Individual(const Individual&);
+
   Individual(int fitness);
   Individual(std::unique_ptr<INeuralNetwork>);
   Individual(std::unique_ptr<INeuralNetwork>, int fitness);

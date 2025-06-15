@@ -22,6 +22,7 @@ class GeneticTrainer : public IStrategyEvolution {
 
  public:
   GeneticTrainer() = default;
+
   GeneticTrainer(float rate, float intensity = 0.5f, size_t eliteCount = 5);
   GeneticTrainer(const GeneticOptions& options);
 
