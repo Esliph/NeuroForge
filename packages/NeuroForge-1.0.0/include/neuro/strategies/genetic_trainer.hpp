@@ -3,6 +3,9 @@
 #include <memory>
 #include <vector>
 
+#include "neuro/impl/dense_layer.hpp"
+#include "neuro/impl/individual.hpp"
+#include "neuro/impl/neural_network.hpp"
 #include "neuro/interfaces/i_individual.hpp"
 #include "neuro/interfaces/i_layer.hpp"
 #include "neuro/interfaces/i_neural_network.hpp"
@@ -28,33 +31,74 @@ class GeneticTrainer : public IStrategyEvolution {
 
   virtual ~GeneticTrainer() = default;
 
-  virtual void mutate(IIndividual& individual) const;
-  virtual void mutate(INeuralNetwork& neuralNetwork) const;
-  virtual void mutate(std::vector<ILayer>& layers) const;
-  virtual void mutate(std::vector<layer_weight_t>& layerWeights, std::vector<layer_bias_t>& layerBiases) const;
+  inline void mutate(IIndividual& individual) const {
+    for (auto& layer : individual) {
+      mutateWeights(layer->getWeights());
+      mutateBiases(layer->getBiases());
+    }
+  }
 
-  virtual void mutate(IIndividual& individual, float rate, float intensity) const;
-  virtual void mutate(INeuralNetwork& neuralNetwork, float rate, float intensity) const;
-  virtual void mutate(std::vector<ILayer>& layers, float rate, float intensity) const;
-  virtual void mutate(std::vector<layer_weight_t>& layerWeights, std::vector<layer_bias_t>& layerBiases, float rate, float intensity) const;
+  inline void mutate(INeuralNetwork& neuralNetwork) const {
+    for (auto& layer : neuralNetwork) {
+      mutateWeights(layer->getWeights());
+      mutateBiases(layer->getBiases());
+    }
+  }
 
-  virtual std::unique_ptr<IIndividual> crossover(const IIndividual& partnerA, const IIndividual& partnerB) const;
-  virtual std::unique_ptr<INeuralNetwork> crossover(const INeuralNetwork& partnerA, const INeuralNetwork& partnerB) const;
-  virtual std::vector<std::unique_ptr<ILayer>> crossover(const std::vector<ILayer>& partnerLayersA, const std::vector<ILayer>& partnerLayersB) const;
-  virtual std::vector<std::unique_ptr<ILayer>> crossover(
-      const std::vector<layer_weight_t>& parentLayerWeightsA,
-      const std::vector<layer_bias_t>& parentLayerBiasesA,
-      const std::vector<layer_weight_t>& parentLayerWeightsB,
-      const std::vector<layer_bias_t>& parentLayerBiasesB) const;
+  inline void mutate(std::vector<ILayer>& layers) const {
+    for (auto& layer : layers) {
+      mutateWeights(layer.getWeights());
+      mutateBiases(layer.getBiases());
+    }
+  }
+
+  inline void mutate(ILayer& layer) const {
+    mutateWeights(layer.getWeights());
+    mutateBiases(layer.getBiases());
+  }
+
+  virtual void mutateWeights(layer_weight_t& layerWeights) const;
+  virtual void mutateBiases(layer_bias_t& layerBiases) const;
+
+  inline std::unique_ptr<IIndividual> crossover(const IIndividual& partnerA, const IIndividual& partnerB) const {
+    return std::make_unique<Individual>(crossover(partnerA.getNeuralNetwork(), partnerB.getNeuralNetwork()));
+  }
+
+  inline std::unique_ptr<INeuralNetwork> crossover(const INeuralNetwork& partnerA, const INeuralNetwork& partnerB) const {
+    std::unique_ptr<INeuralNetwork> neuralNetwork = std::make_unique<NeuralNetwork>();
+
+    for (size_t i = 0; i < partnerA.sizeLayers() && i < partnerB.sizeLayers(); i++) {
+      neuralNetwork->addLayer(crossover(partnerA[i], partnerB[i]));
+    }
+
+    return neuralNetwork;
+  }
+
+  inline std::unique_ptr<INeuralNetwork> crossover(const std::vector<ILayer>& partnerA, const std::vector<ILayer>& partnerB) const {
+    std::unique_ptr<INeuralNetwork> neuralNetwork = std::make_unique<NeuralNetwork>();
+
+    for (size_t i = 0; i < partnerA.size() && i < partnerB.size(); i++) {
+      neuralNetwork->addLayer(crossover(partnerA[i], partnerB[i]));
+    }
+
+    return neuralNetwork;
+  }
+
+  inline std::unique_ptr<ILayer> crossover(const ILayer& partnerA, const ILayer& partnerB) const {
+    auto weights = crossoverWeights(partnerA.getWeights(), partnerB.getWeights());
+    auto biases = crossoverBiases(partnerA.getBiases(), partnerB.getBiases());
+
+    return std::make_unique<DenseLayer>(weights, biases, partnerA.getActivationFunction());
+  }
+
+  virtual layer_weight_t crossoverWeights(const layer_weight_t& parentLayerWeightsA, const layer_weight_t& parentLayerWeightsB) const;
+  virtual layer_bias_t crossoverBiases(const layer_bias_t& parentLayerBiasesA, const layer_bias_t& parentLayerBiasesB) const;
 
   virtual std::unique_ptr<IPopulation> evolve(const IPopulation& population) const;
   virtual std::unique_ptr<IPopulation> evolve(const std::vector<IIndividual>& individuals) const;
 
   virtual std::vector<std::unique_ptr<IIndividual>> select(const IPopulation& population) const;
   virtual std::vector<std::unique_ptr<IIndividual>> select(const std::vector<IIndividual>& individuals) const;
-
-  virtual std::vector<std::unique_ptr<IIndividual>> select(const IPopulation& population, size_t eliteCount) const;
-  virtual std::vector<std::unique_ptr<IIndividual>> select(const std::vector<IIndividual>& individuals, size_t eliteCount) const;
 
   virtual void setOptions(const GeneticOptions&);
   virtual void setRate(float);
