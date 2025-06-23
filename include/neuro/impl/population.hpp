@@ -35,6 +35,8 @@ class Population : public IPopulation {
   void clearIndividuals() override;
   void popIndividual() override;
 
+  void reserve(size_t size) override;
+
   const IIndividual& getBestIndividual() const override;
 
   const std::vector<std::shared_ptr<IIndividual>>& getIndividuals() const override;
@@ -44,6 +46,8 @@ class Population : public IPopulation {
   IIndividual& get(size_t index) override;
 
   size_t size() const override;
+
+  bool empty() const override;
 
   std::vector<std::shared_ptr<IIndividual>>::const_iterator begin() const override;
   std::vector<std::shared_ptr<IIndividual>>::iterator begin() override;

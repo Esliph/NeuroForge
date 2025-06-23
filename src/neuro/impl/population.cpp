@@ -82,6 +82,10 @@ void Population::popIndividual() {
   individuals.pop_back();
 }
 
+void Population::reserve(size_t size) {
+  individuals.reserve(size);
+}
+
 const IIndividual& Population::getBestIndividual() const {
   return **std::max_element(individuals.begin(), individuals.end(), [](const std::shared_ptr<IIndividual>& individualA, const std::shared_ptr<IIndividual>& individualB) {
     return individualA->getFitness() > individualB->getFitness();
@@ -106,6 +110,10 @@ IIndividual& Population::get(size_t index) {
 
 size_t Population::size() const {
   return individuals.size();
+}
+
+bool Population::empty() const {
+  return individuals.size() == 0;
 }
 
 std::vector<std::shared_ptr<IIndividual>>::const_iterator Population::begin() const {
