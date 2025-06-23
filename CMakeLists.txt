@@ -3,7 +3,6 @@ project(NeuroForge VERSION 1.0.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -g")
 set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/packages/NeuroForge-${PROJECT_VERSION}" CACHE PATH "Install path prefix" FORCE)
 
 option(CONSTRUCT_INSTALLATION "Build the lib installer" OFF)
@@ -11,7 +10,7 @@ option(ENABLE_TEST "Build unit tests" OFF)
 
 file(GLOB_RECURSE SOURCES
   CONFIGURE_DEPENDS
-  src/*.cpp
+  src/neuro/*.cpp
 )
 
 add_library(NeuroForge STATIC ${SOURCES})
@@ -63,11 +62,13 @@ if(CONSTRUCT_INSTALLATION)
     DESTINATION lib/cmake/NeuroForge
   )
 else()
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -g")
+
   include_directories(include)
 endif()
 
 if(ENABLE_TEST)
   add_subdirectory(tests)
-elseif(!CONSTRUCT_INSTALLATION)
-  add_executable(CampoMinado ${SOURCES} src/main.cpp)
+elseif(NOT "${CONSTRUCT_INSTALLATION}" STREQUAL "ON")
+  add_executable(NeuroForgeMain ${SOURCES} src/main.cpp)
 endif()

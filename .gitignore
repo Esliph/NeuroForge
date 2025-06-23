@@ -1,14 +1,27 @@
-CMakeLists.txt.user
+# CMake build directories
+build/
+cmake-build-*/
+out/
+
+# Temporary files and caches
+*.cmake
+CMakeFiles/
 CMakeCache.txt
-CMakeFiles
-CMakeScripts
-Testing
+CTestTestfile.cmake
 Makefile
 cmake_install.cmake
 install_manifest.txt
 compile_commands.json
-CTestTestfile.cmake
+
+# IDE specific files (e.g., CLion)
+.idea/
+.vscode/*
+!.vscode/launch.json
+!.vscode/tasks.json
+
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeScripts
+Testing
 _deps
 CMakeUserPresets.json
-build
-.vscode
