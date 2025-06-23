@@ -1,0 +1,114 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build & Install Library",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"-B",
+				"build/install",
+				"-DCONSTRUCT_INSTALLATION=ON",
+				"-DENABLE_TEST=OFF",
+				"-G",
+				"MinGW Makefiles"
+			],
+			"problemMatcher": [],
+			"group": "build",
+			"detail": "Build & Install"
+		},
+		{
+			"label": "Build & Install Target",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"--build",
+				"build/install",
+				"--target",
+				"install"
+			],
+			"problemMatcher": [],
+			"group": "build",
+			"detail": "Run the target 'install'"
+		},
+		{
+			"label": "Build Executable (Dev)",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"-B",
+				"build/dev",
+				"-DCONSTRUCT_INSTALLATION=OFF",
+				"-DENABLE_TEST=OFF",
+				"-G",
+				"MinGW Makefiles"
+			],
+			"problemMatcher": [],
+			"group": "build",
+			"detail": "Generate executable with main.cpp"
+		},
+		{
+			"label": "Build Tests",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"-B",
+				"build/test",
+				"-DCONSTRUCT_INSTALLATION=OFF",
+				"-DENABLE_TEST=ON",
+				"-G",
+				"MinGW Makefiles"
+			],
+			"problemMatcher": [],
+			"group": "build",
+			"detail": "Build Tests"
+		},
+		{
+			"label": "Run Make (Install)",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"--build",
+				"build/install",
+				"--target",
+				"install"
+			],
+			"problemMatcher": [],
+			"dependsOn": [
+				"Build & Install Library"
+			],
+			"group": "build",
+			"detail": "Compile Executable with main"
+		},
+		{
+			"label": "Run Make (Dev)",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"--build",
+				"build/dev"
+			],
+			"problemMatcher": [],
+			"dependsOn": [
+				"Build Executable (Dev)"
+			],
+			"group": "build",
+			"detail": "Compile Executable with main"
+		},
+		{
+			"label": "Run Make (Test)",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"--build",
+				"build/test"
+			],
+			"problemMatcher": [],
+			"dependsOn": [
+				"Build Tests"
+			],
+			"group": "build",
+			"detail": "Compile Tests"
+		}
+	]
+}
