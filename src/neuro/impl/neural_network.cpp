@@ -116,7 +116,6 @@ void NeuralNetwork::setLayers(std::vector<std::unique_ptr<ILayer>> layers) {
 
 std::vector<layer_weight_t> NeuralNetwork::getAllWeights() const {
   std::vector<layer_weight_t> allWeights;
-  allWeights.reserve(layers.size());
 
   for (const auto& layer : layers) {
     allWeights.push_back(layer->getWeights());
@@ -127,7 +126,6 @@ std::vector<layer_weight_t> NeuralNetwork::getAllWeights() const {
 
 std::vector<layer_bias_t> NeuralNetwork::getAllBiases() const {
   std::vector<layer_bias_t> allBiases;
-  allBiases.reserve(layers.size());
 
   for (const auto& layer : layers) {
     allBiases.push_back(layer->getBiases());
