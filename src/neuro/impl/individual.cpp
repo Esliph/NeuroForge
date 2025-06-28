@@ -10,139 +10,139 @@
 
 namespace neuro {
 
-Individual::Individual()
-    : IIndividual(),
-      neuralNetwork(std::make_unique<NeuralNetwork>()) {}
+  Individual::Individual()
+      : IIndividual(),
+        neuralNetwork(std::make_unique<NeuralNetwork>()) {}
 
-Individual::Individual(const Individual& individual)
-    : IIndividual(),
-      neuralNetwork(std::move(individual.getNeuralNetwork().clone())),
-      fitness(individual.fitness) {}
+  Individual::Individual(const Individual& individual)
+      : IIndividual(),
+        neuralNetwork(std::move(individual.getNeuralNetwork().clone())),
+        fitness(individual.fitness) {}
 
-Individual::Individual(int fitness)
-    : IIndividual(),
-      neuralNetwork(std::make_unique<NeuralNetwork>()),
-      fitness(fitness) {}
+  Individual::Individual(int fitness)
+      : IIndividual(),
+        neuralNetwork(std::make_unique<NeuralNetwork>()),
+        fitness(fitness) {}
 
-Individual::Individual(std::unique_ptr<INeuralNetwork> neuralNetwork)
-    : IIndividual(),
-      neuralNetwork(std::move(neuralNetwork)) {}
+  Individual::Individual(std::unique_ptr<INeuralNetwork> neuralNetwork)
+      : IIndividual(),
+        neuralNetwork(std::move(neuralNetwork)) {}
 
-Individual::Individual(std::unique_ptr<INeuralNetwork>, int fitness)
-    : IIndividual(),
-      neuralNetwork(std::move(neuralNetwork)),
-      fitness(fitness) {}
+  Individual::Individual(std::unique_ptr<INeuralNetwork>, int fitness)
+      : IIndividual(),
+        neuralNetwork(std::move(neuralNetwork)),
+        fitness(fitness) {}
 
-Individual::Individual(const std::vector<int>& structure, const ActivationFunction& activation)
-    : IIndividual(),
-      neuralNetwork(std::make_unique<NeuralNetwork>(structure, activation)) {}
+  Individual::Individual(const std::vector<int>& structure, const ActivationFunction& activation)
+      : IIndividual(),
+        neuralNetwork(std::make_unique<NeuralNetwork>(structure, activation)) {}
 
-Individual::Individual(const std::vector<int>& structure, const std::vector<ActivationFunction>& activations)
-    : IIndividual(),
-      neuralNetwork(std::make_unique<NeuralNetwork>(structure, activations)) {}
+  Individual::Individual(const std::vector<int>& structure, const std::vector<ActivationFunction>& activations)
+      : IIndividual(),
+        neuralNetwork(std::make_unique<NeuralNetwork>(structure, activations)) {}
 
-void Individual::evaluateFitness(const std::function<float(const INeuralNetwork&)>& evaluateFunction) {
-  fitness = evaluateFunction(*neuralNetwork);
-}
+  void Individual::evaluateFitness(const std::function<float(const INeuralNetwork&)>& evaluateFunction) {
+    fitness = evaluateFunction(*neuralNetwork);
+  }
 
-void Individual::randomizeWeights(float min, float max) {
-  neuralNetwork->randomizeWeights(min, max);
-}
+  void Individual::randomizeWeights(float min, float max) {
+    neuralNetwork->randomizeWeights(min, max);
+  }
 
-void Individual::randomizeBiases(float min, float max) {
-  neuralNetwork->randomizeBiases(min, max);
-}
+  void Individual::randomizeBiases(float min, float max) {
+    neuralNetwork->randomizeBiases(min, max);
+  }
 
-neuro_layer_t Individual::feedforward(const neuro_layer_t& inputs) const {
-  return neuralNetwork->feedforward(inputs);
-}
+  neuro_layer_t Individual::feedforward(const neuro_layer_t& inputs) const {
+    return neuralNetwork->feedforward(inputs);
+  }
 
-size_t Individual::inputSize() const {
-  return neuralNetwork->inputSize();
-}
+  size_t Individual::inputSize() const {
+    return neuralNetwork->inputSize();
+  }
 
-size_t Individual::outputSize() const {
-  return neuralNetwork->outputSize();
-}
+  size_t Individual::outputSize() const {
+    return neuralNetwork->outputSize();
+  }
 
-void Individual::setNeuralNetwork(const INeuralNetwork& neuralNetwork) {
-  this->neuralNetwork = std::move(neuralNetwork.clone());
-}
+  void Individual::setNeuralNetwork(const INeuralNetwork& neuralNetwork) {
+    this->neuralNetwork = std::move(neuralNetwork.clone());
+  }
 
-void Individual::setNeuralNetwork(std::unique_ptr<INeuralNetwork> neuralNetwork) {
-  this->neuralNetwork = std::move(neuralNetwork);
-}
+  void Individual::setNeuralNetwork(std::unique_ptr<INeuralNetwork> neuralNetwork) {
+    this->neuralNetwork = std::move(neuralNetwork);
+  }
 
-void Individual::setFitness(float fitness) {
-  this->fitness = fitness;
-}
+  void Individual::setFitness(float fitness) {
+    this->fitness = fitness;
+  }
 
-void Individual::setAllWeights(const std::vector<layer_weight_t>& weights) {
-  neuralNetwork->setAllWeights(weights);
-}
+  void Individual::setAllWeights(const std::vector<layer_weight_t>& weights) {
+    neuralNetwork->setAllWeights(weights);
+  }
 
-void Individual::setAllBiases(const std::vector<layer_bias_t>& biases) {
-  neuralNetwork->setAllBiases(biases);
-}
+  void Individual::setAllBiases(const std::vector<layer_bias_t>& biases) {
+    neuralNetwork->setAllBiases(biases);
+  }
 
-void Individual::setLayers(std::vector<std::unique_ptr<ILayer>> layers) {
-  neuralNetwork->setLayers(std::move(layers));
-}
+  void Individual::setLayers(std::vector<std::unique_ptr<ILayer>> layers) {
+    neuralNetwork->setLayers(std::move(layers));
+  }
 
-const INeuralNetwork& Individual::getNeuralNetwork() const {
-  return *neuralNetwork;
-}
+  const INeuralNetwork& Individual::getNeuralNetwork() const {
+    return *neuralNetwork;
+  }
 
-INeuralNetwork& Individual::getNeuralNetwork() {
-  return *neuralNetwork;
-}
+  INeuralNetwork& Individual::getNeuralNetwork() {
+    return *neuralNetwork;
+  }
 
-float Individual::getFitness() const {
-  return fitness;
-}
+  float Individual::getFitness() const {
+    return fitness;
+  }
 
-std::vector<layer_weight_t> Individual::getAllWeights() const {
-  return neuralNetwork->getAllWeights();
-}
+  std::vector<layer_weight_t> Individual::getAllWeights() const {
+    return neuralNetwork->getAllWeights();
+  }
 
-std::vector<layer_bias_t> Individual::getAllBiases() const {
-  return neuralNetwork->getAllBiases();
-}
+  std::vector<layer_bias_t> Individual::getAllBiases() const {
+    return neuralNetwork->getAllBiases();
+  }
 
-size_t Individual::sizeLayers() const {
-  return neuralNetwork->sizeLayers();
-}
+  size_t Individual::sizeLayers() const {
+    return neuralNetwork->sizeLayers();
+  }
 
-std::vector<std::unique_ptr<ILayer>>::const_iterator Individual::begin() const {
-  return neuralNetwork->begin();
-}
+  std::vector<std::unique_ptr<ILayer>>::const_iterator Individual::begin() const {
+    return neuralNetwork->begin();
+  }
 
-std::vector<std::unique_ptr<ILayer>>::iterator Individual::begin() {
-  return neuralNetwork->begin();
-}
+  std::vector<std::unique_ptr<ILayer>>::iterator Individual::begin() {
+    return neuralNetwork->begin();
+  }
 
-std::vector<std::unique_ptr<ILayer>>::const_iterator Individual::end() const {
-  return neuralNetwork->end();
-}
+  std::vector<std::unique_ptr<ILayer>>::const_iterator Individual::end() const {
+    return neuralNetwork->end();
+  }
 
-std::vector<std::unique_ptr<ILayer>>::iterator Individual::end() {
-  return neuralNetwork->end();
-}
+  std::vector<std::unique_ptr<ILayer>>::iterator Individual::end() {
+    return neuralNetwork->end();
+  }
 
-neuro_layer_t Individual::operator()(const neuro_layer_t& inputs) const {
-  return feedforward(inputs);
-}
+  neuro_layer_t Individual::operator()(const neuro_layer_t& inputs) const {
+    return feedforward(inputs);
+  }
 
-const ILayer& Individual::operator[](int index) const {
-  return (*neuralNetwork)[index];
-}
+  const ILayer& Individual::operator[](int index) const {
+    return (*neuralNetwork)[index];
+  }
 
-ILayer& Individual::operator[](int index) {
-  return (*neuralNetwork)[index];
-}
+  ILayer& Individual::operator[](int index) {
+    return (*neuralNetwork)[index];
+  }
 
-std::unique_ptr<IIndividual> Individual::clone() const {
-  return std::make_unique<Individual>(*this);
-};
+  std::unique_ptr<IIndividual> Individual::clone() const {
+    return std::make_unique<Individual>(*this);
+  };
 
 };  // namespace neuro
