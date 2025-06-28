@@ -26,6 +26,7 @@ elseif(ENVIRONMENT STREQUAL "tests")
   message(STATUS "Building on tests environment")
 
   target_compile_definitions(NeuroForge PUBLIC ENVIRONMENT_TESTS)
+  target_compile_definitions(NeuroForge PUBLIC LOG_LEVEL)
 
   set(ENABLE_TEST ON)
   set(VERBOSE_CODE_COMPILATION ON)
@@ -33,9 +34,12 @@ elseif(ENVIRONMENT STREQUAL "development")
   message(STATUS "Building on development environment")
 
   target_compile_definitions(NeuroForge PUBLIC ENVIRONMENT_DEVELOPMENT)
+  target_compile_definitions(NeuroForge PUBLIC LOG_LEVEL)
 
   set(VERBOSE_CODE_COMPILATION ON)
 endif()
+
+configure_file(config/config.in.h ${CMAKE_BINARY_DIR}/config/config.h)
 
 if(VERBOSE_CODE_COMPILATION)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -g")
