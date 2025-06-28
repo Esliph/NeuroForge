@@ -5,17 +5,43 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/packages/NeuroForge-${PROJECT_VERSION}" CACHE PATH "Install path prefix" FORCE)
 
-option(CONSTRUCT_INSTALLATION "Build the lib installer" OFF)
-option(ENABLE_TEST "Build unit tests" OFF)
+set(ENVIRONMENT "production" CACHE STRING "Define the environment")
 
 file(GLOB_RECURSE SOURCES
   CONFIGURE_DEPENDS
   src/neuro/*.cpp
 )
 
+include_directories(${CMAKE_BINARY_DIR})
+
 add_library(NeuroForge STATIC ${SOURCES})
 
-if(CONSTRUCT_INSTALLATION)
+if(ENVIRONMENT STREQUAL "production")
+  message(STATUS "Building on production environment")
+
+  target_compile_definitions(NeuroForge PUBLIC ENVIRONMENT_PRODUCTION)
+
+  set(INSTALL_TARGET ON)
+elseif(ENVIRONMENT STREQUAL "tests")
+  message(STATUS "Building on tests environment")
+
+  target_compile_definitions(NeuroForge PUBLIC ENVIRONMENT_TESTS)
+
+  set(ENABLE_TEST ON)
+  set(VERBOSE_CODE_COMPILATION ON)
+elseif(ENVIRONMENT STREQUAL "development")
+  message(STATUS "Building on development environment")
+
+  target_compile_definitions(NeuroForge PUBLIC ENVIRONMENT_DEVELOPMENT)
+
+  set(VERBOSE_CODE_COMPILATION ON)
+endif()
+
+if(VERBOSE_CODE_COMPILATION)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -g")
+endif()
+
+if(INSTALL_TARGET)
   target_include_directories(NeuroForge
     PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
@@ -61,14 +87,9 @@ if(CONSTRUCT_INSTALLATION)
     "${CMAKE_CURRENT_BINARY_DIR}/NeuroForgeConfigVersion.cmake"
     DESTINATION lib/cmake/NeuroForge
   )
-else()
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -g")
-
-  include_directories(include)
 endif()
 
 if(ENABLE_TEST)
+  include_directories(include)
   add_subdirectory(tests)
-elseif(NOT "${CONSTRUCT_INSTALLATION}" STREQUAL "ON")
-  add_executable(NeuroForgeMain ${SOURCES} src/main.cpp)
 endif()

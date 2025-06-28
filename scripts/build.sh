@@ -1,6 +1,6 @@
 #!/bin/bash
 
-env="PROD" # PROD | TEST | NONE
+env="PROD" # PROD | TEST
 is_clean_build=false
 
 exit_with_error() {
@@ -9,8 +9,8 @@ exit_with_error() {
 }
 
 validate_env() {
-  if [[ "$env" != "PROD" && "$env" != "TEST" && "$env" != "NONE" ]]; then
-    exit_with_error "Invalid argument \"$env\" for flag \"-e\". Valid values are 'PROD', 'TEST' or 'NONE'."
+  if [[ "$env" != "PROD" && "$env" != "TEST" ]]; then
+    exit_with_error "Invalid argument \"$env\" for flag \"-e\". Valid values are 'PROD' or 'TEST'."
   fi
 }
 
@@ -31,14 +31,12 @@ clean_project() {
 }
 
 build_production() {
-  echo "-- Building Production"
-  cmake -B build/production -G "MinGW Makefiles" -DCONSTRUCT_INSTALLATION=ON
+  cmake -B build/production -G "MinGW Makefiles" -DENVIRONMENT=production
   cmake --build build/production --target install
 }
 
 build_test() {
-  echo "-- Building Tests"
-  cmake -B build/tests -G "MinGW Makefiles" -DENABLE_TEST=ON
+  cmake -B build/tests -G "MinGW Makefiles" -DENVIRONMENT=tests
   cmake --build build/tests
 
   if [[ $? -ne 0 ]]; then
@@ -48,12 +46,6 @@ build_test() {
   ./build/tests/tests/NeuroForgeTests
 }
 
-build_no_target() {
-  echo "-- Building with no Target"
-  cmake -B build/temp -G "MinGW Makefiles"
-  cmake --build build/temp
-}
-
 start_build() {
   case "$env" in
   "PROD")
@@ -61,9 +53,6 @@ start_build() {
     ;;
   "TEST")
     build_test
-    ;;
-  "NONE")
-    build_no_target
     ;;
   esac
 }
