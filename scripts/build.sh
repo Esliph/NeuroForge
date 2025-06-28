@@ -44,6 +44,8 @@ build_test() {
   if [[ $? -ne 0 ]]; then
     exit_with_error "-- Build failed"
   fi
+
+  ./build/tests/tests/NeuroForgeTests
 }
 
 build_no_target() {
