@@ -2,10 +2,10 @@
 
 namespace neuro {
 
-class IStrategyEvolution {
- public:
-  IStrategyEvolution() = default;
-  virtual ~IStrategyEvolution() = default;
-};
+  class IStrategyEvolution {
+   public:
+    IStrategyEvolution() = default;
+    virtual ~IStrategyEvolution() = default;
+  };
 
 };  // namespace neuro

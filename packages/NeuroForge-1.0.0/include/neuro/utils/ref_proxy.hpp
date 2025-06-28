@@ -2,22 +2,41 @@
 
 namespace neuro {
 
-template <typename T>
-class RefProxy {
-  T& ref;
+  template <typename T>
+  class RefProxy {
+    T& ref;
 
- public:
-  RefProxy() = delete;
-  RefProxy(T& value) : ref(value) {}
+   public:
+    RefProxy() = delete;
+    RefProxy(T& value) : ref(value) {}
 
-  operator T() const;
-  operator T*();
+    operator T() const {
+      return ref;
+    }
 
-  RefProxy<T>& operator=(const T& val);
-  RefProxy<T>& operator=(T* val);
+    operator T*() {
+      return &ref;
+    }
 
-  T& operator*();
-  T* operator->();
-};
+    RefProxy<T>& operator=(const T& val) {
+      ref = val;
+      return *this;
+    }
+
+    RefProxy<T>& operator=(T* val) {
+      if (val) {
+        ref = *val;
+      }
+      return *this;
+    }
+
+    T& operator*() {
+      return ref;
+    }
+
+    T* operator->() {
+      return &ref;
+    }
+  };
 
 };  // namespace neuro

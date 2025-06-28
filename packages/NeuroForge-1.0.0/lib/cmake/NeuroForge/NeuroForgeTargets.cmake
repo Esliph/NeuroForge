@@ -59,6 +59,7 @@ endif()
 add_library(NeuroForge::NeuroForge STATIC IMPORTED)
 
 set_target_properties(NeuroForge::NeuroForge PROPERTIES
+  INTERFACE_COMPILE_DEFINITIONS "ENVIRONMENT_PRODUCTION"
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include;${_IMPORT_PREFIX}/include"
 )
 
