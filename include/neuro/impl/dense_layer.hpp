@@ -36,16 +36,16 @@ namespace neuro {
     size_t inputSize() const override;
     size_t outputSize() const override;
 
-    RefProxy<float> weight(int indexX, int indexY) override;
-    RefProxy<float> bias(int index) override;
+    RefProxy<float> weight(size_t indexX, size_t indexY) override;
+    RefProxy<float> bias(size_t index) override;
 
     void setActivationFunction(const ActivationFunction&) override;
 
     void setWeights(const layer_weight_t&) override;
     void setBiases(const layer_bias_t&) override;
 
-    void setWeight(int indexX, int indexY, float value) override;
-    void setBias(int index, float value) override;
+    void setWeight(size_t indexX, size_t indexY, float value) override;
+    void setBias(size_t index, float value) override;
 
     const layer_weight_t& getWeights() const override;
     const layer_bias_t& getBiases() const override;

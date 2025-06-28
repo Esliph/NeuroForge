@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 
+#include "neuro/exceptions/invalid_network_architecture_exception.hpp"
 #include "neuro/impl/dense_layer.hpp"
 #include "neuro/interfaces/i_layer.hpp"
 #include "neuro/interfaces/i_neural_network.hpp"
@@ -45,6 +46,10 @@ namespace neuro {
   }
 
   neuro_layer_t NeuralNetwork::feedforward(const neuro_layer_t& inputs) const {
+    if (inputSize() != inputs.size()) {
+      throw exception::InvalidNetworkArchitectureException("Amount of data input does not match neuron data input");
+    }
+
     neuro_layer_t current = inputs;
 
     for (const auto& layer : layers) {
@@ -143,10 +148,18 @@ namespace neuro {
   }
 
   const RefProxy<ILayer> NeuralNetwork::layer(size_t index) const {
+    if (layers.size() >= index) {
+      throw exception::InvalidNetworkArchitectureException("Layer vector out-of-range index");
+    }
+
     return RefProxy<ILayer>(*layers[index]);
   }
 
   RefProxy<ILayer> NeuralNetwork::layer(size_t index) {
+    if (layers.size() >= index) {
+      throw exception::InvalidNetworkArchitectureException("Layer vector out-of-range index");
+    }
+
     return RefProxy<ILayer>(*layers[index]);
   }
 
@@ -175,10 +188,18 @@ namespace neuro {
   }
 
   const ILayer& NeuralNetwork::operator[](int index) const {
+    if (layers.size() >= index) {
+      throw exception::InvalidNetworkArchitectureException("Layer vector out-of-range index");
+    }
+
     return *layers[index];
   }
 
   ILayer& NeuralNetwork::operator[](int index) {
+    if (layers.size() >= index) {
+      throw exception::InvalidNetworkArchitectureException("Layer vector out-of-range index");
+    }
+
     return *layers[index];
   }
 

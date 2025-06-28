@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 
+#include "neuro/exceptions/invalid_network_architecture_exception.hpp"
 #include "neuro/impl/individual.hpp"
 #include "neuro/interfaces/i_individual.hpp"
 #include "neuro/interfaces/i_population.hpp"
@@ -71,7 +72,9 @@ namespace neuro {
   }
 
   void Population::removeIndividual(size_t index) {
-    individuals.erase(individuals.begin() + index);
+    if (index < individuals.size()) {
+      individuals.erase(individuals.begin() + index);
+    }
   }
 
   void Population::clearIndividuals() {
@@ -101,10 +104,18 @@ namespace neuro {
   }
 
   const IIndividual& Population::get(size_t index) const {
+    if (individuals.size() >= index) {
+      throw exception::InvalidNetworkArchitectureException("Individual vector out-of-range index");
+    }
+
     return *individuals[index];
   }
 
   IIndividual& Population::get(size_t index) {
+    if (individuals.size() >= index) {
+      throw exception::InvalidNetworkArchitectureException("Individual vector out-of-range index");
+    }
+
     return *individuals[index];
   }
 
@@ -133,10 +144,18 @@ namespace neuro {
   }
 
   const IIndividual& Population::operator[](int index) const {
+    if (individuals.size() >= index) {
+      throw exception::InvalidNetworkArchitectureException("Individual vector out-of-range index");
+    }
+
     return *individuals[index];
   }
 
   IIndividual& Population::operator[](int index) {
+    if (individuals.size() >= index) {
+      throw exception::InvalidNetworkArchitectureException("Individual vector out-of-range index");
+    }
+
     return *individuals[index];
   }
 
