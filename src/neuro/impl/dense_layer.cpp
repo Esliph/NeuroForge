@@ -11,10 +11,19 @@
 
 namespace neuro {
 
+DenseLayer::DenseLayer(int inputSize, int outputSize)
+    : ILayer(),
+      weights(outputSize, neuro_layer_t(inputSize)),
+      biases(outputSize) {}
+
 DenseLayer::DenseLayer(int inputSize, int outputSize, const ActivationFunction& activation)
     : ILayer(),
       weights(outputSize, neuro_layer_t(inputSize)),
       biases(outputSize),
+      activation(activation) {}
+
+DenseLayer::DenseLayer(const ActivationFunction& activation)
+    : ILayer(),
       activation(activation) {}
 
 DenseLayer::DenseLayer(const layer_weight_t& weights, const layer_bias_t& biases, const ActivationFunction& activation)

@@ -18,6 +18,8 @@ class DenseLayer : public ILayer {
   DenseLayer() = default;
   DenseLayer(const DenseLayer&) = default;
 
+  DenseLayer(const ActivationFunction& activation);
+  DenseLayer(int inputSize, int outputSize);
   DenseLayer(int inputSize, int outputSize, const ActivationFunction& activation);
   DenseLayer(const layer_weight_t& weights, const ActivationFunction& activation);
   DenseLayer(const layer_weight_t& weights, const layer_bias_t& biases, const ActivationFunction& activation);
