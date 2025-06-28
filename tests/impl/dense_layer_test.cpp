@@ -3,7 +3,7 @@
 #include "neuro/neuro.hpp"
 
 TEST_CASE("Tests for DenseLayer class") {
-  neuro::DenseLayer layer(2, 3, neuro::makeSigmoid());
+  neuro::DenseLayer layer(2, 3, neuro::maker::makeSigmoid());
 
   CHECK(layer.inputSize() == 2);
   CHECK(layer.outputSize() == 3);
@@ -17,7 +17,7 @@ TEST_CASE("DenseLayer - Feedforward determinístico") {
        {0.4f, 0.5f, 0.6f}});
   layer.setBiases({0.5f, -0.5f});
 
-  layer.setActivationFunction(neuro::makeRelu());
+  layer.setActivationFunction(neuro::maker::makeRelu());
 
   neuro::neuro_layer_t input = {1.0f, 2.0f, 3.0f};
   auto output = layer.feedforward(input);
@@ -33,7 +33,7 @@ TEST_CASE("DenseLayer - Clone") {
   original.setWeights({{1.0f, 2.0f}, {3.0f, 4.0f}});
   original.setBiases({1.0f, -1.0f});
 
-  original.setActivationFunction(neuro::makeSigmoid());
+  original.setActivationFunction(neuro::maker::makeSigmoid());
 
   auto clone = original.clone();
 
@@ -42,7 +42,7 @@ TEST_CASE("DenseLayer - Clone") {
 }
 
 TEST_CASE("DenseLayer - Set/Get peso e bias") {
-  neuro::DenseLayer layer(1, 2, neuro::makeSigmoid());
+  neuro::DenseLayer layer(1, 2, neuro::maker::makeSigmoid());
 
   layer.setWeight(0, 1, 0.75f);
   layer.setBias(1, -0.25f);

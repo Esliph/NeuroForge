@@ -5,7 +5,7 @@
 #include "neuro/neuro.hpp"
 
 TEST_CASE("Tests for Individual class") {
-  neuro::Individual individual({2, 3, 1}, neuro::makeSigmoid());
+  neuro::Individual individual({2, 3, 1}, neuro::maker::makeSigmoid());
 
   individual.randomizeBiases(-1.0f, 1.0f);
 

@@ -5,7 +5,7 @@
 #include "neuro/neuro.hpp"
 
 TEST_CASE("Tests for NeuralNetwork class") {
-  neuro::NeuralNetwork network({2, 3, 1}, neuro::makeSigmoid());
+  neuro::NeuralNetwork network({2, 3, 1}, neuro::maker::makeSigmoid());
 
   CHECK(network.sizeLayers() == 2);
 
