@@ -18,28 +18,26 @@ add_library(NeuroForge STATIC ${SOURCES})
 
 if(ENVIRONMENT STREQUAL "production")
   message(STATUS "Building on production environment")
-
   target_compile_definitions(NeuroForge PUBLIC ENVIRONMENT_PRODUCTION)
 
   set(INSTALL_TARGET ON)
+
 elseif(ENVIRONMENT STREQUAL "tests")
   message(STATUS "Building on tests environment")
-
   target_compile_definitions(NeuroForge PUBLIC ENVIRONMENT_TESTS)
-  target_compile_definitions(NeuroForge PUBLIC LOG_LEVEL)
+  target_compile_definitions(NeuroForge PRIVATE LOG_LEVEL_INFO LOG_LEVEL_DEBUG LOG_LEVEL_WARNING LOG_LEVEL_ERROR)
 
   set(ENABLE_TEST ON)
   set(VERBOSE_CODE_COMPILATION ON)
+
 elseif(ENVIRONMENT STREQUAL "development")
   message(STATUS "Building on development environment")
-
   target_compile_definitions(NeuroForge PUBLIC ENVIRONMENT_DEVELOPMENT)
-  target_compile_definitions(NeuroForge PUBLIC LOG_LEVEL)
+  target_compile_definitions(NeuroForge PRIVATE LOG_LEVEL_INFO LOG_LEVEL_DEBUG LOG_LEVEL_WARNING LOG_LEVEL_ERROR)
 
   set(VERBOSE_CODE_COMPILATION ON)
-endif()
 
-configure_file(config/config.in.h ${CMAKE_BINARY_DIR}/config/config.h)
+endif()
 
 if(VERBOSE_CODE_COMPILATION)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -g")
