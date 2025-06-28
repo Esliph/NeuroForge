@@ -91,14 +91,14 @@ class GeneticTrainer : public IStrategyEvolution {
     return std::make_unique<DenseLayer>(weights, biases, partnerA.getActivationFunction());
   }
 
-  virtual layer_weight_t crossoverWeights(const layer_weight_t& parentLayerWeightsA, const layer_weight_t& parentLayerWeightsB) const;
-  virtual layer_bias_t crossoverBiases(const layer_bias_t& parentLayerBiasesA, const layer_bias_t& parentLayerBiasesB) const;
+  virtual layer_weight_t crossoverWeights(const layer_weight_t& partnerA, const layer_weight_t& partnerB) const;
+  virtual layer_bias_t crossoverBiases(const layer_bias_t& partnerA, const layer_bias_t& partnerB) const;
 
   virtual std::unique_ptr<IPopulation> evolve(const IPopulation& population) const;
-  virtual std::unique_ptr<IPopulation> evolve(const std::vector<IIndividual>& individuals) const;
+  virtual std::vector<IIndividual> evolve(const std::vector<IIndividual>& individuals) const;
 
-  virtual std::vector<std::unique_ptr<IIndividual>> select(const IPopulation& population) const;
-  virtual std::vector<std::unique_ptr<IIndividual>> select(const std::vector<IIndividual>& individuals) const;
+  virtual const IIndividual* select(const IPopulation& population) const;
+  virtual const IIndividual* select(const std::vector<IIndividual>& individuals) const;
 
   virtual void setOptions(const GeneticOptions&);
   virtual void setRate(float);
