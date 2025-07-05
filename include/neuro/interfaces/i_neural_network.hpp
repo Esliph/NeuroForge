@@ -15,6 +15,7 @@ namespace neuro {
     virtual ~INeuralNetwork() = default;
 
     virtual void addLayer(std::unique_ptr<ILayer>) = 0;
+    virtual void addLayer(ILayer*) = 0;
 
     virtual void reset() = 0;
 

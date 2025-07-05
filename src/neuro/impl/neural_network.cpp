@@ -63,6 +63,10 @@ namespace neuro {
     layers.push_back(std::move(layer));
   }
 
+  void NeuralNetwork::addLayer(ILayer* layer) {
+    layers.push_back(std::unique_ptr<ILayer>(layer));
+  }
+
   void NeuralNetwork::reset() {
     for (const auto& layer : layers) {
       layer->reset();
