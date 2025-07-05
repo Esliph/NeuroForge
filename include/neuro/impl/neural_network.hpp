@@ -26,6 +26,7 @@ namespace neuro {
     neuro_layer_t feedforward(const neuro_layer_t& inputs) const override;
 
     void addLayer(std::unique_ptr<ILayer>) override;
+    void addLayer(ILayer*) override;
 
     void reset() override;
 
