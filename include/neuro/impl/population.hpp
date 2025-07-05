@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 
+#include "internal/attribute.hpp"
 #include "neuro/interfaces/i_individual.hpp"
 #include "neuro/interfaces/i_population.hpp"
 #include "neuro/utils/activation.hpp"
@@ -27,38 +28,74 @@ namespace neuro {
     void randomizeBiases(float min, float max) override;
 
     void addIndividuals(const std::vector<IIndividual>&) override;
-    void addIndividual(const IIndividual&) override;
+
+    FORCE_INLINE void addIndividual(const IIndividual& individual) override {
+      individuals.push_back(individual.clone());
+    }
+
     void addIndividuals(std::vector<std::shared_ptr<IIndividual>>&) override;
-    void addIndividual(std::shared_ptr<IIndividual>) override;
+
+    FORCE_INLINE void addIndividual(std::shared_ptr<IIndividual> individual) override {
+      individuals.push_back(individual);
+    }
 
     void removeIndividual(size_t index) override;
-    void clearIndividuals() override;
-    void popIndividual() override;
 
-    void reserve(size_t size) override;
+    FORCE_INLINE void clearIndividuals() override {
+      individuals.clear();
+    }
+
+    FORCE_INLINE void popIndividual() override {
+      individuals.pop_back();
+    }
+
+    FORCE_INLINE void reserve(size_t size) override {
+      individuals.reserve(size);
+    }
 
     const IIndividual& getBestIndividual() const override;
 
-    const std::vector<std::shared_ptr<IIndividual>>& getIndividuals() const override;
-    std::vector<std::shared_ptr<IIndividual>>& getIndividuals() override;
+    FORCE_INLINE const std::vector<std::shared_ptr<IIndividual>>& getIndividuals() const override {
+      return individuals;
+    }
+
+    FORCE_INLINE std::vector<std::shared_ptr<IIndividual>>& getIndividuals() override {
+      return individuals;
+    }
 
     const IIndividual& get(size_t index) const override;
     IIndividual& get(size_t index) override;
 
-    size_t size() const override;
+    FORCE_INLINE size_t size() const override {
+      return individuals.size();
+    }
 
-    bool empty() const override;
+    FORCE_INLINE bool empty() const override {
+      return individuals.empty();
+    }
 
-    std::vector<std::shared_ptr<IIndividual>>::const_iterator begin() const override;
-    std::vector<std::shared_ptr<IIndividual>>::iterator begin() override;
+    FORCE_INLINE std::vector<std::shared_ptr<IIndividual>>::const_iterator begin() const override {
+      return individuals.begin();
+    }
 
-    std::vector<std::shared_ptr<IIndividual>>::const_iterator end() const override;
-    std::vector<std::shared_ptr<IIndividual>>::iterator end() override;
+    FORCE_INLINE std::vector<std::shared_ptr<IIndividual>>::iterator begin() override {
+      return individuals.begin();
+    }
+
+    FORCE_INLINE std::vector<std::shared_ptr<IIndividual>>::const_iterator end() const override {
+      return individuals.end();
+    }
+
+    FORCE_INLINE std::vector<std::shared_ptr<IIndividual>>::iterator end() override {
+      return individuals.end();
+    }
 
     const IIndividual& operator[](int index) const override;
     IIndividual& operator[](int index) override;
 
-    virtual std::unique_ptr<IPopulation> clone() const;
+    FORCE_INLINE virtual std::unique_ptr<IPopulation> clone() const {
+      return std::make_unique<Population>(*this);
+    }
   };
 
 };  // namespace neuro
