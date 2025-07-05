@@ -59,32 +59,16 @@ namespace neuro {
     return current;
   }
 
-  void NeuralNetwork::addLayer(std::unique_ptr<ILayer> layer) {
-    layers.push_back(std::move(layer));
-  }
-
-  void NeuralNetwork::addLayer(ILayer* layer) {
-    layers.push_back(std::unique_ptr<ILayer>(layer));
-  }
-
   void NeuralNetwork::reset() {
     for (const auto& layer : layers) {
       layer->reset();
     }
   }
 
-  void NeuralNetwork::clearLayers() {
-    layers.clear();
-  }
-
   void NeuralNetwork::removeLayer(size_t index) {
     if (index < layers.size()) {
       layers.erase(layers.begin() + index);
     }
-  }
-
-  void NeuralNetwork::popLayer() {
-    layers.pop_back();
   }
 
   void NeuralNetwork::randomizeWeights(float min, float max) {
@@ -99,14 +83,6 @@ namespace neuro {
     }
   }
 
-  size_t NeuralNetwork::inputSize() const {
-    return layers.empty() ? 0 : layers[0]->inputSize();
-  }
-
-  size_t NeuralNetwork::outputSize() const {
-    return layers.empty() ? 0 : layers[layers.size() - 1]->outputSize();
-  }
-
   void NeuralNetwork::setAllWeights(const std::vector<layer_weight_t>& allWeights) {
     for (size_t i = 0; i < layers.size() && i < allWeights.size(); i++) {
       layers[i]->setWeights(allWeights[i]);
@@ -117,10 +93,6 @@ namespace neuro {
     for (size_t i = 0; i < layers.size() && i < allBiases.size(); i++) {
       layers[i]->setBiases(allBiases[i]);
     }
-  }
-
-  void NeuralNetwork::setLayers(std::vector<std::unique_ptr<ILayer>> layers) {
-    this->layers = std::move(layers);
   }
 
   std::vector<layer_weight_t> NeuralNetwork::getAllWeights() const {
@@ -143,14 +115,6 @@ namespace neuro {
     return allBiases;
   }
 
-  const std::vector<std::unique_ptr<ILayer>>& NeuralNetwork::getLayers() const {
-    return layers;
-  }
-
-  std::vector<std::unique_ptr<ILayer>>& NeuralNetwork::getLayers() {
-    return layers;
-  }
-
   const RefProxy<ILayer> NeuralNetwork::layer(size_t index) const {
     if (index >= layers.size()) {
       throw exception::InvalidNetworkArchitectureException("Layer vector out-of-range index");
@@ -167,30 +131,6 @@ namespace neuro {
     return RefProxy<ILayer>(*layers[index]);
   }
 
-  size_t NeuralNetwork::sizeLayers() const {
-    return layers.size();
-  }
-
-  std::vector<std::unique_ptr<ILayer>>::const_iterator NeuralNetwork::begin() const {
-    return layers.begin();
-  }
-
-  std::vector<std::unique_ptr<ILayer>>::iterator NeuralNetwork::begin() {
-    return layers.begin();
-  }
-
-  std::vector<std::unique_ptr<ILayer>>::const_iterator NeuralNetwork::end() const {
-    return layers.end();
-  }
-
-  std::vector<std::unique_ptr<ILayer>>::iterator NeuralNetwork::end() {
-    return layers.end();
-  }
-
-  neuro_layer_t NeuralNetwork::operator()(const neuro_layer_t& inputs) const {
-    return feedforward(inputs);
-  }
-
   const ILayer& NeuralNetwork::operator[](int index) const {
     if (index >= layers.size()) {
       throw exception::InvalidNetworkArchitectureException("Layer vector out-of-range index");
@@ -205,10 +145,6 @@ namespace neuro {
     }
 
     return *layers[index];
-  }
-
-  std::unique_ptr<INeuralNetwork> NeuralNetwork::clone() const {
-    return std::make_unique<NeuralNetwork>(*this);
   }
 
 };  // namespace neuro
