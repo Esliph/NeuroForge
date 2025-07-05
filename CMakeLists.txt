@@ -49,6 +49,8 @@ if(INSTALL_TARGET)
     PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
+    PRIVATE
+    ${PROJECT_SOURCE_DIR}/include/internal
   )
 
   add_library(NeuroForge::NeuroForge ALIAS NeuroForge)
@@ -61,8 +63,8 @@ if(INSTALL_TARGET)
     INCLUDES DESTINATION include
   )
 
-  install(DIRECTORY include/
-    DESTINATION include
+  install(DIRECTORY include/neuro/
+    DESTINATION include/neuro
   )
 
   install(EXPORT NeuroForgeTargets
