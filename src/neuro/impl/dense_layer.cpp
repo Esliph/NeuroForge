@@ -89,10 +89,10 @@ namespace neuro {
   }
 
   RefProxy<float> DenseLayer::weight(size_t indexX, size_t indexY) {
-    if (weights.size() >= indexX) {
+    if (indexX >= weights.size()) {
       throw exception::InvalidNetworkArchitectureException("Index out of range of the neuron output weight vector");
     }
-    if (weights[indexX].size() >= indexY) {
+    if (indexY >= weights[indexX].size()) {
       throw exception::InvalidNetworkArchitectureException("Index out of range of the neuron input weight vector");
     }
 
@@ -100,7 +100,7 @@ namespace neuro {
   }
 
   RefProxy<float> DenseLayer::bias(size_t index) {
-    if (biases.size() >= index) {
+    if (index >= biases.size()) {
       throw exception::InvalidNetworkArchitectureException("Index outside the range of the bias vector");
     }
 
@@ -120,10 +120,10 @@ namespace neuro {
   }
 
   void DenseLayer::setWeight(size_t indexX, size_t indexY, float value) {
-    if (weights.size() >= indexX) {
+    if (indexX >= weights.size()) {
       throw exception::InvalidNetworkArchitectureException("Index out of range of the neuron output weight vector");
     }
-    if (weights[indexX].size() >= indexY) {
+    if (indexY >= weights[indexX].size()) {
       throw exception::InvalidNetworkArchitectureException("Index out of range of the neuron input weight vector");
     }
 
@@ -131,7 +131,7 @@ namespace neuro {
   }
 
   void DenseLayer::setBias(size_t index, float value) {
-    if (biases.size() >= index) {
+    if (index >= biases.size()) {
       throw exception::InvalidNetworkArchitectureException("Index outside the range of the bias vector");
     }
 

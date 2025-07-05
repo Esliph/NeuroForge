@@ -148,7 +148,7 @@ namespace neuro {
   }
 
   const RefProxy<ILayer> NeuralNetwork::layer(size_t index) const {
-    if (layers.size() >= index) {
+    if (index >= layers.size()) {
       throw exception::InvalidNetworkArchitectureException("Layer vector out-of-range index");
     }
 
@@ -156,7 +156,7 @@ namespace neuro {
   }
 
   RefProxy<ILayer> NeuralNetwork::layer(size_t index) {
-    if (layers.size() >= index) {
+    if (index >= layers.size()) {
       throw exception::InvalidNetworkArchitectureException("Layer vector out-of-range index");
     }
 
@@ -188,7 +188,7 @@ namespace neuro {
   }
 
   const ILayer& NeuralNetwork::operator[](int index) const {
-    if (layers.size() >= index) {
+    if (index >= layers.size()) {
       throw exception::InvalidNetworkArchitectureException("Layer vector out-of-range index");
     }
 
@@ -196,7 +196,7 @@ namespace neuro {
   }
 
   ILayer& NeuralNetwork::operator[](int index) {
-    if (layers.size() >= index) {
+    if (index >= layers.size()) {
       throw exception::InvalidNetworkArchitectureException("Layer vector out-of-range index");
     }
 
