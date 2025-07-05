@@ -44,10 +44,10 @@ TEST_CASE("DenseLayer - Clone") {
 TEST_CASE("DenseLayer - Set/Get peso e bias") {
   neuro::DenseLayer layer(1, 2, neuro::maker::makeSigmoid());
 
-  layer.setWeight(0, 1, 0.75f);
+  layer.setWeight(0, 0, 0.75f);
   layer.setBias(1, -0.25f);
 
-  CHECK(layer.weight(0, 1) == doctest::Approx(0.75f));
+  CHECK(layer.weight(0, 0) == doctest::Approx(0.75f));
   CHECK(layer.bias(1) == doctest::Approx(-0.25f));
 }
 

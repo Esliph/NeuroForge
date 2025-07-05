@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include "internal/attribute.hpp"
 #include "neuro/interfaces/i_layer.hpp"
 #include "neuro/utils/activation.hpp"
 #include "neuro/utils/ref_proxy.hpp"
@@ -33,31 +34,57 @@ namespace neuro {
     void randomizeWeights(float min, float max) override;
     void randomizeBiases(float min, float max) override;
 
-    size_t inputSize() const override;
-    size_t outputSize() const override;
+    FORCE_INLINE size_t inputSize() const override {
+      return weights.empty() ? 0 : weights[0].size();
+    }
+
+    FORCE_INLINE size_t outputSize() const override {
+      return weights.size();
+    }
 
     RefProxy<float> weight(size_t indexX, size_t indexY) override;
     RefProxy<float> bias(size_t index) override;
 
-    void setActivationFunction(const ActivationFunction&) override;
+    FORCE_INLINE void setActivationFunction(const ActivationFunction& activation) override {
+      this->activation = activation;
+    }
 
-    void setWeights(const layer_weight_t&) override;
-    void setBiases(const layer_bias_t&) override;
+    FORCE_INLINE void setWeights(const layer_weight_t& weights) override {
+      this->weights = weights;
+    }
+
+    FORCE_INLINE void setBiases(const layer_bias_t& biases) override {
+      this->biases = biases;
+    }
 
     void setWeight(size_t indexX, size_t indexY, float value) override;
     void setBias(size_t index, float value) override;
 
-    const layer_weight_t& getWeights() const override;
-    const layer_bias_t& getBiases() const override;
+    FORCE_INLINE const layer_weight_t& getWeights() const override {
+      return weights;
+    }
 
-    layer_weight_t& getWeights() override;
-    layer_bias_t& getBiases() override;
+    FORCE_INLINE const layer_bias_t& getBiases() const override {
+      return biases;
+    }
 
-    const ActivationFunction& getActivationFunction() const override;
+    FORCE_INLINE layer_weight_t& getWeights() override {
+      return weights;
+    }
+
+    FORCE_INLINE layer_bias_t& getBiases() override {
+      return biases;
+    }
+
+    FORCE_INLINE const ActivationFunction& getActivationFunction() const override {
+      return activation;
+    }
 
     ILayer& operator=(const ILayer&);
 
-    std::unique_ptr<ILayer> clone() const override;
+    FORCE_INLINE std::unique_ptr<ILayer> clone() const override {
+      return std::make_unique<DenseLayer>(*this);
+    }
   };
 
 };  // namespace neuro

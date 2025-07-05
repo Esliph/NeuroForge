@@ -80,14 +80,6 @@ namespace neuro {
     }
   }
 
-  size_t DenseLayer::inputSize() const {
-    return weights.empty() ? 0 : weights[0].size();
-  }
-
-  size_t DenseLayer::outputSize() const {
-    return weights.size();
-  }
-
   RefProxy<float> DenseLayer::weight(size_t indexX, size_t indexY) {
     if (indexX >= weights.size()) {
       throw exception::InvalidNetworkArchitectureException("Index out of range of the neuron output weight vector");
@@ -105,18 +97,6 @@ namespace neuro {
     }
 
     return RefProxy<float>(biases[index]);
-  }
-
-  void DenseLayer::setActivationFunction(const ActivationFunction& activation) {
-    this->activation = activation;
-  }
-
-  void DenseLayer::setWeights(const layer_weight_t& weights) {
-    this->weights = weights;
-  }
-
-  void DenseLayer::setBiases(const layer_bias_t& biases) {
-    this->biases = biases;
   }
 
   void DenseLayer::setWeight(size_t indexX, size_t indexY, float value) {
@@ -138,36 +118,12 @@ namespace neuro {
     biases[index] = value;
   }
 
-  const layer_weight_t& DenseLayer::getWeights() const {
-    return weights;
-  }
-
-  const layer_bias_t& DenseLayer::getBiases() const {
-    return biases;
-  }
-
-  layer_weight_t& DenseLayer::getWeights() {
-    return weights;
-  }
-
-  layer_bias_t& DenseLayer::getBiases() {
-    return biases;
-  }
-
-  const ActivationFunction& DenseLayer::getActivationFunction() const {
-    return activation;
-  }
-
   ILayer& DenseLayer::operator=(const ILayer& other) {
     activation = other.getActivationFunction();
     biases = other.getBiases();
     weights = other.getWeights();
 
     return *this;
-  }
-
-  std::unique_ptr<ILayer> DenseLayer::clone() const {
-    return std::make_unique<DenseLayer>(*this);
   }
 
 };  // namespace neuro
