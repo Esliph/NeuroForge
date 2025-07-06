@@ -19,7 +19,7 @@ TEST_CASE("Tests for Individual class") {
 
   CHECK(individual.getFitness() == 0.0f);
 
-  individual.evaluateFitness([](const neuro::INeuralNetwork& network) {
+  individual.evaluateFitness([]([[maybe_unused]] const neuro::INeuralNetwork& network) {
     return 10.0f;
   });
 
