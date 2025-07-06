@@ -1,7 +1,13 @@
 BUILD_DIR = build
 CMAKE_GENERATOR = "MinGW Makefiles"
-CLEAN ?= 0
-RUN ?= 0
+CLEAN ?= 1
+RUN ?= 1
+TEST_TYPE ?= "unit"
+TEST_NAME ?= ""
+
+ifeq ($(TEST_TYPE),"unit")
+	TEST_NAME = "NeuroForgeMain"
+endif
 
 build:
 	@if [ "$(CLEAN)" -eq 1 ]; then \
@@ -34,12 +40,12 @@ tests:
 		rm -rf $(BUILD_DIR)/tests; \
 	fi
 
-	@cmake -B $(BUILD_DIR)/tests -G $(CMAKE_GENERATOR) -DENVIRONMENT=tests
+	@cmake -B $(BUILD_DIR)/tests -G $(CMAKE_GENERATOR) -DENVIRONMENT=tests -DTEST_TYPE=$(TEST_TYPE) -DTEST_NAME=$(TEST_NAME)
 	@cmake --build $(BUILD_DIR)/tests
 
 	@if [ "$(RUN)" -eq 1 ]; then \
 		echo "-- Running tests"; \
-		./$(BUILD_DIR)/tests/tests/NeuroForgeTests; \
+		./$(BUILD_DIR)/tests/tests/$(TEST_NAME); \
 	fi
 .PHONY: tests
 
