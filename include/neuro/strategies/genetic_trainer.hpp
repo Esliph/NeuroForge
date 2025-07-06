@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 
+#include "internal/attribute.hpp"
 #include "neuro/impl/dense_layer.hpp"
 #include "neuro/impl/individual.hpp"
 #include "neuro/impl/neural_network.hpp"
@@ -31,28 +32,28 @@ namespace neuro {
 
     virtual ~GeneticTrainer() = default;
 
-    inline void mutate(IIndividual& individual) const {
+    FORCE_INLINE void mutate(IIndividual& individual) const {
       for (auto& layer : individual) {
         mutateWeights(layer->getWeights());
         mutateBiases(layer->getBiases());
       }
     }
 
-    inline void mutate(INeuralNetwork& neuralNetwork) const {
+    FORCE_INLINE void mutate(INeuralNetwork& neuralNetwork) const {
       for (auto& layer : neuralNetwork) {
         mutateWeights(layer->getWeights());
         mutateBiases(layer->getBiases());
       }
     }
 
-    inline void mutate(std::vector<ILayer>& layers) const {
+    FORCE_INLINE void mutate(std::vector<ILayer>& layers) const {
       for (auto& layer : layers) {
         mutateWeights(layer.getWeights());
         mutateBiases(layer.getBiases());
       }
     }
 
-    inline void mutate(ILayer& layer) const {
+    FORCE_INLINE void mutate(ILayer& layer) const {
       mutateWeights(layer.getWeights());
       mutateBiases(layer.getBiases());
     }
@@ -60,11 +61,11 @@ namespace neuro {
     virtual void mutateWeights(layer_weight_t& layerWeights) const;
     virtual void mutateBiases(layer_bias_t& layerBiases) const;
 
-    inline std::unique_ptr<IIndividual> crossover(const IIndividual& partnerA, const IIndividual& partnerB) const {
+    FORCE_INLINE std::unique_ptr<IIndividual> crossover(const IIndividual& partnerA, const IIndividual& partnerB) const {
       return std::make_unique<Individual>(crossover(partnerA.getNeuralNetwork(), partnerB.getNeuralNetwork()));
     }
 
-    inline std::unique_ptr<INeuralNetwork> crossover(const INeuralNetwork& partnerA, const INeuralNetwork& partnerB) const {
+    FORCE_INLINE std::unique_ptr<INeuralNetwork> crossover(const INeuralNetwork& partnerA, const INeuralNetwork& partnerB) const {
       std::unique_ptr<INeuralNetwork> neuralNetwork = std::make_unique<NeuralNetwork>();
 
       for (size_t i = 0; i < partnerA.sizeLayers() && i < partnerB.sizeLayers(); i++) {
@@ -74,7 +75,7 @@ namespace neuro {
       return neuralNetwork;
     }
 
-    inline std::unique_ptr<INeuralNetwork> crossover(const std::vector<ILayer>& partnerA, const std::vector<ILayer>& partnerB) const {
+    FORCE_INLINE std::unique_ptr<INeuralNetwork> crossover(const std::vector<ILayer>& partnerA, const std::vector<ILayer>& partnerB) const {
       std::unique_ptr<INeuralNetwork> neuralNetwork = std::make_unique<NeuralNetwork>();
 
       for (size_t i = 0; i < partnerA.size() && i < partnerB.size(); i++) {
@@ -84,7 +85,7 @@ namespace neuro {
       return neuralNetwork;
     }
 
-    inline std::unique_ptr<ILayer> crossover(const ILayer& partnerA, const ILayer& partnerB) const {
+    FORCE_INLINE std::unique_ptr<ILayer> crossover(const ILayer& partnerA, const ILayer& partnerB) const {
       auto weights = crossoverWeights(partnerA.getWeights(), partnerB.getWeights());
       auto biases = crossoverBiases(partnerA.getBiases(), partnerB.getBiases());
 
