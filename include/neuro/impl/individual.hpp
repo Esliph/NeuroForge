@@ -119,11 +119,11 @@ namespace neuro {
       return feedforward(inputs);
     }
 
-    FORCE_INLINE const ILayer& operator[](int index) const override {
+    FORCE_INLINE const ILayer& operator[](size_t index) const override {
       return (*neuralNetwork)[index];
     }
 
-    FORCE_INLINE ILayer& operator[](int index) override {
+    FORCE_INLINE ILayer& operator[](size_t index) override {
       return (*neuralNetwork)[index];
     }
 

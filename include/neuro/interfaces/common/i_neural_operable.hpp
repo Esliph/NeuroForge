@@ -38,8 +38,8 @@ namespace neuro {
 
     virtual neuro_layer_t operator()(const neuro_layer_t& inputs) const = 0;
 
-    virtual const ILayer& operator[](int index) const = 0;
-    virtual ILayer& operator[](int index) = 0;
+    virtual const ILayer& operator[](size_t index) const = 0;
+    virtual ILayer& operator[](size_t index) = 0;
   };
 
 };  // namespace neuro

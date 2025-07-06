@@ -12,12 +12,12 @@
 
 namespace neuro {
 
-  DenseLayer::DenseLayer(int inputSize, int outputSize)
+  DenseLayer::DenseLayer(size_t inputSize, size_t outputSize)
       : ILayer(),
         weights(outputSize, neuro_layer_t(inputSize)),
         biases(outputSize) {}
 
-  DenseLayer::DenseLayer(int inputSize, int outputSize, const ActivationFunction& activation)
+  DenseLayer::DenseLayer(size_t inputSize, size_t outputSize, const ActivationFunction& activation)
       : ILayer(),
         weights(outputSize, neuro_layer_t(inputSize)),
         biases(outputSize),
@@ -65,9 +65,9 @@ namespace neuro {
   void DenseLayer::randomizeWeights(float min, float max) {
     std::uniform_real_distribution<float> dist(min, max);
 
-    for (auto& neurons : weights) {
-      for (auto& weight : neurons) {
-        weight = dist(random_engine);
+    for (size_t i = 0; i < weights.size(); i++) {
+      for (size_t j = 0; j < weights[i].size(); j++) {
+        weights[i][j] = dist(random_engine);
       }
     }
   }
@@ -75,8 +75,8 @@ namespace neuro {
   void DenseLayer::randomizeBiases(float min, float max) {
     std::uniform_real_distribution<float> dist(min, max);
 
-    for (auto& bias : biases) {
-      bias = dist(random_engine);
+    for (size_t i = 0; i < biases.size(); i++) {
+      biases[i] = dist(random_engine);
     }
   }
 

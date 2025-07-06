@@ -102,8 +102,8 @@ namespace neuro {
       return feedforward(inputs);
     }
 
-    const ILayer& operator[](int index) const override;
-    ILayer& operator[](int index) override;
+    const ILayer& operator[](size_t index) const override;
+    ILayer& operator[](size_t index) override;
 
     FORCE_INLINE std::unique_ptr<INeuralNetwork> clone() const override {
       return std::make_unique<NeuralNetwork>(*this);

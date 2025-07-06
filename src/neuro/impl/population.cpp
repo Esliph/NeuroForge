@@ -91,7 +91,7 @@ namespace neuro {
     return *individuals[index];
   }
 
-  const IIndividual& Population::operator[](int index) const {
+  const IIndividual& Population::operator[](size_t index) const {
     if (index >= individuals.size()) {
       throw exception::InvalidNetworkArchitectureException("Individual vector out-of-range index");
     }
@@ -99,7 +99,7 @@ namespace neuro {
     return *individuals[index];
   }
 
-  IIndividual& Population::operator[](int index) {
+  IIndividual& Population::operator[](size_t index) {
     if (index >= individuals.size()) {
       throw exception::InvalidNetworkArchitectureException("Individual vector out-of-range index");
     }

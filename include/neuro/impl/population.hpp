@@ -90,8 +90,8 @@ namespace neuro {
       return individuals.end();
     }
 
-    const IIndividual& operator[](int index) const override;
-    IIndividual& operator[](int index) override;
+    const IIndividual& operator[](size_t index) const override;
+    IIndividual& operator[](size_t index) override;
 
     FORCE_INLINE virtual std::unique_ptr<IPopulation> clone() const {
       return std::make_unique<Population>(*this);

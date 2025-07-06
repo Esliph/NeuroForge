@@ -20,8 +20,8 @@ namespace neuro {
     DenseLayer(const DenseLayer&) = default;
 
     DenseLayer(const ActivationFunction& activation);
-    DenseLayer(int inputSize, int outputSize);
-    DenseLayer(int inputSize, int outputSize, const ActivationFunction& activation);
+    DenseLayer(size_t inputSize, size_t outputSize);
+    DenseLayer(size_t inputSize, size_t outputSize, const ActivationFunction& activation);
     DenseLayer(const layer_weight_t& weights, const ActivationFunction& activation);
     DenseLayer(const layer_weight_t& weights, const layer_bias_t& biases, const ActivationFunction& activation);
 
