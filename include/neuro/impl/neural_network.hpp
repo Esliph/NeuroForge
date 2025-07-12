@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <memory>
 #include <vector>
 
@@ -16,9 +17,14 @@ namespace neuro {
    public:
     NeuralNetwork() = default;
     NeuralNetwork(const NeuralNetwork&);
+    NeuralNetwork(NeuralNetwork&&) noexcept = default;
 
+    NeuralNetwork(std::initializer_list<ILayer*> layers);
+    NeuralNetwork(const std::vector<ILayer*>& layers);
     NeuralNetwork(std::vector<std::unique_ptr<ILayer>>& layers);
-    NeuralNetwork(const std::vector<ILayer>& layers);
+    NeuralNetwork(std::vector<std::unique_ptr<ILayer>>&& layers);
+    NeuralNetwork(const std::vector<std::function<std::unique_ptr<ILayer>()>>& factories);
+    NeuralNetwork(const std::function<std::unique_ptr<ILayer>()>& factory, size_t size = 1);
     NeuralNetwork(const std::vector<int>& structure, const ActivationFunction& activation);
     NeuralNetwork(const std::vector<int>& structure, const std::vector<ActivationFunction>& activations);
 

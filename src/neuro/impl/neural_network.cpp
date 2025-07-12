@@ -15,21 +15,44 @@ namespace neuro {
   NeuralNetwork::NeuralNetwork(const NeuralNetwork& neuralNetwork)
       : INeuralNetwork() {
     for (size_t i = 0; i < neuralNetwork.sizeLayers(); i++) {
-      layers.push_back(std::move(neuralNetwork[i].clone()));
+      layers.push_back(neuralNetwork[i].clone());
+    }
+  }
+
+  NeuralNetwork::NeuralNetwork(std::initializer_list<ILayer*> layers)
+      : INeuralNetwork() {
+    for (const auto* layer : layers) {
+      this->layers.push_back(layer->clone());
     }
   }
 
   NeuralNetwork::NeuralNetwork(std::vector<std::unique_ptr<ILayer>>& layers)
       : INeuralNetwork() {
     for (size_t i = 0; i < layers.size(); i++) {
-      layers.push_back(std::move(layers[i]));
+      this->layers.push_back(std::move(layers[i]));
     }
   }
 
-  NeuralNetwork::NeuralNetwork(const std::vector<ILayer>& layers)
+  NeuralNetwork::NeuralNetwork(std::vector<std::unique_ptr<ILayer>>&& layers)
+      : INeuralNetwork(),
+        layers(std::move(layers)) {}
+
+  NeuralNetwork::NeuralNetwork(const std::vector<ILayer*>& layers)
       : INeuralNetwork() {
     for (size_t i = 0; i < layers.size(); i++) {
-      this->layers.push_back(std::move(layers[i].clone()));
+      this->layers.push_back(layers[i]->clone());
+    }
+  }
+
+  NeuralNetwork::NeuralNetwork(const std::vector<std::function<std::unique_ptr<ILayer>()>>& factories) {
+    for (auto& f : factories) {
+      layers.push_back(f());
+    }
+  }
+
+  NeuralNetwork::NeuralNetwork(const std::function<std::unique_ptr<ILayer>()>& factory, size_t size) {
+    for (size_t i = 0; i < size; i++) {
+      layers.push_back(factory());
     }
   }
 
