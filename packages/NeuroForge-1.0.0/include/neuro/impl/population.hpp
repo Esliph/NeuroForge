@@ -55,8 +55,8 @@ namespace neuro {
     std::vector<std::shared_ptr<IIndividual>>::const_iterator end() const override;
     std::vector<std::shared_ptr<IIndividual>>::iterator end() override;
 
-    const IIndividual& operator[](int index) const override;
-    IIndividual& operator[](int index) override;
+    const IIndividual& operator[](size_t index) const override;
+    IIndividual& operator[](size_t index) override;
 
     virtual std::unique_ptr<IPopulation> clone() const;
   };

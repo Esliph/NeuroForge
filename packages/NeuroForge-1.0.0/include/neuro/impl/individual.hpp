@@ -64,8 +64,8 @@ namespace neuro {
 
     neuro_layer_t operator()(const neuro_layer_t& inputs) const override;
 
-    const ILayer& operator[](int index) const override;
-    ILayer& operator[](int index) override;
+    const ILayer& operator[](size_t index) const override;
+    ILayer& operator[](size_t index) override;
 
     std::unique_ptr<IIndividual> clone() const override;
   };
