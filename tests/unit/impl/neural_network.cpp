@@ -1,7 +1,5 @@
 #include <doctest/doctest.h>
 
-#include <iostream>
-
 #include "neuro/neuro.hpp"
 
 TEST_CASE("Tests for NeuralNetwork class") {

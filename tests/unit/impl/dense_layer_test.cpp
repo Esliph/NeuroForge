@@ -1,6 +1,10 @@
+#include "neuro/impl/dense_layer.hpp"
+
 #include <doctest/doctest.h>
 
-#include "neuro/neuro.hpp"
+#include "neuro/exceptions/invalid_network_architecture_exception.hpp"
+#include "neuro/interfaces/i_layer.hpp"
+#include "neuro/makers/activation.hpp"
 
 void checkEqualLayers(neuro::ILayer& layerA, neuro::ILayer& layerB) {
   CHECK(layerA.getWeights() == layerB.getWeights());
