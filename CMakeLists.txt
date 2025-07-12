@@ -3,7 +3,7 @@ project(NeuroForge VERSION 1.0.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/packages/NeuroForge-${PROJECT_VERSION}" CACHE PATH "Install path prefix" FORCE)
+set(CMAKE_INSTALL_PREFIX "${PROJECT_SOURCE_DIR}/packages/NeuroForge-${PROJECT_VERSION}" CACHE PATH "Install path prefix" FORCE)
 
 set(ENVIRONMENT "production" CACHE STRING "Define the environment")
 
@@ -95,11 +95,15 @@ if(INSTALL_TARGET)
 endif()
 
 if(ENABLE_TEST)
-  include_directories(include)
-  add_subdirectory(tests)
+  include_directories(${PROJECT_SOURCE_DIR}/include)
+  add_subdirectory(${PROJECT_SOURCE_DIR}/tests)
 endif()
 
 if(MAKE_EXECUTABLE)
-  include_directories(include)
   add_executable(NeuroForgeMain ${SOURCES} src/main.cpp)
+
+  target_include_directories(NeuroForgeMain
+    PRIVATE
+    ${PROJECT_SOURCE_DIR}/include
+  )
 endif()

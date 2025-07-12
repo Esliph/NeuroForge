@@ -40,7 +40,7 @@ tests:
 		rm -rf $(BUILD_DIR)/tests; \
 	fi
 
-	@cmake -B $(BUILD_DIR)/tests -G $(CMAKE_GENERATOR) -DENVIRONMENT=tests -DTEST_TYPE=$(TEST_TYPE) -DTEST_NAME=$(TEST_NAME)
+	@cmake -S . -B $(BUILD_DIR)/tests -G $(CMAKE_GENERATOR) -DENVIRONMENT=tests -DTEST_TYPE=$(TEST_TYPE) -DTEST_NAME=$(TEST_NAME)
 	@cmake --build $(BUILD_DIR)/tests
 
 	@if [ "$(RUN)" -eq 1 ]; then \

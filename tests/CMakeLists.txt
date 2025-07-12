@@ -5,9 +5,9 @@ set(TEST_NAME "" CACHE STRING "Test name when test type is \"perf\" or \"opt\"")
 
 message(STATUS "Executing test type ${TEST_TYPE} - test name \"${TEST_NAME}\"")
 
-if(TEST_TYPE STREQUAL "unit")
-  include(FetchContent)
+include(FetchContent)
 
+if(TEST_TYPE STREQUAL "unit")
   FetchContent_Declare(
     doctest
     GIT_REPOSITORY https://github.com/doctest/doctest.git
@@ -44,7 +44,6 @@ else()
 
   if(TEST_TYPE STREQUAL "perf")
     set(TEST_FILE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/performance/${TEST_NAME}.cpp)
-
   elseif(TEST_TYPE STREQUAL "opt")
     set(TEST_FILE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/optimization/${TEST_NAME}.cpp)
   endif()
@@ -54,6 +53,11 @@ else()
   endif()
 
   add_executable(${TEST_NAME} ${TEST_FILE_PATH})
-  target_link_libraries(${TEST_NAME} PRIVATE NeuroForge)
+
+  target_include_directories(${TEST_NAME}
+    PRIVATE
+    ${PROJECT_SOURCE_DIR}/include
+    ${PROJECT_SOURCE_DIR}/tests/common
+  )
 
 endif()
