@@ -6,7 +6,7 @@ TEST_TYPE ?= "unit"
 TEST_NAME ?= ""
 
 ifeq ($(TEST_TYPE),"unit")
-	TEST_NAME = "NeuroForgeMain"
+	TEST_NAME = "NeuroForgeTests"
 endif
 
 build:

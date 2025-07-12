@@ -18,18 +18,19 @@ if(TEST_TYPE STREQUAL "unit")
 
   file(GLOB_RECURSE TEST_SOURCES
     CONFIGURE_DEPENDS
-    ${CMAKE_CURRENT_SOURCE_DIR}/unit/*.cpp
+    ${PROJECT_SOURCE_DIR}/tests/unit/*.cpp
   )
 
   add_executable(NeuroForgeTests ${TEST_SOURCES})
 
   target_include_directories(NeuroForgeTests
-    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../include
+    PRIVATE ${PROJECT_SOURCE_DIR}/include
   )
 
   target_link_libraries(NeuroForgeTests
-    PRIVATE doctest::doctest
-    PRIVATE NeuroForge
+    PRIVATE
+    doctest::doctest
+    NeuroForge
   )
 
   enable_testing()
@@ -53,6 +54,10 @@ else()
   endif()
 
   add_executable(${TEST_NAME} ${TEST_FILE_PATH})
+
+  target_link_libraries(${TEST_NAME}
+    PRIVATE NeuroForge
+  )
 
   target_include_directories(${TEST_NAME}
     PRIVATE
