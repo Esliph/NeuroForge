@@ -33,7 +33,7 @@ namespace neuro {
     virtual ~GeneticTrainer() = default;
 
     FORCE_INLINE void mutate(IIndividual& individual) const {
-      for (auto& layer : individual) {
+      for (auto& layer : individual.getNeuralNetwork()) {
         mutateWeights(layer->getWeights());
         mutateBiases(layer->getBiases());
       }

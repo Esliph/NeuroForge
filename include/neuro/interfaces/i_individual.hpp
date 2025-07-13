@@ -3,13 +3,12 @@
 #include <functional>
 #include <memory>
 
-#include "neuro/interfaces/common/i_neural_operable.hpp"
 #include "neuro/interfaces/i_layer.hpp"
 #include "neuro/interfaces/i_neural_network.hpp"
 
 namespace neuro {
 
-  class IIndividual : public INeuralOperable {
+  class IIndividual {
    public:
     IIndividual() = default;
     virtual ~IIndividual() = default;

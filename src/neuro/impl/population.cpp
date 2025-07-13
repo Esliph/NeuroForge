@@ -41,13 +41,13 @@ namespace neuro {
 
   void Population::randomizeWeights(float min, float max) {
     for (const auto& individual : individuals) {
-      individual->randomizeWeights(min, max);
+      individual->getNeuralNetwork().randomizeWeights(min, max);
     }
   }
 
   void Population::randomizeBiases(float min, float max) {
     for (const auto& individual : individuals) {
-      individual->randomizeBiases(min, max);
+      individual->getNeuralNetwork().randomizeBiases(min, max);
     }
   }
 
