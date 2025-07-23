@@ -32,12 +32,31 @@ namespace neuro {
 
     neuro_layer_t feedforward(const neuro_layer_t& inputs) const override;
 
+    void randomizeWeights(float min, float max) override;
+    void randomizeBiases(float min, float max) override;
+
+    FORCE_INLINE void addLayers(std::vector<std::unique_ptr<ILayer>>&& layers) override {
+      for (size_t i = 0; i < layers.size(); i++) {
+        this->layers.push_back(std::move(layers[i]));
+      }
+    }
+
     FORCE_INLINE void addLayer(std::unique_ptr<ILayer> layer) override {
       layers.push_back(std::move(layer));
     }
 
-    FORCE_INLINE void addLayer(ILayer* layer) override {
-      layers.push_back(std::unique_ptr<ILayer>(layer));
+    FORCE_INLINE void addLayer(const ILayer* layer) override {
+      layers.push_back(layer->clone());
+    }
+
+    FORCE_INLINE void addLayer(std::function<std::unique_ptr<ILayer>()> factory, size_t size) override {
+      for (size_t i = 0; i < size; i++) {
+        layers.push_back(factory());
+      }
+    }
+
+    FORCE_INLINE void addLayer(std::function<std::unique_ptr<ILayer>()> factory) override {
+      layers.push_back(factory());
     }
 
     void reset() override;
@@ -52,9 +71,6 @@ namespace neuro {
       layers.pop_back();
     }
 
-    void randomizeWeights(float min, float max) override;
-    void randomizeBiases(float min, float max) override;
-
     FORCE_INLINE size_t inputSize() const override {
       return layers.empty() ? 0 : layers[0]->inputSize();
     }
@@ -62,9 +78,6 @@ namespace neuro {
     FORCE_INLINE size_t outputSize() const override {
       return layers.empty() ? 0 : layers[layers.size() - 1]->outputSize();
     }
-
-    void setAllWeights(const std::vector<layer_weight_t>&) override;
-    void setAllBiases(const std::vector<layer_bias_t>&) override;
 
     FORCE_INLINE void setLayers(std::vector<std::unique_ptr<ILayer>> layers) override {
       this->layers = std::move(layers);

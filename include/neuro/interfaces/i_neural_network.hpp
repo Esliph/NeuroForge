@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <memory>
 #include <vector>
 
@@ -18,8 +19,11 @@ namespace neuro {
     virtual void randomizeWeights(float min, float max) = 0;
     virtual void randomizeBiases(float min, float max) = 0;
 
+    virtual void addLayers(std::vector<std::unique_ptr<ILayer>>&&) = 0;
     virtual void addLayer(std::unique_ptr<ILayer>) = 0;
-    virtual void addLayer(ILayer*) = 0;
+    virtual void addLayer(const ILayer*) = 0;
+    virtual void addLayer(std::function<std::unique_ptr<ILayer>()> factory, size_t size) = 0;
+    virtual void addLayer(std::function<std::unique_ptr<ILayer>()> factory) = 0;
 
     virtual void reset() = 0;
 
