@@ -33,9 +33,6 @@ namespace neuro {
 
     virtual size_t sizeLayers() const = 0;
 
-    virtual void setAllWeights(const std::vector<layer_weight_t>&) = 0;
-    virtual void setAllBiases(const std::vector<layer_bias_t>&) = 0;
-
     virtual void setLayers(std::vector<std::unique_ptr<ILayer>>) = 0;
 
     virtual const std::vector<std::unique_ptr<ILayer>>& getLayers() const = 0;

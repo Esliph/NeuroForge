@@ -106,18 +106,6 @@ namespace neuro {
     }
   }
 
-  void NeuralNetwork::setAllWeights(const std::vector<layer_weight_t>& allWeights) {
-    for (size_t i = 0; i < layers.size() && i < allWeights.size(); i++) {
-      layers[i]->setWeights(allWeights[i]);
-    }
-  }
-
-  void NeuralNetwork::setAllBiases(const std::vector<layer_bias_t>& allBiases) {
-    for (size_t i = 0; i < layers.size() && i < allBiases.size(); i++) {
-      layers[i]->setBiases(allBiases[i]);
-    }
-  }
-
   std::vector<layer_weight_t> NeuralNetwork::getAllWeights() const {
     std::vector<layer_weight_t> allWeights;
 
