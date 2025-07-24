@@ -58,6 +58,12 @@ namespace neuro {
           [](float y) { return (y > 0.0f && y < 1.0f) ? 0.2f : 0.0f; }};
     }
 
+    FORCE_INLINE ActivationFunction makeIdentity() {
+      return {
+          [](float x) { return x; },
+          [](float) { return 1.0f; }};
+    }
+
   };  // namespace maker
 
 };  // namespace neuro
