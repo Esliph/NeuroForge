@@ -106,6 +106,14 @@ namespace neuro {
     }
   }
 
+  void NeuralNetwork::setLayer(size_t index, std::unique_ptr<ILayer> layer) {
+    if (index >= layers.size()) {
+      throw exception::InvalidNetworkArchitectureException("Layer vector out-of-range index");
+    }
+
+    layers[index] = std::move(layer);
+  }
+
   std::vector<layer_weight_t> NeuralNetwork::getAllWeights() const {
     std::vector<layer_weight_t> allWeights;
 

@@ -83,6 +83,8 @@ namespace neuro {
       this->layers = std::move(layers);
     }
 
+    void setLayer(size_t index, std::unique_ptr<ILayer>) override;
+
     std::vector<layer_weight_t> getAllWeights() const override;
     std::vector<layer_bias_t> getAllBiases() const override;
 
