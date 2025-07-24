@@ -92,3 +92,16 @@ TEST_CASE("Activation - Hard Sigmoid") {
   CHECK(hard_sigmoid.derivate(-1.0f) == doctest::Approx(0.0f));
   CHECK(hard_sigmoid.derivate(1.0f) == doctest::Approx(0.0f));
 }
+
+TEST_CASE("Activation - Identity") {
+  auto identity(neuro::maker::makeIdentity());
+
+  CHECK(identity.activate(-10.0f) == doctest::Approx(-10.0f));
+  CHECK(identity.activate(0.0f) == doctest::Approx(0.0f));
+  CHECK(identity.activate(10.0f) == doctest::Approx(10.0f));
+
+  CHECK(identity.derivate(0.0f) == doctest::Approx(1.0f));
+  CHECK(identity.derivate(0.5f) == doctest::Approx(1.0f));
+  CHECK(identity.derivate(-1.0f) == doctest::Approx(1.0f));
+  CHECK(identity.derivate(1.0f) == doctest::Approx(1.0f));
+}
