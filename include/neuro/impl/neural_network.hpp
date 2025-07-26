@@ -25,6 +25,7 @@ namespace neuro {
     NeuralNetwork(std::vector<std::unique_ptr<ILayer>>&& layers);
     NeuralNetwork(const std::vector<std::function<std::unique_ptr<ILayer>()>>& factories);
     NeuralNetwork(const std::function<std::unique_ptr<ILayer>()>& factory, size_t size = 1);
+    NeuralNetwork(const std::vector<int>& structure);
     NeuralNetwork(const std::vector<int>& structure, const ActivationFunction& activation);
     NeuralNetwork(const std::vector<int>& structure, const std::vector<ActivationFunction>& activations);
 
@@ -65,10 +66,14 @@ namespace neuro {
       layers.clear();
     }
 
-    FORCE_INLINE void removeLayer(size_t index) override;
+    void removeLayer(size_t index) override;
 
     FORCE_INLINE void popLayer() override {
       layers.pop_back();
+    }
+
+    FORCE_INLINE void shiftLayer() override {
+      layers.erase(layers.begin());
     }
 
     FORCE_INLINE size_t inputSize() const override {

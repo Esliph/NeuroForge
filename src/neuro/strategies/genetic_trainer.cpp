@@ -106,7 +106,7 @@ namespace neuro {
     return newPopulation;
   }
 
-  std::vector<IIndividual> GeneticTrainer::evolve(const std::vector<IIndividual>& individuals) const {
+  std::vector<IIndividual> GeneticTrainer::evolve([[maybe_unused]] const std::vector<IIndividual>& individuals) const {
     return std::vector<IIndividual>();
   }
 
@@ -120,7 +120,7 @@ namespace neuro {
     int idx1 = std::rand() % population.size();
     int idx2 = std::rand() % population.size();
 
-    auto& individualA = population[idx1];
+    [[maybe_unused]] auto& individualA = population[idx1];
 
     if (population[idx1].getFitness() > population[idx2].getFitness()) {
       return &population[idx1];
@@ -129,7 +129,7 @@ namespace neuro {
     return &population[idx2];
   }
 
-  const IIndividual* GeneticTrainer::select(const std::vector<IIndividual>& individuals) const {
+  const IIndividual* GeneticTrainer::select([[maybe_unused]] const std::vector<IIndividual>& individuals) const {
     return nullptr;
   }
 
