@@ -5,7 +5,6 @@
 #include <vector>
 
 #include "neuro/utils/activation.hpp"
-#include "neuro/utils/ref_proxy.hpp"
 
 namespace neuro {
 
@@ -29,8 +28,11 @@ namespace neuro {
     virtual size_t inputSize() const = 0;
     virtual size_t outputSize() const = 0;
 
-    virtual RefProxy<float> weight(size_t indexX, size_t indexY) = 0;
-    virtual RefProxy<float> bias(size_t index) = 0;
+    virtual float& weight(size_t indexX, size_t indexY) = 0;
+    virtual float& bias(size_t index) = 0;
+
+    virtual const float& weight(size_t indexX, size_t indexY) const = 0;
+    virtual const float& bias(size_t index) const = 0;
 
     virtual void setActivationFunction(const ActivationFunction&) = 0;
 
