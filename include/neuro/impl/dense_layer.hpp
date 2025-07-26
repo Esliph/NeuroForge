@@ -5,7 +5,6 @@
 #include "internal/attribute.hpp"
 #include "neuro/interfaces/i_layer.hpp"
 #include "neuro/utils/activation.hpp"
-#include "neuro/utils/ref_proxy.hpp"
 
 namespace neuro {
 
@@ -42,8 +41,11 @@ namespace neuro {
       return weights.size();
     }
 
-    RefProxy<float> weight(size_t indexX, size_t indexY) override;
-    RefProxy<float> bias(size_t index) override;
+    float& weight(size_t indexX, size_t indexY) override;
+    float& bias(size_t index) override;
+
+    const float& weight(size_t indexX, size_t indexY) const override;
+    const float& bias(size_t index) const override;
 
     FORCE_INLINE void setActivationFunction(const ActivationFunction& activation) override {
       this->activation = activation;
@@ -85,6 +87,10 @@ namespace neuro {
     FORCE_INLINE std::unique_ptr<ILayer> clone() const override {
       return std::make_unique<DenseLayer>(*this);
     }
+
+   private:
+    void checkWeightIndex(size_t indexX, size_t indexY) const;
+    void checkBiasIndex(size_t index) const;
   };
 
 };  // namespace neuro
