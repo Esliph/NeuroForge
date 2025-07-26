@@ -41,11 +41,11 @@ namespace neuro {
       return weights.size();
     }
 
-    float& weight(size_t indexX, size_t indexY) override;
-    float& bias(size_t index) override;
+    float& weightRef(size_t indexX, size_t indexY) override;
+    float& biasRef(size_t index) override;
 
-    const float& weight(size_t indexX, size_t indexY) const override;
-    const float& bias(size_t index) const override;
+    const float& weightRef(size_t indexX, size_t indexY) const override;
+    const float& biasRef(size_t index) const override;
 
     FORCE_INLINE void setActivationFunction(const ActivationFunction& activation) override {
       this->activation = activation;
