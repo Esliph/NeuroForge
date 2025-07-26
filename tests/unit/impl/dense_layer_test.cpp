@@ -84,11 +84,11 @@ TEST_CASE("DenseLayer - Set/Get weights and biases") {
   CHECK(layer.getBiases() == biasesComparison);
 }
 
-TEST_CASE("DenseLayer - Change testing via RefProxy") {
+TEST_CASE("DenseLayer - Change testing via reference") {
   neuro::DenseLayer layer(1, 2, neuro::maker::makeSigmoid());
 
-  auto weightProxy = layer.weight(1, 0);
-  auto biasProxy = layer.bias(0);
+  auto& weightProxy = layer.weight(1, 0);
+  auto& biasProxy = layer.bias(0);
 
   weightProxy = 0.75f;
   biasProxy = 0.5f;

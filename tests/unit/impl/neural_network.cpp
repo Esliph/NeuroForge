@@ -348,13 +348,13 @@ TEST_CASE("NeuralNetwork - Copy") {
   checkEqualNeuralNetwork(original, copy);
 }
 
-TEST_CASE("NeuralNetwork - Change testing via RefProxy") {
+TEST_CASE("NeuralNetwork - Change testing via reference") {
   neuro::NeuralNetwork network({1, 2, 3}, neuro::maker::makeSigmoid());
 
   auto& layer = network[0];
 
-  auto weightProxy = layer.weight(1, 0);
-  auto biasProxy = layer.bias(0);
+  auto& weightProxy = layer.weight(1, 0);
+  auto& biasProxy = layer.bias(0);
 
   weightProxy = 0.75f;
   biasProxy = 0.5f;
