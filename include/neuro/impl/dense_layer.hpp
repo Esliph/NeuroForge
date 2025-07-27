@@ -47,8 +47,34 @@ namespace neuro {
     const float& weightRef(size_t indexX, size_t indexY) const override;
     const float& biasRef(size_t index) const override;
 
+    FORCE_INLINE const ActivationFunction& getActivationFunction() const override {
+      return activation;
+    }
+
     FORCE_INLINE void setActivationFunction(const ActivationFunction& activation) override {
       this->activation = activation;
+    }
+
+    FORCE_INLINE float getWeight(size_t indexX, size_t indexY) const override;
+    FORCE_INLINE float getBias(size_t index) const override;
+
+    void setWeight(size_t indexX, size_t indexY, float value) override;
+    void setBias(size_t index, float value) override;
+
+    FORCE_INLINE layer_weight_t& getWeights() override {
+      return weights;
+    }
+
+    FORCE_INLINE layer_bias_t& getBiases() override {
+      return biases;
+    }
+
+    FORCE_INLINE const layer_weight_t& getWeights() const override {
+      return weights;
+    }
+
+    FORCE_INLINE const layer_bias_t& getBiases() const override {
+      return biases;
     }
 
     FORCE_INLINE void setWeights(const layer_weight_t& weights) override {
@@ -59,34 +85,11 @@ namespace neuro {
       this->biases = biases;
     }
 
-    void setWeight(size_t indexX, size_t indexY, float value) override;
-    void setBias(size_t index, float value) override;
-
-    FORCE_INLINE const layer_weight_t& getWeights() const override {
-      return weights;
-    }
-
-    FORCE_INLINE const layer_bias_t& getBiases() const override {
-      return biases;
-    }
-
-    FORCE_INLINE layer_weight_t& getWeights() override {
-      return weights;
-    }
-
-    FORCE_INLINE layer_bias_t& getBiases() override {
-      return biases;
-    }
-
-    FORCE_INLINE const ActivationFunction& getActivationFunction() const override {
-      return activation;
-    }
-
-    ILayer& operator=(const ILayer&);
-
     FORCE_INLINE std::unique_ptr<ILayer> clone() const override {
       return std::make_unique<DenseLayer>(*this);
     }
+
+    ILayer& operator=(const ILayer&);
 
    private:
     void checkWeightIndex(size_t indexX, size_t indexY) const;

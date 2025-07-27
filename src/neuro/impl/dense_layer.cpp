@@ -89,6 +89,16 @@ namespace neuro {
     return biases[index];
   }
 
+  float DenseLayer::getWeight(size_t indexX, size_t indexY) const {
+    checkWeightIndex(indexX, indexY);
+    return weights[indexX][indexY];
+  }
+
+  float DenseLayer::getBias(size_t index) const {
+    checkBiasIndex(index);
+    return biases[index];
+  }
+
   const float& DenseLayer::weightRef(size_t indexX, size_t indexY) const {
     checkWeightIndex(indexX, indexY);
     return weights[indexX][indexY];
