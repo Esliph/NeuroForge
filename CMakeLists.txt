@@ -37,6 +37,7 @@ elseif(ENVIRONMENT STREQUAL "development")
 
   set(VERBOSE_CODE_COMPILATION ON)
   set(MAKE_EXECUTABLE ON)
+  set(ENABLE_COVERAGE ON)
 
 endif()
 

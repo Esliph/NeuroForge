@@ -38,6 +38,16 @@ if(TEST_TYPE STREQUAL "unit")
     COMMAND NeuroForgeTests --success --durations yes --exitcode
   )
 
+  if(ENABLE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    message(STATUS "Test coverage activated")
+
+    target_compile_options(NeuroForge PUBLIC --coverage -O0 -g)
+    target_link_options(NeuroForge PUBLIC --coverage)
+
+    target_compile_options(NeuroForgeTests PRIVATE --coverage -O0 -g)
+    target_link_options(NeuroForgeTests PRIVATE --coverage)
+  endif()
+
 else()
   if(TEST_NAME STREQUAL "")
     message(FATAL_ERROR "To run performance or optimization tests you must enter the \"TEST_NAME\"")
