@@ -1,5 +1,14 @@
+ifeq ($(OS),Windows_NT)
+		ifeq ($(findstring Microsoft,$(shell uname -r)),Microsoft)
+				CMAKE_GENERATOR := "Unix Makefiles"
+		else
+				CMAKE_GENERATOR := "MinGW Makefiles"
+		endif
+else
+		CMAKE_GENERATOR := "Unix Makefiles"
+endif
+
 BUILD_DIR = build
-CMAKE_GENERATOR = "MinGW Makefiles"
 CLEAN ?= 1
 RUN ?= 1
 TEST_TYPE ?= "unit"
