@@ -24,7 +24,7 @@ namespace neuro {
 
    public:
     Measure(const std::string& name = "")
-        : name(name) {}
+      : name(name) {}
 
     void start() {
       if (running) {
@@ -117,4 +117,4 @@ namespace neuro {
     }
   };
 
-};  // namespace neuro
+}; // namespace neuro

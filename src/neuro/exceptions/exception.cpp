@@ -7,12 +7,13 @@ namespace neuro {
 
   namespace exception {
 
-    NeuroException::NeuroException(const std::string& message) : message(message) {}
+    NeuroException::NeuroException(const std::string& message)
+      : message(message) {}
 
     const char* NeuroException::what() const noexcept {
       return message.c_str();
     }
 
-  };  // namespace exception
+  }; // namespace exception
 
-};  // namespace neuro
+}; // namespace neuro

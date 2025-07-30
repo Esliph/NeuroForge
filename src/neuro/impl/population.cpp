@@ -25,7 +25,7 @@ namespace neuro {
   }
 
   Population::Population(std::vector<std::shared_ptr<IIndividual>>& individuals)
-      : individuals(std::move(individuals)) {}
+    : individuals(std::move(individuals)) {}
 
   Population::Population(size_t size, const std::vector<int>& structure, const ActivationFunction& activation) {
     for (size_t i = 0; i < size; i++) {
@@ -106,4 +106,4 @@ namespace neuro {
 
     return *individuals[index];
   }
-};  // namespace neuro
+}; // namespace neuro

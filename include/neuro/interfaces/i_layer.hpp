@@ -25,6 +25,9 @@ namespace neuro {
     virtual void randomizeWeights(float min, float max) = 0;
     virtual void randomizeBiases(float min, float max) = 0;
 
+    virtual float meanWeight() const = 0;
+    virtual float meanBias() const = 0;
+
     virtual size_t inputSize() const = 0;
     virtual size_t outputSize() const = 0;
 
@@ -56,4 +59,4 @@ namespace neuro {
     virtual std::unique_ptr<ILayer> clone() const = 0;
   };
 
-};  // namespace neuro
+}; // namespace neuro

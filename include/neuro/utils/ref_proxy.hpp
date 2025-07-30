@@ -8,7 +8,8 @@ namespace neuro {
 
    public:
     RefProxy() = delete;
-    RefProxy(T& value) : ref(value) {}
+    RefProxy(T& value)
+      : ref(value) {}
 
     operator T() const {
       return ref;
@@ -39,4 +40,4 @@ namespace neuro {
     }
   };
 
-};  // namespace neuro
+}; // namespace neuro

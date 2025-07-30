@@ -3,7 +3,7 @@
 #include "neuro/neuro.hpp"
 
 TEST_CASE("Tests for Individual class") {
-  neuro::Individual individual({2, 3, 1}, neuro::maker::makeSigmoid());
+  neuro::Individual individual({ 2, 3, 1 }, neuro::maker::makeSigmoid());
 
   auto& network = individual.getNeuralNetwork();
 
@@ -19,9 +19,7 @@ TEST_CASE("Tests for Individual class") {
 
   CHECK(individual.getFitness() == 0.0f);
 
-  individual.evaluateFitness([]([[maybe_unused]] const neuro::INeuralNetwork& network) {
-    return 10.0f;
-  });
+  individual.evaluateFitness([]([[maybe_unused]] const neuro::INeuralNetwork& network) { return 10.0f; });
 
   CHECK(individual.getFitness() == 10.0f);
 }

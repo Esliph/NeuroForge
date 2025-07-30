@@ -50,4 +50,4 @@ namespace neuro {
     virtual std::unique_ptr<IPopulation> clone() const = 0;
   };
 
-};  // namespace neuro
+}; // namespace neuro

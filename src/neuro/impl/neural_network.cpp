@@ -13,32 +13,32 @@
 namespace neuro {
 
   NeuralNetwork::NeuralNetwork(const NeuralNetwork& neuralNetwork)
-      : INeuralNetwork() {
+    : INeuralNetwork() {
     for (size_t i = 0; i < neuralNetwork.sizeLayers(); i++) {
       layers.push_back(neuralNetwork[i].clone());
     }
   }
 
   NeuralNetwork::NeuralNetwork(std::initializer_list<ILayer*> layers)
-      : INeuralNetwork() {
+    : INeuralNetwork() {
     for (const auto* layer : layers) {
       this->layers.push_back(layer->clone());
     }
   }
 
   NeuralNetwork::NeuralNetwork(std::vector<std::unique_ptr<ILayer>>& layers)
-      : INeuralNetwork() {
+    : INeuralNetwork() {
     for (size_t i = 0; i < layers.size(); i++) {
       this->layers.push_back(std::move(layers[i]));
     }
   }
 
   NeuralNetwork::NeuralNetwork(std::vector<std::unique_ptr<ILayer>>&& layers)
-      : INeuralNetwork(),
-        layers(std::move(layers)) {}
+    : INeuralNetwork(),
+      layers(std::move(layers)) {}
 
   NeuralNetwork::NeuralNetwork(const std::vector<ILayer*>& layers)
-      : INeuralNetwork() {
+    : INeuralNetwork() {
     for (size_t i = 0; i < layers.size(); i++) {
       this->layers.push_back(layers[i]->clone());
     }
@@ -56,13 +56,15 @@ namespace neuro {
     }
   }
 
-  NeuralNetwork::NeuralNetwork(const std::vector<int>& structure) : INeuralNetwork() {
+  NeuralNetwork::NeuralNetwork(const std::vector<int>& structure)
+    : INeuralNetwork() {
     for (size_t i = 0; i < structure.size() - 1; i++) {
       layers.emplace_back(std::make_unique<DenseLayer>(structure[i], structure[i + 1]));
     }
   }
 
-  NeuralNetwork::NeuralNetwork(const std::vector<int>& structure, const ActivationFunction& activation) : INeuralNetwork() {
+  NeuralNetwork::NeuralNetwork(const std::vector<int>& structure, const ActivationFunction& activation)
+    : INeuralNetwork() {
     for (size_t i = 0; i < structure.size() - 1; i++) {
       layers.emplace_back(std::make_unique<DenseLayer>(structure[i], structure[i + 1], activation));
     }
@@ -172,4 +174,4 @@ namespace neuro {
     return *layers[index];
   }
 
-};  // namespace neuro
+}; // namespace neuro

@@ -9,8 +9,8 @@ namespace neuro {
   namespace exception {
 
     InvalidNetworkArchitectureException::InvalidNetworkArchitectureException(const std::string& message)
-        : NeuroException("Invalid Network Architecture: " + message) {}
+      : NeuroException("Invalid Network Architecture: " + message) {}
 
-  };  // namespace exception
+  }; // namespace exception
 
-};  // namespace neuro
+}; // namespace neuro

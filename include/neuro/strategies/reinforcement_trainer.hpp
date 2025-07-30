@@ -28,19 +28,21 @@ namespace neuro {
 
     virtual ~ReinforcementTrainer() = default;
 
-    virtual void train(IIndividual& individual,
-                       const neuro_layer_t& state,
-                       int action,
-                       float reward,
-                       const neuro_layer_t& nextState,
-                       bool done) const;
+    virtual void train(
+      IIndividual& individual,
+      const neuro_layer_t& state,
+      int action,
+      float reward,
+      const neuro_layer_t& nextState,
+      bool done) const;
 
-    virtual void train(INeuralNetwork& network,
-                       const neuro_layer_t& state,
-                       int action,
-                       float reward,
-                       const neuro_layer_t& nextState,
-                       bool done) const;
+    virtual void train(
+      INeuralNetwork& network,
+      const neuro_layer_t& state,
+      int action,
+      float reward,
+      const neuro_layer_t& nextState,
+      bool done) const;
 
     virtual void train(std::vector<ILayer>& layers,
                        const neuro_layer_t& state,
@@ -79,7 +81,9 @@ namespace neuro {
     virtual int selectAction(const IIndividual& individual, const neuro_layer_t& state) const;
     virtual int selectAction(const INeuralNetwork& network, const neuro_layer_t& state) const;
     virtual int selectAction(const std::vector<ILayer>& layers, const neuro_layer_t& state, const ActivationFunction& activation) const;
-    virtual int selectAction(const std::vector<ILayer>& layers, const neuro_layer_t& state, const std::vector<ActivationFunction>& activations) const;
+    virtual int selectAction(const std::vector<ILayer>& layers,
+                             const neuro_layer_t& state,
+                             const std::vector<ActivationFunction>& activations) const;
 
     virtual int selectAction(const std::vector<layer_weight_t>& weights,
                              const std::vector<layer_bias_t>& biases,
@@ -100,4 +104,4 @@ namespace neuro {
     virtual const ReinforcementOptions& getOptions() const;
   };
 
-};  // namespace neuro
+}; // namespace neuro

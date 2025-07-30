@@ -13,6 +13,6 @@ namespace neuro {
       explicit InvalidNetworkArchitectureException(const std::string& message);
     };
 
-  };  // namespace exception
+  }; // namespace exception
 
-};  // namespace neuro
+}; // namespace neuro

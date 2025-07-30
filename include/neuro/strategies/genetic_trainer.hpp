@@ -75,7 +75,8 @@ namespace neuro {
       return neuralNetwork;
     }
 
-    FORCE_INLINE std::unique_ptr<INeuralNetwork> crossover(const std::vector<ILayer>& partnerA, const std::vector<ILayer>& partnerB) const {
+    FORCE_INLINE std::unique_ptr<INeuralNetwork>
+      crossover(const std::vector<ILayer>& partnerA, const std::vector<ILayer>& partnerB) const {
       std::unique_ptr<INeuralNetwork> neuralNetwork = std::make_unique<NeuralNetwork>();
 
       for (size_t i = 0; i < partnerA.size() && i < partnerB.size(); i++) {
@@ -109,4 +110,4 @@ namespace neuro {
     virtual const GeneticOptions& getOptions() const;
   };
 
-};  // namespace neuro
+}; // namespace neuro

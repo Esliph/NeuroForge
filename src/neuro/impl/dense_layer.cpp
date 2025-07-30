@@ -12,31 +12,41 @@
 namespace neuro {
 
   DenseLayer::DenseLayer(size_t inputSize, size_t outputSize)
-      : ILayer(),
-        weights(outputSize, neuro_layer_t(inputSize)),
-        biases(outputSize) {}
+    : ILayer(),
+      weights(outputSize, neuro_layer_t(inputSize)),
+      biases(outputSize) {}
 
   DenseLayer::DenseLayer(size_t inputSize, size_t outputSize, const ActivationFunction& activation)
-      : ILayer(),
-        weights(outputSize, neuro_layer_t(inputSize)),
-        biases(outputSize),
-        activation(activation) {}
+    : ILayer(),
+      weights(outputSize, neuro_layer_t(inputSize)),
+      biases(outputSize),
+      activation(activation) {}
 
   DenseLayer::DenseLayer(const ActivationFunction& activation)
-      : ILayer(),
-        activation(activation) {}
+    : ILayer(),
+      activation(activation) {}
 
-  DenseLayer::DenseLayer(const layer_weight_t& weights, const layer_bias_t& biases, const ActivationFunction& activation)
-      : ILayer(),
-        weights(weights),
-        biases(biases),
-        activation(activation) {}
+  DenseLayer::DenseLayer(const layer_weight_t& weights)
+    : ILayer(),
+      weights(weights),
+      biases(weights.size()) {}
 
   DenseLayer::DenseLayer(const layer_weight_t& weights, const ActivationFunction& activation)
-      : ILayer(),
-        weights(weights),
-        biases(weights.size()),
-        activation(activation) {}
+    : ILayer(),
+      weights(weights),
+      biases(weights.size()),
+      activation(activation) {}
+
+  DenseLayer::DenseLayer(const layer_weight_t& weights, const layer_bias_t& biases)
+    : ILayer(),
+      weights(weights),
+      biases(biases) {}
+
+  DenseLayer::DenseLayer(const layer_weight_t& weights, const layer_bias_t& biases, const ActivationFunction& activation)
+    : ILayer(),
+      weights(weights),
+      biases(biases),
+      activation(activation) {}
 
   neuro_layer_t DenseLayer::feedforward(const neuro_layer_t& inputs) const {
     neuro_layer_t outputs(biases.size());
@@ -77,6 +87,36 @@ namespace neuro {
     for (size_t i = 0; i < biases.size(); i++) {
       biases[i] = dist(random_engine);
     }
+  }
+
+  float DenseLayer::meanWeight() const {
+    if (weights.empty()) {
+      return 0;
+    }
+
+    float sum = 0;
+
+    for (size_t i = 0; i < weights.size(); i++) {
+      for (size_t j = 0; j < weights[j].size(); j++) {
+        sum += weights[i][j];
+      }
+    }
+
+    return sum / (weights.size() * weights[0].size());
+  }
+
+  float DenseLayer::meanBias() const {
+    if (biases.empty()) {
+      return 0;
+    }
+
+    float sum = 0;
+
+    for (size_t i = 0; i < biases.size(); i++) {
+      sum += biases[i];
+    }
+
+    return sum / biases.size();
   }
 
   float& DenseLayer::weightRef(size_t indexX, size_t indexY) {
@@ -142,4 +182,4 @@ namespace neuro {
     }
   }
 
-};  // namespace neuro
+}; // namespace neuro

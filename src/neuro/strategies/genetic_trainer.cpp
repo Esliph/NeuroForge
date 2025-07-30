@@ -15,10 +15,10 @@
 namespace neuro {
 
   GeneticTrainer::GeneticTrainer(float rate, float intensity, size_t eliteCount)
-      : options({rate, intensity, eliteCount}) {}
+    : options({rate, intensity, eliteCount}) {}
 
   GeneticTrainer::GeneticTrainer(const GeneticOptions& options)
-      : options(options) {}
+    : options(options) {}
 
   void GeneticTrainer::mutateWeights(layer_weight_t& layerWeights) const {
     std::uniform_real_distribution<float> chance(0.0f, 1.0f);
@@ -79,10 +79,10 @@ namespace neuro {
     std::iota(indices.begin(), indices.end(), 0);
 
     std::partial_sort(
-        indices.begin(), indices.begin() + options.eliteCount, indices.end(),
-        [&](size_t a, size_t b) {
-          return population[a].getFitness() > population[b].getFitness();
-        });
+      indices.begin(), indices.begin() + options.eliteCount, indices.end(),
+      [&](size_t a, size_t b) {
+        return population[a].getFitness() > population[b].getFitness();
+      });
 
     auto newPopulation = std::make_unique<Population>();
 
@@ -153,4 +153,4 @@ namespace neuro {
     return options;
   }
 
-};  // namespace neuro
+}; // namespace neuro

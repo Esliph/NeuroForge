@@ -21,7 +21,9 @@ namespace neuro {
     DenseLayer(const ActivationFunction& activation);
     DenseLayer(size_t inputSize, size_t outputSize);
     DenseLayer(size_t inputSize, size_t outputSize, const ActivationFunction& activation);
+    DenseLayer(const layer_weight_t& weights);
     DenseLayer(const layer_weight_t& weights, const ActivationFunction& activation);
+    DenseLayer(const layer_weight_t& weights, const layer_bias_t& biases);
     DenseLayer(const layer_weight_t& weights, const layer_bias_t& biases, const ActivationFunction& activation);
 
     virtual ~DenseLayer() = default;
@@ -32,6 +34,9 @@ namespace neuro {
 
     void randomizeWeights(float min, float max) override;
     void randomizeBiases(float min, float max) override;
+
+    float meanWeight() const override;
+    float meanBias() const override;
 
     FORCE_INLINE size_t inputSize() const override {
       return weights.empty() ? 0 : weights[0].size();
@@ -96,4 +101,4 @@ namespace neuro {
     void checkBiasIndex(size_t index) const;
   };
 
-};  // namespace neuro
+}; // namespace neuro

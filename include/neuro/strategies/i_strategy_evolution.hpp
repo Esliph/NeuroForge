@@ -8,4 +8,4 @@ namespace neuro {
     virtual ~IStrategyEvolution() = default;
   };
 
-};  // namespace neuro
+}; // namespace neuro

@@ -67,4 +67,4 @@ namespace neuro {
     virtual const BackPropagationOptions& getOptions() const;
   };
 
-};  // namespace neuro
+}; // namespace neuro

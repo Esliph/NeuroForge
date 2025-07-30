@@ -2,6 +2,7 @@
 
 #include <doctest/doctest.h>
 
+#include "internal/log.hpp"
 #include "neuro/exceptions/invalid_network_architecture_exception.hpp"
 #include "neuro/interfaces/i_layer.hpp"
 #include "neuro/makers/activation.hpp"
@@ -41,6 +42,16 @@ TEST_CASE("DenseLayer - Create DenseLayer by specifying input and output size") 
 }
 
 TEST_CASE("DenseLayer - Create DenseLayer informing only the weights") {
+  neuro::layer_weight_t weights = {{3.0f, 6.0f}};
+
+  neuro::DenseLayer layerWithWeights(weights);
+
+  CHECK(layerWithWeights.inputSize() == 2);
+  CHECK(layerWithWeights.outputSize() == 1);
+  CHECK(layerWithWeights.getWeights() == weights);
+}
+
+TEST_CASE("DenseLayer - Create DenseLayer informing the weights and activation function") {
   neuro::DenseLayer layerWithWeightsAndActivation({{0.0f, 0.0f}}, neuro::maker::makeRelu());
 
   CHECK(layerWithWeightsAndActivation.inputSize() == 2);
@@ -48,6 +59,13 @@ TEST_CASE("DenseLayer - Create DenseLayer informing only the weights") {
 }
 
 TEST_CASE("DenseLayer - Create DenseLayer informing the weights and biases") {
+  neuro::DenseLayer layerWithWeightsAndBiases({{0.0f, 0.0f}}, {0.0f, 0.0f});
+
+  CHECK(layerWithWeightsAndBiases.inputSize() == 2);
+  CHECK(layerWithWeightsAndBiases.outputSize() == 1);
+}
+
+TEST_CASE("DenseLayer - Create DenseLayer informing the weights, biases and activation function") {
   neuro::DenseLayer layerWithWeightsAndBiasesAndActivation({{0.0f, 0.0f}}, {0.0f, 0.0f}, neuro::maker::makeRelu());
 
   CHECK(layerWithWeightsAndBiasesAndActivation.inputSize() == 2);
@@ -61,8 +79,7 @@ TEST_CASE("DenseLayer - Check the layer structure") {
   CHECK(layer.outputSize() == 3);
 
   layer.setBiases({0.0f, 0.0f});
-  layer.setWeights({{0.0f, 0.0f, 0.0f},
-                    {0.0f, 0.0f, 0.0f}});
+  layer.setWeights({{0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f}});
 
   CHECK(layer.inputSize() == 3);
   CHECK(layer.outputSize() == 2);
@@ -182,9 +199,7 @@ TEST_CASE("DenseLayer - Randomization test of weights and biases") {
 TEST_CASE("DenseLayer - Feedforward deterministic") {
   neuro::DenseLayer layer;
 
-  layer.setWeights(
-      {{0.1f, 0.2f, 0.3f},
-       {0.4f, 0.5f, 0.6f}});
+  layer.setWeights({{0.1f, 0.2f, 0.3f}, {0.4f, 0.5f, 0.6f}});
   layer.setBiases({0.5f, -0.5f});
 
   layer.setActivationFunction(neuro::maker::makeRelu());
@@ -215,4 +230,22 @@ TEST_CASE("DenseLayer - Index access tests within the range of weight and bias v
 
   CHECK_NOTHROW(layer.setWeight(1, 1, 0.0f));
   CHECK_NOTHROW(layer.setBias(1, 0.0f));
+}
+
+TEST_CASE("DenseLayer - Validating the arithmetic mean of layer weights") {
+  neuro::layer_weight_t weights = {{10.0f, -5.0f, 8.0f}, {3.0f, -2.0f, 12.0f}, {6.0f, -3.0f, 15.0f}};
+
+  neuro::DenseLayer layer(weights);
+
+  float sum = 0;
+
+  for (size_t i = 0; i < weights.size(); i++) {
+    for (size_t j = 0; j < weights[j].size(); j++) {
+      sum += weights[i][j];
+
+      LOG_INFO("%i - %i = %.2f", i, j, weights[i][j]);
+    }
+  }
+
+  CHECK(layer.meanWeight() == doctest::Approx(sum / (weights.size() * weights[0].size())));
 }
