@@ -106,12 +106,6 @@ namespace neuro {
     ILayer& operator=(const ILayer&);
 
    private:
-    FORCE_INLINE virtual bool checkShape() {
-      return checkShape(weights, biases);
-    }
-
-    virtual bool checkShape(const layer_weight_t& weights, const layer_bias_t& biases);
-
     virtual bool validateInternalShape(const layer_weight_t& weights, const layer_bias_t& biases);
 
     virtual void checkWeightIndex(size_t indexX, size_t indexY) const;

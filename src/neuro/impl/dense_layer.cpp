@@ -100,11 +100,6 @@ namespace neuro {
     }
   }
 
-  bool DenseLayer::checkShape(const layer_weight_t& weights, const layer_bias_t& biases) {
-    if (!validateInternalShape(weights, biases)) {
-    }
-  }
-
   bool DenseLayer::validateInternalShape(const layer_weight_t& weights, const layer_bias_t& biases) {
     auto outputSizeLayer = outputSize();
 
