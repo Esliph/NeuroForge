@@ -20,21 +20,21 @@ void checkNotEqualLayers(neuro::ILayer& layerA, neuro::ILayer& layerB) {
 }
 
 TEST_CASE("DenseLayer - Object construction tests") {
-  SUBCASE("DenseLayer - Create DenseLayer without parameters") {
+  SUBCASE("Create DenseLayer without parameters") {
     neuro::DenseLayer layerWithoutParameter;
 
     CHECK(layerWithoutParameter.inputSize() == 0);
     CHECK(layerWithoutParameter.outputSize() == 0);
   }
 
-  SUBCASE("DenseLayer - Create DenseLayer informing only the activation function") {
+  SUBCASE("Create DenseLayer informing only the activation function") {
     neuro::DenseLayer layerWithOnlyActivation(neuro::maker::makeRelu());
 
     CHECK(layerWithOnlyActivation.inputSize() == 0);
     CHECK(layerWithOnlyActivation.outputSize() == 0);
   }
 
-  SUBCASE("DenseLayer - Create DenseLayer by specifying input and output size") {
+  SUBCASE("Create DenseLayer by specifying input and output size") {
     neuro::DenseLayer layerWithInputAndOutput(1, 2);
     neuro::DenseLayer layerWithInputAndOutputAndActivation(1, 2, neuro::maker::makeRelu());
 
@@ -45,7 +45,7 @@ TEST_CASE("DenseLayer - Object construction tests") {
     CHECK(layerWithInputAndOutputAndActivation.outputSize() == 2);
   }
 
-  SUBCASE("DenseLayer - Create DenseLayer informing only the weights") {
+  SUBCASE("Create DenseLayer informing only the weights") {
     neuro::layer_weight_t weights = {{3.0f, 6.0f}};
 
     neuro::DenseLayer layerWithWeights(weights);
@@ -55,7 +55,7 @@ TEST_CASE("DenseLayer - Object construction tests") {
     CHECK(layerWithWeights.getWeights() == weights);
   }
 
-  SUBCASE("DenseLayer - Create DenseLayer informing only the biases") {
+  SUBCASE("Create DenseLayer informing only the biases") {
     neuro::layer_bias_t biases = {3.0f, 6.0f};
 
     neuro::DenseLayer layerWithBiases(biases);
@@ -65,7 +65,7 @@ TEST_CASE("DenseLayer - Object construction tests") {
     CHECK(layerWithBiases.getBiases() == biases);
   }
 
-  SUBCASE("DenseLayer - Create DenseLayer informing the weights and activation function") {
+  SUBCASE("Create DenseLayer informing the weights and activation function") {
     neuro::layer_weight_t weights = {{0.0f, 0.0f}};
 
     neuro::DenseLayer layerWithWeightsAndActivation(weights, neuro::maker::makeRelu());
@@ -74,7 +74,7 @@ TEST_CASE("DenseLayer - Object construction tests") {
     CHECK(layerWithWeightsAndActivation.outputSize() == 1);
   }
 
-  SUBCASE("DenseLayer - Create DenseLayer informing the biases and activation function") {
+  SUBCASE("Create DenseLayer informing the biases and activation function") {
     neuro::layer_bias_t biases = {0.0f, 0.0f};
 
     neuro::DenseLayer layerWithBiasesAndActivation(biases, neuro::maker::makeRelu());
@@ -83,14 +83,14 @@ TEST_CASE("DenseLayer - Object construction tests") {
     CHECK(layerWithBiasesAndActivation.outputSize() == 2);
   }
 
-  SUBCASE("DenseLayer - Create DenseLayer informing the weights and biases") {
+  SUBCASE("Create DenseLayer informing the weights and biases") {
     neuro::DenseLayer layerWithWeightsAndBiases({{0.0f, 0.0f}}, {0.0f, 0.0f});
 
     CHECK(layerWithWeightsAndBiases.inputSize() == 2);
     CHECK(layerWithWeightsAndBiases.outputSize() == 1);
   }
 
-  SUBCASE("DenseLayer - Create DenseLayer informing the weights, biases and activation function") {
+  SUBCASE("Create DenseLayer informing the weights, biases and activation function") {
     neuro::DenseLayer layerWithWeightsAndBiasesAndActivation({{0.0f, 0.0f}}, {0.0f, 0.0f}, neuro::maker::makeRelu());
 
     CHECK(layerWithWeightsAndBiasesAndActivation.inputSize() == 2);

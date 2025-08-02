@@ -32,7 +32,7 @@ void checkNotEqualNeuralNetwork(neuro::INeuralNetwork& networkA, neuro::INeuralN
 }
 
 TEST_CASE("DenseLayer - Object construction tests") {
-  SUBCASE("NeuralNetwork - Create NeuralNetwork without parameters") {
+  SUBCASE("Create NeuralNetwork without parameters") {
     neuro::NeuralNetwork networkWithoutParameter;
 
     CHECK(networkWithoutParameter.sizeLayers() == 0);
@@ -40,7 +40,7 @@ TEST_CASE("DenseLayer - Object construction tests") {
     CHECK(networkWithoutParameter.outputSize() == 0);
   }
 
-  SUBCASE("NeuralNetwork - Create NeuralNetwork by informing with the initializer") {
+  SUBCASE("Create NeuralNetwork by informing with the initializer") {
     neuro::DenseLayer layerSimple1(4, 3);
     neuro::DenseLayer layerSimple2(3, 2);
     neuro::DenseLayer layerSimple3(3, 2);
@@ -52,7 +52,7 @@ TEST_CASE("DenseLayer - Object construction tests") {
     CHECK(networkWithInitializer.outputSize() == 2);
   }
 
-  SUBCASE("NeuralNetwork - Create NeuralNetwork by providing a list of raw layers") {
+  SUBCASE("Create NeuralNetwork by providing a list of raw layers") {
     neuro::DenseLayer layerSimple1(4, 3);
     neuro::DenseLayer layerSimple2(3, 2);
     neuro::DenseLayer layerSimple3(2, 1);
@@ -66,7 +66,7 @@ TEST_CASE("DenseLayer - Object construction tests") {
     CHECK(networkWithRawLayers.outputSize() == 1);
   }
 
-  SUBCASE("NeuralNetwork - Create NeuralNetwork by providing a list of unique_ptr layers") {
+  SUBCASE("Create NeuralNetwork by providing a list of unique_ptr layers") {
     std::vector<std::unique_ptr<neuro::ILayer>> layersUniquePtr;
     layersUniquePtr.push_back(std::make_unique<neuro::DenseLayer>(1, 2));
     layersUniquePtr.push_back(std::make_unique<neuro::DenseLayer>(2, 3));
@@ -78,7 +78,7 @@ TEST_CASE("DenseLayer - Object construction tests") {
     CHECK(networkWithLayersUniquePtr.outputSize() == 3);
   }
 
-  SUBCASE("NeuralNetwork - Create NeuralNetwork by moving a list of unique_ptr layers") {
+  SUBCASE("Create NeuralNetwork by moving a list of unique_ptr layers") {
     std::vector<std::unique_ptr<neuro::ILayer>> layersUniquePtr;
     layersUniquePtr.push_back(std::make_unique<neuro::DenseLayer>(1, 2));
     layersUniquePtr.push_back(std::make_unique<neuro::DenseLayer>(2, 3));
@@ -90,7 +90,7 @@ TEST_CASE("DenseLayer - Object construction tests") {
     CHECK(networkWithMoveLayersUniquePtr.outputSize() == 3);
   }
 
-  SUBCASE("NeuralNetwork - Create NeuralNetwork from a list of function factories") {
+  SUBCASE("Create NeuralNetwork from a list of function factories") {
     neuro::NeuralNetwork networkWithFactoryLayer(
       {[]() { return neuralNetworkFactory(1, 2); }, []() { return neuralNetworkFactory(2, 3); }});
 
@@ -99,7 +99,7 @@ TEST_CASE("DenseLayer - Object construction tests") {
     CHECK(networkWithFactoryLayer.outputSize() == 3);
   }
 
-  SUBCASE("NeuralNetwork - Create NeuralNetwork from a factory function with iteration") {
+  SUBCASE("Create NeuralNetwork from a factory function with iteration") {
     neuro::NeuralNetwork networkWithFactoryLayer([]() { return neuralNetworkFactory(2, 2); }, 3);
 
     CHECK(networkWithFactoryLayer.sizeLayers() == 3);
@@ -107,7 +107,7 @@ TEST_CASE("DenseLayer - Object construction tests") {
     CHECK(networkWithFactoryLayer.outputSize() == 2);
   }
 
-  SUBCASE("NeuralNetwork - Create NeuralNetwork by defining a structure of number of neurons per layer") {
+  SUBCASE("Create NeuralNetwork by defining a structure of number of neurons per layer") {
     neuro::NeuralNetwork networkWithFactoryLayer({2, 4, 3, 1});
 
     CHECK(networkWithFactoryLayer.sizeLayers() == 3);
@@ -115,7 +115,7 @@ TEST_CASE("DenseLayer - Object construction tests") {
     CHECK(networkWithFactoryLayer.outputSize() == 1);
   }
 
-  SUBCASE("NeuralNetwork - Create NeuralNetwork by defining a structure of number of neurons per layer and defining a "
+  SUBCASE("Create NeuralNetwork by defining a structure of number of neurons per layer and defining a "
           "activation function") {
     neuro::NeuralNetwork networkWithFactoryLayer({2, 4, 3, 1}, neuro::maker::makeSigmoid());
 
@@ -124,7 +124,7 @@ TEST_CASE("DenseLayer - Object construction tests") {
     CHECK(networkWithFactoryLayer.outputSize() == 1);
   }
 
-  SUBCASE("NeuralNetwork - Create NeuralNetwork by defining a structure of number of neurons per layer with multiple activation functions") {
+  SUBCASE("Create NeuralNetwork by defining a structure of number of neurons per layer with multiple activation functions") {
     neuro::NeuralNetwork networkWithFactoryLayer({2, 4, 3, 1},
                                                  {neuro::maker::makeSigmoid(), neuro::maker::makeRelu(),
                                                   neuro::maker::makeHard_sigmoid()});
