@@ -100,6 +100,29 @@ namespace neuro {
     }
   }
 
+  bool DenseLayer::checkShape(const layer_weight_t& weights, const layer_bias_t& biases) {
+    if (!validateInternalShape(weights, biases)) {
+    }
+  }
+
+  bool DenseLayer::validateInternalShape(const layer_weight_t& weights, const layer_bias_t& biases) {
+    auto outputSizeLayer = outputSize();
+
+    if (weights.size() != outputSizeLayer || biases.size() != outputSizeLayer) {
+      return false;
+    }
+
+    auto inputSizeLayer = inputSize();
+
+    for (const auto& row : weights) {
+      if (row.size() != inputSizeLayer) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   float DenseLayer::meanWeight() const {
     if (weights.empty()) {
       return 0;

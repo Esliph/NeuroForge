@@ -40,6 +40,10 @@ namespace neuro {
     void randomizeWeights(float min, float max) override;
     void randomizeBiases(float min, float max) override;
 
+    FORCE_INLINE bool validateInternalShape() override {
+      return validateInternalShape(weights, biases);
+    }
+
     float meanWeight() const override;
     float meanBias() const override;
 
@@ -102,8 +106,16 @@ namespace neuro {
     ILayer& operator=(const ILayer&);
 
    private:
-    void checkWeightIndex(size_t indexX, size_t indexY) const;
-    void checkBiasIndex(size_t index) const;
+    FORCE_INLINE virtual bool checkShape() {
+      return checkShape(weights, biases);
+    }
+
+    virtual bool checkShape(const layer_weight_t& weights, const layer_bias_t& biases);
+
+    virtual bool validateInternalShape(const layer_weight_t& weights, const layer_bias_t& biases);
+
+    virtual void checkWeightIndex(size_t indexX, size_t indexY) const;
+    virtual void checkBiasIndex(size_t index) const;
   };
 
 }; // namespace neuro
