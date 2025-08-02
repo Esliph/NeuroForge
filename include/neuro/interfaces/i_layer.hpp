@@ -57,6 +57,8 @@ namespace neuro {
     virtual void setBiases(const layer_bias_t&) = 0;
 
     virtual std::unique_ptr<ILayer> clone() const = 0;
+
+    ILayer& operator=(const ILayer&) = default;
   };
 
 }; // namespace neuro

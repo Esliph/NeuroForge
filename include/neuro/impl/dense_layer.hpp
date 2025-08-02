@@ -18,11 +18,16 @@ namespace neuro {
     DenseLayer() = default;
     DenseLayer(const DenseLayer&) = default;
 
+    DenseLayer(const layer_weight_t& weights);
+    DenseLayer(const layer_bias_t& biases);
     DenseLayer(const ActivationFunction& activation);
+
     DenseLayer(size_t inputSize, size_t outputSize);
     DenseLayer(size_t inputSize, size_t outputSize, const ActivationFunction& activation);
-    DenseLayer(const layer_weight_t& weights);
+
     DenseLayer(const layer_weight_t& weights, const ActivationFunction& activation);
+    DenseLayer(const layer_bias_t& biases, const ActivationFunction& activation);
+
     DenseLayer(const layer_weight_t& weights, const layer_bias_t& biases);
     DenseLayer(const layer_weight_t& weights, const layer_bias_t& biases, const ActivationFunction& activation);
 
@@ -60,8 +65,8 @@ namespace neuro {
       this->activation = activation;
     }
 
-    FORCE_INLINE float getWeight(size_t indexX, size_t indexY) const override;
-    FORCE_INLINE float getBias(size_t index) const override;
+    float getWeight(size_t indexX, size_t indexY) const override;
+    float getBias(size_t index) const override;
 
     void setWeight(size_t indexX, size_t indexY, float value) override;
     void setBias(size_t index, float value) override;
