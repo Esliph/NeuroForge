@@ -260,3 +260,33 @@ TEST_CASE("DenseLayer - Index access tests within the range of weight and bias v
   CHECK_NOTHROW(layer.setWeight(1, 1, 0.0f));
   CHECK_NOTHROW(layer.setBias(1, 0.0f));
 }
+
+TEST_CASE("DenseLayer - Validating the arithmetic mean of layer weights") {
+  neuro::layer_weight_t weights = {{10.0f, -5.0f, 8.0f}, {3.0f, -2.0f, 12.0f}, {6.0f, -3.0f, 15.0f}};
+
+  neuro::DenseLayer layer(weights);
+
+  float sum = 0;
+
+  for (size_t i = 0; i < weights.size(); i++) {
+    for (size_t j = 0; j < weights[i].size(); j++) {
+      sum += weights[i][j];
+    }
+  }
+
+  CHECK(layer.meanWeight() == doctest::Approx(sum / (weights.size() * weights[0].size())));
+}
+
+TEST_CASE("DenseLayer - Validating the arithmetic mean of layer biases") {
+  neuro::layer_bias_t biases = {10.0f, -5.0f, 8.0f};
+
+  neuro::DenseLayer layer(biases);
+
+  float sum = 0;
+
+  for (size_t i = 0; i < biases.size(); i++) {
+    sum += biases[i];
+  }
+
+  CHECK(layer.meanBias() == doctest::Approx(sum / biases.size()));
+}
