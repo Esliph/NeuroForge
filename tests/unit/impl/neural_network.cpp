@@ -31,112 +31,113 @@ void checkNotEqualNeuralNetwork(neuro::INeuralNetwork& networkA, neuro::INeuralN
   }
 }
 
-TEST_CASE("NeuralNetwork - Create NeuralNetwork without parameters") {
-  neuro::NeuralNetwork networkWithoutParameter;
+TEST_CASE("DenseLayer - Object construction tests") {
+  SUBCASE("NeuralNetwork - Create NeuralNetwork without parameters") {
+    neuro::NeuralNetwork networkWithoutParameter;
 
-  CHECK(networkWithoutParameter.sizeLayers() == 0);
-  CHECK(networkWithoutParameter.inputSize() == 0);
-  CHECK(networkWithoutParameter.outputSize() == 0);
-}
+    CHECK(networkWithoutParameter.sizeLayers() == 0);
+    CHECK(networkWithoutParameter.inputSize() == 0);
+    CHECK(networkWithoutParameter.outputSize() == 0);
+  }
 
-TEST_CASE("NeuralNetwork - Create NeuralNetwork by informing with the initializer") {
-  neuro::DenseLayer layerSimple1(4, 3);
-  neuro::DenseLayer layerSimple2(3, 2);
-  neuro::DenseLayer layerSimple3(3, 2);
+  SUBCASE("NeuralNetwork - Create NeuralNetwork by informing with the initializer") {
+    neuro::DenseLayer layerSimple1(4, 3);
+    neuro::DenseLayer layerSimple2(3, 2);
+    neuro::DenseLayer layerSimple3(3, 2);
 
-  neuro::NeuralNetwork networkWithInitializer = { &layerSimple1, &layerSimple2, &layerSimple3 };
+    neuro::NeuralNetwork networkWithInitializer = {&layerSimple1, &layerSimple2, &layerSimple3};
 
-  CHECK(networkWithInitializer.sizeLayers() == 3);
-  CHECK(networkWithInitializer.inputSize() == 4);
-  CHECK(networkWithInitializer.outputSize() == 2);
-}
+    CHECK(networkWithInitializer.sizeLayers() == 3);
+    CHECK(networkWithInitializer.inputSize() == 4);
+    CHECK(networkWithInitializer.outputSize() == 2);
+  }
 
-TEST_CASE("NeuralNetwork - Create NeuralNetwork by providing a list of raw layers") {
-  neuro::DenseLayer layerSimple1(4, 3);
-  neuro::DenseLayer layerSimple2(3, 2);
-  neuro::DenseLayer layerSimple3(2, 1);
+  SUBCASE("NeuralNetwork - Create NeuralNetwork by providing a list of raw layers") {
+    neuro::DenseLayer layerSimple1(4, 3);
+    neuro::DenseLayer layerSimple2(3, 2);
+    neuro::DenseLayer layerSimple3(2, 1);
 
-  std::vector<neuro::ILayer*> rawLayers = { &layerSimple1, &layerSimple2, &layerSimple3 };
+    std::vector<neuro::ILayer*> rawLayers = {&layerSimple1, &layerSimple2, &layerSimple3};
 
-  neuro::NeuralNetwork networkWithRawLayers(rawLayers);
+    neuro::NeuralNetwork networkWithRawLayers(rawLayers);
 
-  CHECK(networkWithRawLayers.sizeLayers() == 3);
-  CHECK(networkWithRawLayers.inputSize() == 4);
-  CHECK(networkWithRawLayers.outputSize() == 1);
-}
+    CHECK(networkWithRawLayers.sizeLayers() == 3);
+    CHECK(networkWithRawLayers.inputSize() == 4);
+    CHECK(networkWithRawLayers.outputSize() == 1);
+  }
 
-TEST_CASE("NeuralNetwork - Create NeuralNetwork by providing a list of unique_ptr layers") {
-  std::vector<std::unique_ptr<neuro::ILayer>> layersUniquePtr;
-  layersUniquePtr.push_back(std::make_unique<neuro::DenseLayer>(1, 2));
-  layersUniquePtr.push_back(std::make_unique<neuro::DenseLayer>(2, 3));
+  SUBCASE("NeuralNetwork - Create NeuralNetwork by providing a list of unique_ptr layers") {
+    std::vector<std::unique_ptr<neuro::ILayer>> layersUniquePtr;
+    layersUniquePtr.push_back(std::make_unique<neuro::DenseLayer>(1, 2));
+    layersUniquePtr.push_back(std::make_unique<neuro::DenseLayer>(2, 3));
 
-  neuro::NeuralNetwork networkWithLayersUniquePtr(layersUniquePtr);
+    neuro::NeuralNetwork networkWithLayersUniquePtr(layersUniquePtr);
 
-  CHECK(networkWithLayersUniquePtr.sizeLayers() == 2);
-  CHECK(networkWithLayersUniquePtr.inputSize() == 1);
-  CHECK(networkWithLayersUniquePtr.outputSize() == 3);
-}
+    CHECK(networkWithLayersUniquePtr.sizeLayers() == 2);
+    CHECK(networkWithLayersUniquePtr.inputSize() == 1);
+    CHECK(networkWithLayersUniquePtr.outputSize() == 3);
+  }
 
-TEST_CASE("NeuralNetwork - Create NeuralNetwork by moving a list of unique_ptr layers") {
-  std::vector<std::unique_ptr<neuro::ILayer>> layersUniquePtr;
-  layersUniquePtr.push_back(std::make_unique<neuro::DenseLayer>(1, 2));
-  layersUniquePtr.push_back(std::make_unique<neuro::DenseLayer>(2, 3));
+  SUBCASE("NeuralNetwork - Create NeuralNetwork by moving a list of unique_ptr layers") {
+    std::vector<std::unique_ptr<neuro::ILayer>> layersUniquePtr;
+    layersUniquePtr.push_back(std::make_unique<neuro::DenseLayer>(1, 2));
+    layersUniquePtr.push_back(std::make_unique<neuro::DenseLayer>(2, 3));
 
-  neuro::NeuralNetwork networkWithMoveLayersUniquePtr(std::move(layersUniquePtr));
+    neuro::NeuralNetwork networkWithMoveLayersUniquePtr(std::move(layersUniquePtr));
 
-  CHECK(networkWithMoveLayersUniquePtr.sizeLayers() == 2);
-  CHECK(networkWithMoveLayersUniquePtr.inputSize() == 1);
-  CHECK(networkWithMoveLayersUniquePtr.outputSize() == 3);
-}
+    CHECK(networkWithMoveLayersUniquePtr.sizeLayers() == 2);
+    CHECK(networkWithMoveLayersUniquePtr.inputSize() == 1);
+    CHECK(networkWithMoveLayersUniquePtr.outputSize() == 3);
+  }
 
-TEST_CASE("NeuralNetwork - Create NeuralNetwork from a list of function factories") {
-  neuro::NeuralNetwork networkWithFactoryLayer(
-    { []() { return neuralNetworkFactory(1, 2); }, []() { return neuralNetworkFactory(2, 3); } });
+  SUBCASE("NeuralNetwork - Create NeuralNetwork from a list of function factories") {
+    neuro::NeuralNetwork networkWithFactoryLayer(
+      {[]() { return neuralNetworkFactory(1, 2); }, []() { return neuralNetworkFactory(2, 3); }});
 
-  CHECK(networkWithFactoryLayer.sizeLayers() == 2);
-  CHECK(networkWithFactoryLayer.inputSize() == 1);
-  CHECK(networkWithFactoryLayer.outputSize() == 3);
-}
+    CHECK(networkWithFactoryLayer.sizeLayers() == 2);
+    CHECK(networkWithFactoryLayer.inputSize() == 1);
+    CHECK(networkWithFactoryLayer.outputSize() == 3);
+  }
 
-TEST_CASE("NeuralNetwork - Create NeuralNetwork from a factory function with iteration") {
-  neuro::NeuralNetwork networkWithFactoryLayer([]() { return neuralNetworkFactory(2, 2); }, 3);
+  SUBCASE("NeuralNetwork - Create NeuralNetwork from a factory function with iteration") {
+    neuro::NeuralNetwork networkWithFactoryLayer([]() { return neuralNetworkFactory(2, 2); }, 3);
 
-  CHECK(networkWithFactoryLayer.sizeLayers() == 3);
-  CHECK(networkWithFactoryLayer.inputSize() == 2);
-  CHECK(networkWithFactoryLayer.outputSize() == 2);
-}
+    CHECK(networkWithFactoryLayer.sizeLayers() == 3);
+    CHECK(networkWithFactoryLayer.inputSize() == 2);
+    CHECK(networkWithFactoryLayer.outputSize() == 2);
+  }
 
-TEST_CASE("NeuralNetwork - Create NeuralNetwork by defining a structure of number of neurons per layer") {
-  neuro::NeuralNetwork networkWithFactoryLayer({ 2, 4, 3, 1 });
+  SUBCASE("NeuralNetwork - Create NeuralNetwork by defining a structure of number of neurons per layer") {
+    neuro::NeuralNetwork networkWithFactoryLayer({2, 4, 3, 1});
 
-  CHECK(networkWithFactoryLayer.sizeLayers() == 3);
-  CHECK(networkWithFactoryLayer.inputSize() == 2);
-  CHECK(networkWithFactoryLayer.outputSize() == 1);
-}
+    CHECK(networkWithFactoryLayer.sizeLayers() == 3);
+    CHECK(networkWithFactoryLayer.inputSize() == 2);
+    CHECK(networkWithFactoryLayer.outputSize() == 1);
+  }
 
-TEST_CASE("NeuralNetwork - Create NeuralNetwork by defining a structure of number of neurons per layer and defining a "
+  SUBCASE("NeuralNetwork - Create NeuralNetwork by defining a structure of number of neurons per layer and defining a "
           "activation function") {
-  neuro::NeuralNetwork networkWithFactoryLayer({ 2, 4, 3, 1 }, neuro::maker::makeSigmoid());
+    neuro::NeuralNetwork networkWithFactoryLayer({2, 4, 3, 1}, neuro::maker::makeSigmoid());
 
-  CHECK(networkWithFactoryLayer.sizeLayers() == 3);
-  CHECK(networkWithFactoryLayer.inputSize() == 2);
-  CHECK(networkWithFactoryLayer.outputSize() == 1);
-}
+    CHECK(networkWithFactoryLayer.sizeLayers() == 3);
+    CHECK(networkWithFactoryLayer.inputSize() == 2);
+    CHECK(networkWithFactoryLayer.outputSize() == 1);
+  }
 
-TEST_CASE("NeuralNetwork - Create NeuralNetwork by defining a structure of number of neurons per layer with multiple "
-          "activation functions") {
-  neuro::NeuralNetwork networkWithFactoryLayer({ 2, 4, 3, 1 },
-                                               { neuro::maker::makeSigmoid(), neuro::maker::makeRelu(),
-                                                 neuro::maker::makeHard_sigmoid() });
+  SUBCASE("NeuralNetwork - Create NeuralNetwork by defining a structure of number of neurons per layer with multiple activation functions") {
+    neuro::NeuralNetwork networkWithFactoryLayer({2, 4, 3, 1},
+                                                 {neuro::maker::makeSigmoid(), neuro::maker::makeRelu(),
+                                                  neuro::maker::makeHard_sigmoid()});
 
-  CHECK(networkWithFactoryLayer.sizeLayers() == 3);
-  CHECK(networkWithFactoryLayer.inputSize() == 2);
-  CHECK(networkWithFactoryLayer.outputSize() == 1);
+    CHECK(networkWithFactoryLayer.sizeLayers() == 3);
+    CHECK(networkWithFactoryLayer.inputSize() == 2);
+    CHECK(networkWithFactoryLayer.outputSize() == 1);
+  }
 }
 
 TEST_CASE("NeuralNetwork - Check the neural network structure") {
-  neuro::NeuralNetwork network({ 2, 4, 3, 1 },
-                               { neuro::maker::makeSigmoid(), neuro::maker::makeRelu(), neuro::maker::makeHard_sigmoid() });
+  neuro::NeuralNetwork network({2, 4, 3, 1},
+                               {neuro::maker::makeSigmoid(), neuro::maker::makeRelu(), neuro::maker::makeHard_sigmoid()});
 
   CHECK(network.sizeLayers() == 3);
   CHECK(network.inputSize() == 2);
@@ -151,16 +152,18 @@ TEST_CASE("NeuralNetwork - Check the neural network structure") {
 
 TEST_CASE("NeuralNetwork - Feedforward deterministic") {
   neuro::DenseLayer layer1(neuro::maker::makeIdentity());
-  layer1.setWeights({ { 1.0f, 2.0f }, { 3.0f, 4.0f }, { 5.0f, 6.0f } });
-  layer1.setBiases({ 0.0f, 0.0f, 0.0f });
+
+  layer1.setWeights({{1.0f, 2.0f}, {3.0f, 4.0f}, {5.0f, 6.0f}});
+  layer1.setBiases({0.0f, 0.0f, 0.0f});
 
   neuro::DenseLayer layer2(neuro::maker::makeIdentity());
-  layer2.setWeights({ { 1.0f, 1.0f, 1.0f } });
-  layer2.setBiases({ 0.0f });
 
-  neuro::NeuralNetwork network = { &layer1, &layer2 };
+  layer2.setWeights({{1.0f, 1.0f, 1.0f}});
+  layer2.setBiases({0.0f});
 
-  neuro::neuro_layer_t input = { 1.0f, 2.0f };
+  neuro::NeuralNetwork network = {&layer1, &layer2};
+
+  neuro::neuro_layer_t input = {1.0f, 2.0f};
 
   // Feedforward manual:
   // Layer 1:
@@ -223,7 +226,7 @@ TEST_CASE("NeuralNetwork - Add layers") {
 }
 
 TEST_CASE("NeuralNetwork - Randomization test of weights and biases") {
-  neuro::NeuralNetwork network({ 2, 2, 2 }, neuro::maker::makeElu());
+  neuro::NeuralNetwork network({2, 2, 2}, neuro::maker::makeElu());
 
   network.randomizeWeights(-1.0f, 1.0f);
   network.randomizeBiases(-2.0f, 2.0f);
@@ -244,11 +247,11 @@ TEST_CASE("NeuralNetwork - Randomization test of weights and biases") {
 }
 
 TEST_CASE("NeuralNetwork - Reset state") {
-  neuro::DenseLayer layer1({ { 1.0f, 2.0f }, { 3.0f, 4.0f } }, { 1.0f, -1.0f }, neuro::maker::makeSigmoid());
-  neuro::DenseLayer layer2({ { 1.0f, 2.0f }, { 3.0f, 4.0f } }, { 1.0f, -1.0f }, neuro::maker::makeSigmoid());
-  neuro::DenseLayer layer3({ { 1.0f, 2.0f }, { 3.0f, 4.0f } }, { 1.0f, -1.0f }, neuro::maker::makeSigmoid());
+  neuro::DenseLayer layer1({{1.0f, 2.0f}, {3.0f, 4.0f}}, {1.0f, -1.0f}, neuro::maker::makeSigmoid());
+  neuro::DenseLayer layer2({{1.0f, 2.0f}, {3.0f, 4.0f}}, {1.0f, -1.0f}, neuro::maker::makeSigmoid());
+  neuro::DenseLayer layer3({{1.0f, 2.0f}, {3.0f, 4.0f}}, {1.0f, -1.0f}, neuro::maker::makeSigmoid());
 
-  neuro::NeuralNetwork network = { &layer1, &layer2, &layer3 };
+  neuro::NeuralNetwork network = {&layer1, &layer2, &layer3};
 
   CHECK(network.sizeLayers() == 3);
   CHECK(network.inputSize() == 2);
@@ -260,8 +263,8 @@ TEST_CASE("NeuralNetwork - Reset state") {
   CHECK(network.inputSize() == 2);
   CHECK(network.outputSize() == 2);
 
-  neuro::layer_weight_t weightsComparison = { { 0.0f, 0.0f }, { 0.0f, 0.0f } };
-  neuro::layer_bias_t biasesComparison = { 0.0f, -0.0f };
+  neuro::layer_weight_t weightsComparison = {{0.0f, 0.0f}, {0.0f, 0.0f}};
+  neuro::layer_bias_t biasesComparison = {0.0f, -0.0f};
 
   for (const auto& layer : network) {
     CHECK(layer->getWeights() == weightsComparison);
@@ -270,11 +273,11 @@ TEST_CASE("NeuralNetwork - Reset state") {
 }
 
 TEST_CASE("NeuralNetwork - Clear layers") {
-  neuro::DenseLayer layer1({ { 1.0f, 2.0f }, { 3.0f, 4.0f } }, { 1.0f, -1.0f }, neuro::maker::makeSigmoid());
-  neuro::DenseLayer layer2({ { 1.0f, 2.0f }, { 3.0f, 4.0f } }, { 1.0f, -1.0f }, neuro::maker::makeSigmoid());
-  neuro::DenseLayer layer3({ { 1.0f, 2.0f }, { 3.0f, 4.0f } }, { 1.0f, -1.0f }, neuro::maker::makeSigmoid());
+  neuro::DenseLayer layer1({{1.0f, 2.0f}, {3.0f, 4.0f}}, {1.0f, -1.0f}, neuro::maker::makeSigmoid());
+  neuro::DenseLayer layer2({{1.0f, 2.0f}, {3.0f, 4.0f}}, {1.0f, -1.0f}, neuro::maker::makeSigmoid());
+  neuro::DenseLayer layer3({{1.0f, 2.0f}, {3.0f, 4.0f}}, {1.0f, -1.0f}, neuro::maker::makeSigmoid());
 
-  neuro::NeuralNetwork network = { &layer1, &layer2, &layer3 };
+  neuro::NeuralNetwork network = {&layer1, &layer2, &layer3};
 
   CHECK(network.sizeLayers() == 3);
   CHECK(network.inputSize() == 2);
@@ -288,7 +291,7 @@ TEST_CASE("NeuralNetwork - Clear layers") {
 }
 
 TEST_CASE("NeuralNetwork - Remove layer") {
-  neuro::NeuralNetwork network({ 1, 2, 3 });
+  neuro::NeuralNetwork network({1, 2, 3});
 
   CHECK(network.sizeLayers() == 2);
   CHECK(network.inputSize() == 1);
@@ -302,7 +305,7 @@ TEST_CASE("NeuralNetwork - Remove layer") {
 }
 
 TEST_CASE("NeuralNetwork - Pop layer") {
-  neuro::NeuralNetwork network({ 1, 2, 3 });
+  neuro::NeuralNetwork network({1, 2, 3});
 
   CHECK(network.sizeLayers() == 2);
   CHECK(network.inputSize() == 1);
@@ -316,7 +319,7 @@ TEST_CASE("NeuralNetwork - Pop layer") {
 }
 
 TEST_CASE("NeuralNetwork - Shift layer") {
-  neuro::NeuralNetwork network({ 1, 2, 3 });
+  neuro::NeuralNetwork network({1, 2, 3});
 
   CHECK(network.sizeLayers() == 2);
   CHECK(network.inputSize() == 1);
@@ -334,7 +337,7 @@ TEST_CASE("NeuralNetwork - Clone") {
   neuro::DenseLayer layerSimple2(3, 2, neuro::maker::makeIdentity());
   neuro::DenseLayer layerSimple3(3, 2, neuro::maker::makeIdentity());
 
-  neuro::NeuralNetwork original = { &layerSimple1, &layerSimple2, &layerSimple3 };
+  neuro::NeuralNetwork original = {&layerSimple1, &layerSimple2, &layerSimple3};
 
   auto clone = original.clone();
 
@@ -346,7 +349,7 @@ TEST_CASE("NeuralNetwork - Copy") {
   neuro::DenseLayer layerSimple2(3, 2, neuro::maker::makeIdentity());
   neuro::DenseLayer layerSimple3(3, 2, neuro::maker::makeIdentity());
 
-  neuro::NeuralNetwork original = { &layerSimple1, &layerSimple2, &layerSimple3 };
+  neuro::NeuralNetwork original = {&layerSimple1, &layerSimple2, &layerSimple3};
 
   neuro::NeuralNetwork copy(original);
 
@@ -354,7 +357,7 @@ TEST_CASE("NeuralNetwork - Copy") {
 }
 
 TEST_CASE("NeuralNetwork - Change testing via reference") {
-  neuro::NeuralNetwork network({ 1, 2, 3 }, neuro::maker::makeSigmoid());
+  neuro::NeuralNetwork network({1, 2, 3}, neuro::maker::makeSigmoid());
 
   auto& layer = network[0];
 
