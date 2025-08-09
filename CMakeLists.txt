@@ -4,17 +4,24 @@ project(NeuroForge VERSION 1.0.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_INSTALL_PREFIX "${PROJECT_SOURCE_DIR}/packages/NeuroForge-${PROJECT_VERSION}" CACHE PATH "Install path prefix" FORCE)
+set(PROJECT_ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(ENVIRONMENT "production" CACHE STRING "Define the environment")
 
-file(GLOB_RECURSE SOURCES
+file(GLOB_RECURSE LIB_SOURCES
   CONFIGURE_DEPENDS
   src/neuro/*.cpp
 )
 
-include_directories(${CMAKE_BINARY_DIR})
+add_library(NeuroForge STATIC ${LIB_SOURCES})
 
-add_library(NeuroForge STATIC ${SOURCES})
+target_include_directories(NeuroForge
+  PUBLIC
+  $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+  PRIVATE
+  ${PROJECT_SOURCE_DIR}/include/internal
+)
 
 if(ENVIRONMENT STREQUAL "production")
   message(STATUS "Building on production environment")
@@ -24,20 +31,26 @@ if(ENVIRONMENT STREQUAL "production")
 
 elseif(ENVIRONMENT STREQUAL "tests")
   message(STATUS "Building on tests environment")
-  target_compile_definitions(NeuroForge PUBLIC ENVIRONMENT_TESTS)
-  target_compile_definitions(NeuroForge PUBLIC LOG_LEVEL_INFO LOG_LEVEL_DEBUG LOG_LEVEL_WARNING LOG_LEVEL_ERROR)
+  target_compile_definitions(NeuroForge
+    PUBLIC
+    ENVIRONMENT_TESTS
+    LOG_LEVEL_INFO LOG_LEVEL_DEBUG LOG_LEVEL_WARNING LOG_LEVEL_ERROR
+  )
 
   set(ENABLE_TEST ON)
   set(VERBOSE_CODE_COMPILATION ON)
+  set(ENABLE_COVERAGE ON)
 
 elseif(ENVIRONMENT STREQUAL "development")
   message(STATUS "Building on development environment")
-  target_compile_definitions(NeuroForge PUBLIC ENVIRONMENT_DEVELOPMENT)
-  target_compile_definitions(NeuroForge PUBLIC LOG_LEVEL_INFO LOG_LEVEL_DEBUG LOG_LEVEL_WARNING LOG_LEVEL_ERROR)
+  target_compile_definitions(NeuroForge
+    PUBLIC
+    ENVIRONMENT_DEVELOPMENT
+    LOG_LEVEL_INFO LOG_LEVEL_DEBUG LOG_LEVEL_WARNING LOG_LEVEL_ERROR
+  )
 
   set(VERBOSE_CODE_COMPILATION ON)
   set(MAKE_EXECUTABLE ON)
-  set(ENABLE_COVERAGE ON)
 
 endif()
 
@@ -46,14 +59,6 @@ if(VERBOSE_CODE_COMPILATION)
 endif()
 
 if(INSTALL_TARGET)
-  target_include_directories(NeuroForge
-    PUBLIC
-    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include>
-    PRIVATE
-    ${PROJECT_SOURCE_DIR}/include/internal
-  )
-
   add_library(NeuroForge::NeuroForge ALIAS NeuroForge)
 
   install(TARGETS NeuroForge
@@ -96,15 +101,14 @@ if(INSTALL_TARGET)
 endif()
 
 if(ENABLE_TEST)
-  include_directories(${PROJECT_SOURCE_DIR}/include)
   add_subdirectory(${PROJECT_SOURCE_DIR}/tests)
 endif()
 
 if(MAKE_EXECUTABLE)
-  add_executable(NeuroForgeMain ${SOURCES} src/main.cpp)
+  add_executable(NeuroForgeMain ${PROJECT_SOURCE_DIR}/src/main.cpp)
 
-  target_include_directories(NeuroForgeMain
+  target_link_libraries(NeuroForgeMain
     PRIVATE
-    ${PROJECT_SOURCE_DIR}/include
+    NeuroForge
   )
 endif()
