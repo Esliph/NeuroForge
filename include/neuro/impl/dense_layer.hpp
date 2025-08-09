@@ -48,7 +48,12 @@ namespace neuro {
     float meanBias() const override;
 
     FORCE_INLINE size_t inputSize() const override {
-      return weights.empty() ? 0 : weights[0].size();
+      if (weights.empty())
+        UNLIKELY {
+          return 0;
+        }
+
+      return weights[0].size();
     }
 
     FORCE_INLINE size_t outputSize() const override {
