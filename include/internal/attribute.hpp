@@ -7,3 +7,6 @@
 #else
 #define FORCE_INLINE inline
 #endif
+
+#define LIKELY [[likely]]
+#define UNLIKELY [[unlikely]]
