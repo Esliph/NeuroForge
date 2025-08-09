@@ -290,3 +290,49 @@ TEST_CASE("DenseLayer - Validating the arithmetic mean of layer biases") {
 
   CHECK(layer.meanBias() == doctest::Approx(sum / biases.size()));
 }
+
+TEST_CASE("DenseLayer - Testing the internal structure of the layer") {
+  SUBCASE("Correct inner layer") {
+    neuro::DenseLayer layer;
+
+    layer.setWeights({{1.0f, 2.0f}, {3.0f, 4.0f}});
+    layer.setBiases({1.0f, -1.0f});
+
+    CHECK(layer.validateInternalShape());
+  }
+
+  SUBCASE("Incorrect inner layer") {
+    neuro::DenseLayer layer;
+
+    layer.setWeights({{1.0f, 3.0f}});
+    layer.setBiases({1.0f, -1.0f});
+
+    CHECK(!layer.validateInternalShape());
+  }
+
+  SUBCASE("Layer with weight matrix with different outputs") {
+    neuro::DenseLayer layer;
+
+    layer.setWeights({{1.0f}, {1.0f, 3.0f}});
+    layer.setBiases({1.0f, -1.0f});
+
+    CHECK(!layer.validateInternalShape());
+
+    layer.setWeights({{1.0f, 3.0f}, {1.0f}});
+    layer.setBiases({1.0f, -1.0f});
+
+    CHECK(!layer.validateInternalShape());
+  }
+
+  SUBCASE("Constructing DenseLayer object with correct structure") {
+    neuro::DenseLayer layer({{1.0f}, {3.0f}}, {1.0f, -1.0f});
+
+    CHECK(layer.validateInternalShape());
+  }
+
+  SUBCASE("Constructing DenseLayer object with incorrect structure") {
+    neuro::DenseLayer layer({{1.0f}, {3.0f}, {2.0f}}, {1.0f, -1.0f});
+
+    CHECK(!layer.validateInternalShape());
+  }
+}
