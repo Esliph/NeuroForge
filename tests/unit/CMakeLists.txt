@@ -25,6 +25,11 @@ target_link_libraries(NeuroForgeTests
   NeuroForge
 )
 
+target_include_directories(NeuroForgeTests
+  PRIVATE
+  ${PROJECT_SOURCE_DIR}/tests/unit
+)
+
 enable_testing()
 add_test(NAME NeuroForgeTests
   COMMAND NeuroForgeTests --success --durations yes --exitcode
