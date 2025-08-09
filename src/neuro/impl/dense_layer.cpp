@@ -4,6 +4,7 @@
 #include <random>
 #include <vector>
 
+#include "internal/log.hpp"
 #include "neuro/exceptions/invalid_network_architecture_exception.hpp"
 #include "neuro/interfaces/i_layer.hpp"
 #include "neuro/utils/activation.hpp"
@@ -101,16 +102,16 @@ namespace neuro {
   }
 
   bool DenseLayer::validateInternalShape(const layer_weight_t& weights, const layer_bias_t& biases) {
-    auto outputSizeLayer = outputSize();
+    auto expectedOutput = outputSize();
 
-    if (weights.size() != outputSizeLayer || biases.size() != outputSizeLayer) {
+    if (expectedOutput == 0 || weights.size() != expectedOutput || biases.size() != expectedOutput) {
       return false;
     }
 
-    auto inputSizeLayer = inputSize();
+    auto expectedInput = inputSize();
 
-    for (const auto& row : weights) {
-      if (row.size() != inputSizeLayer) {
+    for (size_t i = 0; i < weights.size(); i++) {
+      if (weights[i].size() != expectedInput) {
         return false;
       }
     }
@@ -123,15 +124,15 @@ namespace neuro {
       return 0;
     }
 
-    float sum = 0;
+    float total = 0;
 
     for (size_t i = 0; i < weights.size(); i++) {
       for (size_t j = 0; j < weights[i].size(); j++) {
-        sum += weights[i][j];
+        total += weights[i][j];
       }
     }
 
-    return sum / (weights.size() * weights[0].size());
+    return total / (weights.size() * weights[0].size());
   }
 
   float DenseLayer::meanBias() const {
@@ -139,13 +140,13 @@ namespace neuro {
       return 0;
     }
 
-    float sum = 0;
+    float total = 0;
 
     for (size_t i = 0; i < biases.size(); i++) {
-      sum += biases[i];
+      total += biases[i];
     }
 
-    return sum / biases.size();
+    return total / biases.size();
   }
 
   float& DenseLayer::weightRef(size_t indexX, size_t indexY) {
