@@ -28,7 +28,7 @@ TEST_CASE("DenseLayer - Object construction tests") {
   }
 
   SUBCASE("Create DenseLayer informing only the activation function") {
-    neuro::DenseLayer layerWithOnlyActivation(neuro::maker::makeRelu());
+    neuro::DenseLayer layerWithOnlyActivation(neuro::maker::activationRelu());
 
     CHECK(layerWithOnlyActivation.inputSize() == 0);
     CHECK(layerWithOnlyActivation.outputSize() == 0);
@@ -36,7 +36,7 @@ TEST_CASE("DenseLayer - Object construction tests") {
 
   SUBCASE("Create DenseLayer by specifying input and output size") {
     neuro::DenseLayer layerWithInputAndOutput(1, 2);
-    neuro::DenseLayer layerWithInputAndOutputAndActivation(1, 2, neuro::maker::makeRelu());
+    neuro::DenseLayer layerWithInputAndOutputAndActivation(1, 2, neuro::maker::activationRelu());
 
     CHECK(layerWithInputAndOutput.inputSize() == 1);
     CHECK(layerWithInputAndOutput.outputSize() == 2);
@@ -68,7 +68,7 @@ TEST_CASE("DenseLayer - Object construction tests") {
   SUBCASE("Create DenseLayer informing the weights and activation function") {
     neuro::layer_weight_t weights = {{0.0f, 0.0f}};
 
-    neuro::DenseLayer layerWithWeightsAndActivation(weights, neuro::maker::makeRelu());
+    neuro::DenseLayer layerWithWeightsAndActivation(weights, neuro::maker::activationRelu());
 
     CHECK(layerWithWeightsAndActivation.inputSize() == 2);
     CHECK(layerWithWeightsAndActivation.outputSize() == 1);
@@ -77,7 +77,7 @@ TEST_CASE("DenseLayer - Object construction tests") {
   SUBCASE("Create DenseLayer informing the biases and activation function") {
     neuro::layer_bias_t biases = {0.0f, 0.0f};
 
-    neuro::DenseLayer layerWithBiasesAndActivation(biases, neuro::maker::makeRelu());
+    neuro::DenseLayer layerWithBiasesAndActivation(biases, neuro::maker::activationRelu());
 
     CHECK(layerWithBiasesAndActivation.inputSize() == 0);
     CHECK(layerWithBiasesAndActivation.outputSize() == 2);
@@ -91,7 +91,7 @@ TEST_CASE("DenseLayer - Object construction tests") {
   }
 
   SUBCASE("Create DenseLayer informing the weights, biases and activation function") {
-    neuro::DenseLayer layerWithWeightsAndBiasesAndActivation({{0.0f, 0.0f}}, {0.0f, 0.0f}, neuro::maker::makeRelu());
+    neuro::DenseLayer layerWithWeightsAndBiasesAndActivation({{0.0f, 0.0f}}, {0.0f, 0.0f}, neuro::maker::activationRelu());
 
     CHECK(layerWithWeightsAndBiasesAndActivation.inputSize() == 2);
     CHECK(layerWithWeightsAndBiasesAndActivation.outputSize() == 1);
@@ -131,7 +131,7 @@ TEST_CASE("DenseLayer - Set/Get weights and biases") {
 }
 
 TEST_CASE("DenseLayer - Change testing via reference") {
-  neuro::DenseLayer layer(1, 2, neuro::maker::makeSigmoid());
+  neuro::DenseLayer layer(1, 2, neuro::maker::activationSigmoid());
 
   auto& weightProxy = layer.weightRef(1, 0);
   auto& biasProxy = layer.biasRef(0);
@@ -149,7 +149,7 @@ TEST_CASE("DenseLayer - Clone") {
   original.setWeights({{1.0f, 2.0f}, {3.0f, 4.0f}});
   original.setBiases({1.0f, -1.0f});
 
-  original.setActivationFunction(neuro::maker::makeSigmoid());
+  original.setActivationFunction(neuro::maker::activationSigmoid());
 
   auto clone = original.clone();
 
@@ -162,7 +162,7 @@ TEST_CASE("DenseLayer - Copy") {
   original.setWeights({{1.0f, 2.0f}, {3.0f, 4.0f}});
   original.setBiases({1.0f, -1.0f});
 
-  original.setActivationFunction(neuro::maker::makeSigmoid());
+  original.setActivationFunction(neuro::maker::activationSigmoid());
 
   neuro::DenseLayer clone(original);
 
@@ -175,14 +175,14 @@ TEST_CASE("DenseLayer - Instance attribution tests") {
   ref.setWeights({{1.0f, 2.0f}, {3.0f, 4.0f}});
   ref.setBiases({1.0f, -1.0f});
 
-  ref.setActivationFunction(neuro::maker::makeSigmoid());
+  ref.setActivationFunction(neuro::maker::activationSigmoid());
 
   neuro::DenseLayer second;
 
   second.setWeights({{2.0f}, {4.0f}});
   second.setBiases({5.0f});
 
-  second.setActivationFunction(neuro::maker::makeElu());
+  second.setActivationFunction(neuro::maker::activationElu());
 
   checkNotEqualLayers(second, ref);
 
@@ -231,7 +231,7 @@ TEST_CASE("DenseLayer - Feedforward deterministic") {
   layer.setWeights({{0.1f, 0.2f, 0.3f}, {0.4f, 0.5f, 0.6f}});
   layer.setBiases({0.5f, -0.5f});
 
-  layer.setActivationFunction(neuro::maker::makeRelu());
+  layer.setActivationFunction(neuro::maker::activationRelu());
 
   neuro::neuro_layer_t input = {1.0f, 2.0f, 3.0f};
   auto output = layer.feedforward(input);

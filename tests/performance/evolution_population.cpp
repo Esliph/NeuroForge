@@ -11,7 +11,7 @@ void testEvolvePopulation() {
 
   neuro::GeneticTrainer trainer;
 
-  neuro::Population pop(100000, {2, 3, 4, 3}, neuro::maker::makeSigmoid());
+  neuro::Population pop(100000, {2, 3, 4, 3}, neuro::maker::activationSigmoid());
 
   for (auto& individual : pop) {
     individual->setFitness(dist(engine));

@@ -117,7 +117,7 @@ TEST_CASE("DenseLayer - Object construction tests") {
 
   SUBCASE("Create NeuralNetwork by defining a structure of number of neurons per layer and defining a "
           "activation function") {
-    neuro::NeuralNetwork networkWithFactoryLayer({2, 4, 3, 1}, neuro::maker::makeSigmoid());
+    neuro::NeuralNetwork networkWithFactoryLayer({2, 4, 3, 1}, neuro::maker::activationSigmoid());
 
     CHECK(networkWithFactoryLayer.sizeLayers() == 3);
     CHECK(networkWithFactoryLayer.inputSize() == 2);
@@ -126,8 +126,8 @@ TEST_CASE("DenseLayer - Object construction tests") {
 
   SUBCASE("Create NeuralNetwork by defining a structure of number of neurons per layer with multiple activation functions") {
     neuro::NeuralNetwork networkWithFactoryLayer({2, 4, 3, 1},
-                                                 {neuro::maker::makeSigmoid(), neuro::maker::makeRelu(),
-                                                  neuro::maker::makeHard_sigmoid()});
+                                                 {neuro::maker::activationSigmoid(), neuro::maker::activationRelu(),
+                                                  neuro::maker::activationHard_sigmoid()});
 
     CHECK(networkWithFactoryLayer.sizeLayers() == 3);
     CHECK(networkWithFactoryLayer.inputSize() == 2);
@@ -137,7 +137,7 @@ TEST_CASE("DenseLayer - Object construction tests") {
 
 TEST_CASE("NeuralNetwork - Check the neural network structure") {
   neuro::NeuralNetwork network({2, 4, 3, 1},
-                               {neuro::maker::makeSigmoid(), neuro::maker::makeRelu(), neuro::maker::makeHard_sigmoid()});
+                               {neuro::maker::activationSigmoid(), neuro::maker::activationRelu(), neuro::maker::activationHard_sigmoid()});
 
   CHECK(network.sizeLayers() == 3);
   CHECK(network.inputSize() == 2);
@@ -151,12 +151,12 @@ TEST_CASE("NeuralNetwork - Check the neural network structure") {
 }
 
 TEST_CASE("NeuralNetwork - Feedforward deterministic") {
-  neuro::DenseLayer layer1(neuro::maker::makeIdentity());
+  neuro::DenseLayer layer1(neuro::maker::activationIdentity());
 
   layer1.setWeights({{1.0f, 2.0f}, {3.0f, 4.0f}, {5.0f, 6.0f}});
   layer1.setBiases({0.0f, 0.0f, 0.0f});
 
-  neuro::DenseLayer layer2(neuro::maker::makeIdentity());
+  neuro::DenseLayer layer2(neuro::maker::activationIdentity());
 
   layer2.setWeights({{1.0f, 1.0f, 1.0f}});
   layer2.setBiases({0.0f});
@@ -226,7 +226,7 @@ TEST_CASE("NeuralNetwork - Add layers") {
 }
 
 TEST_CASE("NeuralNetwork - Randomization test of weights and biases") {
-  neuro::NeuralNetwork network({2, 2, 2}, neuro::maker::makeElu());
+  neuro::NeuralNetwork network({2, 2, 2}, neuro::maker::activationElu());
 
   network.randomizeWeights(-1.0f, 1.0f);
   network.randomizeBiases(-2.0f, 2.0f);
@@ -247,9 +247,9 @@ TEST_CASE("NeuralNetwork - Randomization test of weights and biases") {
 }
 
 TEST_CASE("NeuralNetwork - Reset state") {
-  neuro::DenseLayer layer1({{1.0f, 2.0f}, {3.0f, 4.0f}}, {1.0f, -1.0f}, neuro::maker::makeSigmoid());
-  neuro::DenseLayer layer2({{1.0f, 2.0f}, {3.0f, 4.0f}}, {1.0f, -1.0f}, neuro::maker::makeSigmoid());
-  neuro::DenseLayer layer3({{1.0f, 2.0f}, {3.0f, 4.0f}}, {1.0f, -1.0f}, neuro::maker::makeSigmoid());
+  neuro::DenseLayer layer1({{1.0f, 2.0f}, {3.0f, 4.0f}}, {1.0f, -1.0f}, neuro::maker::activationSigmoid());
+  neuro::DenseLayer layer2({{1.0f, 2.0f}, {3.0f, 4.0f}}, {1.0f, -1.0f}, neuro::maker::activationSigmoid());
+  neuro::DenseLayer layer3({{1.0f, 2.0f}, {3.0f, 4.0f}}, {1.0f, -1.0f}, neuro::maker::activationSigmoid());
 
   neuro::NeuralNetwork network = {&layer1, &layer2, &layer3};
 
@@ -273,9 +273,9 @@ TEST_CASE("NeuralNetwork - Reset state") {
 }
 
 TEST_CASE("NeuralNetwork - Clear layers") {
-  neuro::DenseLayer layer1({{1.0f, 2.0f}, {3.0f, 4.0f}}, {1.0f, -1.0f}, neuro::maker::makeSigmoid());
-  neuro::DenseLayer layer2({{1.0f, 2.0f}, {3.0f, 4.0f}}, {1.0f, -1.0f}, neuro::maker::makeSigmoid());
-  neuro::DenseLayer layer3({{1.0f, 2.0f}, {3.0f, 4.0f}}, {1.0f, -1.0f}, neuro::maker::makeSigmoid());
+  neuro::DenseLayer layer1({{1.0f, 2.0f}, {3.0f, 4.0f}}, {1.0f, -1.0f}, neuro::maker::activationSigmoid());
+  neuro::DenseLayer layer2({{1.0f, 2.0f}, {3.0f, 4.0f}}, {1.0f, -1.0f}, neuro::maker::activationSigmoid());
+  neuro::DenseLayer layer3({{1.0f, 2.0f}, {3.0f, 4.0f}}, {1.0f, -1.0f}, neuro::maker::activationSigmoid());
 
   neuro::NeuralNetwork network = {&layer1, &layer2, &layer3};
 
@@ -333,9 +333,9 @@ TEST_CASE("NeuralNetwork - Shift layer") {
 }
 
 TEST_CASE("NeuralNetwork - Clone") {
-  neuro::DenseLayer layerSimple1(4, 3, neuro::maker::makeIdentity());
-  neuro::DenseLayer layerSimple2(3, 2, neuro::maker::makeIdentity());
-  neuro::DenseLayer layerSimple3(3, 2, neuro::maker::makeIdentity());
+  neuro::DenseLayer layerSimple1(4, 3, neuro::maker::activationIdentity());
+  neuro::DenseLayer layerSimple2(3, 2, neuro::maker::activationIdentity());
+  neuro::DenseLayer layerSimple3(3, 2, neuro::maker::activationIdentity());
 
   neuro::NeuralNetwork original = {&layerSimple1, &layerSimple2, &layerSimple3};
 
@@ -345,9 +345,9 @@ TEST_CASE("NeuralNetwork - Clone") {
 }
 
 TEST_CASE("NeuralNetwork - Copy") {
-  neuro::DenseLayer layerSimple1(4, 3, neuro::maker::makeIdentity());
-  neuro::DenseLayer layerSimple2(3, 2, neuro::maker::makeIdentity());
-  neuro::DenseLayer layerSimple3(3, 2, neuro::maker::makeIdentity());
+  neuro::DenseLayer layerSimple1(4, 3, neuro::maker::activationIdentity());
+  neuro::DenseLayer layerSimple2(3, 2, neuro::maker::activationIdentity());
+  neuro::DenseLayer layerSimple3(3, 2, neuro::maker::activationIdentity());
 
   neuro::NeuralNetwork original = {&layerSimple1, &layerSimple2, &layerSimple3};
 
@@ -357,7 +357,7 @@ TEST_CASE("NeuralNetwork - Copy") {
 }
 
 TEST_CASE("NeuralNetwork - Change testing via reference") {
-  neuro::NeuralNetwork network({1, 2, 3}, neuro::maker::makeSigmoid());
+  neuro::NeuralNetwork network({1, 2, 3}, neuro::maker::activationSigmoid());
 
   auto& layer = network[0];
 

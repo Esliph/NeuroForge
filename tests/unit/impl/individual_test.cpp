@@ -3,7 +3,7 @@
 #include "neuro/neuro.hpp"
 
 TEST_CASE("Tests for Individual class") {
-  neuro::Individual individual({ 2, 3, 1 }, neuro::maker::makeSigmoid());
+  neuro::Individual individual({2, 3, 1}, neuro::maker::activationSigmoid());
 
   auto& network = individual.getNeuralNetwork();
 

@@ -9,8 +9,8 @@ TEST_CASE("Tests for Population class") {
 }
 
 TEST_CASE("Check randomization population") {
-  std::vector<int> structure = { 2, 4, 1 };
-  neuro::ActivationFunction activation = neuro::maker::makeSigmoid();
+  std::vector<int> structure = {2, 4, 1};
+  neuro::ActivationFunction activation = neuro::maker::activationSigmoid();
 
   neuro::Population population(1, structure, activation);
 

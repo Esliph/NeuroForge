@@ -3,7 +3,7 @@
 #include "neuro/makers/makers.hpp"
 
 TEST_CASE("Activation - Sigmoid") {
-  auto sigmoid(neuro::maker::makeSigmoid());
+  auto sigmoid(neuro::maker::activationSigmoid());
 
   CHECK(sigmoid.activate(0.0f) == doctest::Approx(0.5f));
   CHECK(sigmoid.activate(100.0f) == doctest::Approx(1.0f).epsilon(0.01));
@@ -14,7 +14,7 @@ TEST_CASE("Activation - Sigmoid") {
 }
 
 TEST_CASE("Activation - ReLU") {
-  auto relu(neuro::maker::makeRelu());
+  auto relu(neuro::maker::activationRelu());
 
   CHECK(relu.activate(-1.0f) == doctest::Approx(0.0f));
   CHECK(relu.activate(0.0f) == doctest::Approx(0.0f));
@@ -25,7 +25,7 @@ TEST_CASE("Activation - ReLU") {
 }
 
 TEST_CASE("Activation - Tanh") {
-  auto tanh_fn(neuro::maker::makeTanh_fn());
+  auto tanh_fn(neuro::maker::activationTanh_fn());
 
   CHECK(tanh_fn.activate(0.0f) == doctest::Approx(0.0f));
   CHECK(tanh_fn.activate(10.0f) == doctest::Approx(1.0f).epsilon(0.01));
@@ -36,7 +36,7 @@ TEST_CASE("Activation - Tanh") {
 }
 
 TEST_CASE("Activation - LeakyReLU") {
-  auto leaky(neuro::maker::makeLeaky_relu());
+  auto leaky(neuro::maker::activationLeaky_relu());
 
   CHECK(leaky.activate(-1.0f) == doctest::Approx(-0.01f));
   CHECK(leaky.activate(0.0f) == doctest::Approx(0.0f));
@@ -47,7 +47,7 @@ TEST_CASE("Activation - LeakyReLU") {
 }
 
 TEST_CASE("Activation - ELU") {
-  auto elu(neuro::maker::makeElu());
+  auto elu(neuro::maker::activationElu());
 
   CHECK(elu.activate(-1.0f) == doctest::Approx(std::exp(-1.0f) - 1.0f));
   CHECK(elu.activate(0.0f) == doctest::Approx(0.0f));
@@ -59,7 +59,7 @@ TEST_CASE("Activation - ELU") {
 }
 
 TEST_CASE("Activation - Swish") {
-  auto swish(neuro::maker::makeSwish());
+  auto swish(neuro::maker::activationSwish());
 
   float x = 1.0f;
   float expected = x / (1.0f + std::exp(-x));
@@ -71,7 +71,7 @@ TEST_CASE("Activation - Swish") {
 }
 
 TEST_CASE("Activation - Softplus") {
-  auto softplus(neuro::maker::makeSoftplus());
+  auto softplus(neuro::maker::activationSoftplus());
 
   float x = 1.0f;
   CHECK(softplus.activate(x) == doctest::Approx(std::log1p(std::exp(x))));
@@ -81,7 +81,7 @@ TEST_CASE("Activation - Softplus") {
 }
 
 TEST_CASE("Activation - Hard Sigmoid") {
-  auto hard_sigmoid(neuro::maker::makeHard_sigmoid());
+  auto hard_sigmoid(neuro::maker::activationHard_sigmoid());
 
   CHECK(hard_sigmoid.activate(-10.0f) == doctest::Approx(0.0f));
   CHECK(hard_sigmoid.activate(0.0f) == doctest::Approx(0.5f));
@@ -94,7 +94,7 @@ TEST_CASE("Activation - Hard Sigmoid") {
 }
 
 TEST_CASE("Activation - Identity") {
-  auto identity(neuro::maker::makeIdentity());
+  auto identity(neuro::maker::activationIdentity());
 
   CHECK(identity.activate(-10.0f) == doctest::Approx(-10.0f));
   CHECK(identity.activate(0.0f) == doctest::Approx(0.0f));
