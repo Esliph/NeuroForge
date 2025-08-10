@@ -61,6 +61,7 @@ namespace neuro {
     }
 
     void reset() override;
+    void reset(const std::vector<int>& newStructure) override;
 
     FORCE_INLINE void clearLayers() override {
       layers.clear();

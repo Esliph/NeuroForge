@@ -96,6 +96,14 @@ namespace neuro {
     }
   }
 
+  void NeuralNetwork::reset(const std::vector<int>& newStructure) {
+    clearLayers();
+
+    for (size_t i = 0; i < newStructure.size() - 1; i++) {
+      layers.emplace_back(std::make_unique<DenseLayer>(newStructure[i], newStructure[i + 1]));
+    }
+  }
+
   void NeuralNetwork::removeLayer(size_t index) {
     if (index < layers.size()) {
       layers.erase(layers.begin() + index);

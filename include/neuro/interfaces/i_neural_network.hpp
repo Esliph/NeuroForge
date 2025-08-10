@@ -26,6 +26,7 @@ namespace neuro {
     virtual void addLayer(std::function<std::unique_ptr<ILayer>()> factory) = 0;
 
     virtual void reset() = 0;
+    virtual void reset(const std::vector<int>& newStructure) = 0;
 
     virtual void clearLayers() = 0;
 
