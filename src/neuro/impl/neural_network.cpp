@@ -70,6 +70,12 @@ namespace neuro {
     }
   }
 
+  NeuralNetwork::NeuralNetwork(const ILayer& prototype, size_t size) {
+    for (size_t i = 0; i < size; i++) {
+      layers.emplace_back(prototype.clone());
+    }
+  }
+
   NeuralNetwork::NeuralNetwork(const std::vector<int>& structure, const std::vector<ActivationFunction>& activations) {
     for (size_t i = 0; i < structure.size() - 1; i++) {
       layers.emplace_back(std::make_unique<DenseLayer>(structure[i], structure[i + 1], activations[i]));

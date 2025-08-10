@@ -107,8 +107,7 @@ TEST_CASE("DenseLayer - Object construction tests") {
     CHECK(networkWithFactoryLayer.outputSize() == 1);
   }
 
-  SUBCASE("Create NeuralNetwork by defining a structure of number of neurons per layer and defining a "
-          "activation function") {
+  SUBCASE("Create NeuralNetwork by defining a structure of number of neurons per layer and defining a activation function") {
     neuro::NeuralNetwork networkWithFactoryLayer({2, 4, 3, 1}, neuro::maker::activationSigmoid());
 
     CHECK(networkWithFactoryLayer.sizeLayers() == 3);
@@ -116,14 +115,14 @@ TEST_CASE("DenseLayer - Object construction tests") {
     CHECK(networkWithFactoryLayer.outputSize() == 1);
   }
 
-  SUBCASE("Create NeuralNetwork by defining a structure of number of neurons per layer with multiple activation functions") {
-    neuro::NeuralNetwork networkWithFactoryLayer({2, 4, 3, 1},
-                                                 {neuro::maker::activationSigmoid(), neuro::maker::activationRelu(),
-                                                  neuro::maker::activationHard_sigmoid()});
+  SUBCASE("Create a NeuralNetwork from a prototype") {
+    neuro::DenseLayer prototype(2, 2);
 
-    CHECK(networkWithFactoryLayer.sizeLayers() == 3);
-    CHECK(networkWithFactoryLayer.inputSize() == 2);
-    CHECK(networkWithFactoryLayer.outputSize() == 1);
+    neuro::NeuralNetwork networkWithPrototype(prototype, 3);
+
+    CHECK(networkWithPrototype.sizeLayers() == 3);
+    CHECK(networkWithPrototype.inputSize() == 2);
+    CHECK(networkWithPrototype.outputSize() == 2);
   }
 }
 

@@ -21,13 +21,18 @@ namespace neuro {
 
     NeuralNetwork(std::initializer_list<ILayer*> layers);
     NeuralNetwork(const std::vector<ILayer*>& layers);
+
     NeuralNetwork(std::vector<std::unique_ptr<ILayer>>& layers);
     NeuralNetwork(std::vector<std::unique_ptr<ILayer>>&& layers);
+
     NeuralNetwork(const std::vector<std::function<std::unique_ptr<ILayer>()>>& factories);
     NeuralNetwork(const std::function<std::unique_ptr<ILayer>()>& factory, size_t size = 1);
+
     NeuralNetwork(const std::vector<int>& structure);
     NeuralNetwork(const std::vector<int>& structure, const ActivationFunction& activation);
     NeuralNetwork(const std::vector<int>& structure, const std::vector<ActivationFunction>& activations);
+
+    NeuralNetwork(const ILayer& prototype, size_t size);
 
     virtual ~NeuralNetwork() = default;
 
