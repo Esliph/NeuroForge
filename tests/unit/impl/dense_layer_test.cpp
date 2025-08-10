@@ -3,8 +3,6 @@
 #include <doctest/doctest.h>
 
 #include "interfaces/i_layer_test.hpp"
-#include "neuro/exceptions/invalid_network_architecture_exception.hpp"
-#include "neuro/interfaces/i_layer.hpp"
 #include "neuro/makers/activation.hpp"
 
 TEST_CASE("DenseLayer - Object construction tests") {
