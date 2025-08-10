@@ -103,18 +103,32 @@ void runTestInterfaceILayer() {
   }
 
   SUBCASE("Reset state") {
-    ILayerImpl layer;
-
-    layer.setWeights({{1.0f, 2.0f}, {3.0f, 4.0f}});
-    layer.setBiases({1.0f, -1.0f});
-
-    layer.reset();
-
     neuro::layer_weight_t weightsComparison = {{0.0f, 0.0f}, {0.0f, 0.0f}};
     neuro::layer_bias_t biasesComparison = {0.0f, -0.0f};
 
-    CHECK(layer.getWeights() == weightsComparison);
-    CHECK(layer.getBiases() == biasesComparison);
+    SUBCASE("Resetting layer state without changing the structure") {
+      ILayerImpl layer;
+
+      layer.setWeights({{1.0f, 2.0f}, {3.0f, 4.0f}});
+      layer.setBiases({1.0f, -1.0f});
+
+      layer.reset();
+
+      CHECK(layer.getWeights() == weightsComparison);
+      CHECK(layer.getBiases() == biasesComparison);
+    }
+
+    SUBCASE("Resetting layer state and defining a new structure") {
+      ILayerImpl layer;
+
+      layer.setWeights({{1.0f, 2.0f, 0.0f}, {3.0f, 4.0f, 0.0f}, {5.0f, 6.0f, 0.0f}});
+      layer.setBiases({1.0f, -1.0f, 0.0f});
+
+      layer.reset(2, 2);
+
+      CHECK(layer.getWeights() == weightsComparison);
+      CHECK(layer.getBiases() == biasesComparison);
+    }
   }
 
   SUBCASE("Instance attribution tests") {
