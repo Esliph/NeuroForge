@@ -4,6 +4,11 @@
 #include "neuro/interfaces/i_layer.hpp"
 #include "neuro/makers/activation.hpp"
 
+#define TEST_IMPL_ILAYER(NAME, TYPE)                                 \
+  TEST_CASE(NAME " - Testing implementation for ILayer interface") { \
+    runTestInterfaceILayer<TYPE>();                                  \
+  }
+
 void checkEqualsILayer(neuro::ILayer& layerA, neuro::ILayer& layerB) {
   CHECK(layerA.getWeights() == layerB.getWeights());
   CHECK(layerA.getBiases() == layerB.getBiases());

@@ -87,6 +87,4 @@ TEST_CASE("DenseLayer - Object construction tests") {
   }
 }
 
-TEST_CASE("DenseLayer - Testing DenseLayer implementation for ILayer interface") {
-  runTestInterfaceILayer<neuro::DenseLayer>();
-}
+TEST_IMPL_ILAYER("DenseLayer", neuro::DenseLayer);
