@@ -2,24 +2,15 @@
 
 #include <doctest/doctest.h>
 
-#include "internal/log.hpp"
+#include "interfaces/i_layer_test.hpp"
 #include "neuro/exceptions/invalid_network_architecture_exception.hpp"
 #include "neuro/interfaces/i_layer.hpp"
 #include "neuro/makers/activation.hpp"
 
-void checkEqualLayers(neuro::ILayer& layerA, neuro::ILayer& layerB) {
-  CHECK(layerA.getWeights() == layerB.getWeights());
-  CHECK(layerA.getBiases() == layerB.getBiases());
-  CHECK(layerA.getActivationFunction().activate(10.0f) == doctest::Approx(layerB.getActivationFunction().activate(10.0f)));
-}
-
-void checkNotEqualLayers(neuro::ILayer& layerA, neuro::ILayer& layerB) {
-  CHECK(layerA.getWeights() != layerB.getWeights());
-  CHECK(layerA.getBiases() != layerB.getBiases());
-  CHECK(layerA.getActivationFunction().activate(10.0f) != layerB.getActivationFunction().activate(10.0f));
-}
-
 TEST_CASE("DenseLayer - Object construction tests") {
+  neuro::layer_weight_t weights = {{3.0f, 6.0f}};
+  neuro::layer_bias_t biases = {3.0f, 6.0f};
+
   SUBCASE("Create DenseLayer without parameters") {
     neuro::DenseLayer layerWithoutParameter;
 
@@ -46,8 +37,6 @@ TEST_CASE("DenseLayer - Object construction tests") {
   }
 
   SUBCASE("Create DenseLayer informing only the weights") {
-    neuro::layer_weight_t weights = {{3.0f, 6.0f}};
-
     neuro::DenseLayer layerWithWeights(weights);
 
     CHECK(layerWithWeights.inputSize() == 2);
@@ -56,8 +45,6 @@ TEST_CASE("DenseLayer - Object construction tests") {
   }
 
   SUBCASE("Create DenseLayer informing only the biases") {
-    neuro::layer_bias_t biases = {3.0f, 6.0f};
-
     neuro::DenseLayer layerWithBiases(biases);
 
     CHECK(layerWithBiases.inputSize() == 0);
@@ -66,273 +53,40 @@ TEST_CASE("DenseLayer - Object construction tests") {
   }
 
   SUBCASE("Create DenseLayer informing the weights and activation function") {
-    neuro::layer_weight_t weights = {{0.0f, 0.0f}};
-
     neuro::DenseLayer layerWithWeightsAndActivation(weights, neuro::maker::activationRelu());
 
     CHECK(layerWithWeightsAndActivation.inputSize() == 2);
     CHECK(layerWithWeightsAndActivation.outputSize() == 1);
+    CHECK(layerWithWeightsAndActivation.getWeights() == weights);
   }
 
   SUBCASE("Create DenseLayer informing the biases and activation function") {
-    neuro::layer_bias_t biases = {0.0f, 0.0f};
-
     neuro::DenseLayer layerWithBiasesAndActivation(biases, neuro::maker::activationRelu());
 
     CHECK(layerWithBiasesAndActivation.inputSize() == 0);
     CHECK(layerWithBiasesAndActivation.outputSize() == 2);
+    CHECK(layerWithBiasesAndActivation.getBiases() == biases);
   }
 
   SUBCASE("Create DenseLayer informing the weights and biases") {
-    neuro::DenseLayer layerWithWeightsAndBiases({{0.0f, 0.0f}}, {0.0f, 0.0f});
+    neuro::DenseLayer layerWithWeightsAndBiases(weights, biases);
 
     CHECK(layerWithWeightsAndBiases.inputSize() == 2);
     CHECK(layerWithWeightsAndBiases.outputSize() == 1);
+    CHECK(layerWithWeightsAndBiases.getWeights() == weights);
+    CHECK(layerWithWeightsAndBiases.getBiases() == biases);
   }
 
   SUBCASE("Create DenseLayer informing the weights, biases and activation function") {
-    neuro::DenseLayer layerWithWeightsAndBiasesAndActivation({{0.0f, 0.0f}}, {0.0f, 0.0f}, neuro::maker::activationRelu());
+    neuro::DenseLayer layerWithWeightsAndBiasesAndActivation(weights, biases, neuro::maker::activationRelu());
 
     CHECK(layerWithWeightsAndBiasesAndActivation.inputSize() == 2);
     CHECK(layerWithWeightsAndBiasesAndActivation.outputSize() == 1);
+    CHECK(layerWithWeightsAndBiasesAndActivation.getWeights() == weights);
+    CHECK(layerWithWeightsAndBiasesAndActivation.getBiases() == biases);
   }
 }
 
-TEST_CASE("DenseLayer - Check the layer structure") {
-  neuro::DenseLayer layer(2, 3);
-
-  CHECK(layer.inputSize() == 2);
-  CHECK(layer.outputSize() == 3);
-
-  layer.setBiases({0.0f, 0.0f});
-  layer.setWeights({{0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f}});
-
-  CHECK(layer.inputSize() == 3);
-  CHECK(layer.outputSize() == 2);
-}
-
-TEST_CASE("DenseLayer - Set/Get weights and biases") {
-  neuro::DenseLayer layer(1, 2);
-
-  neuro::layer_weight_t weightsComparison = {{0.75f}, {0.0f}};
-  neuro::layer_bias_t biasesComparison = {0.0f, -0.25f};
-
-  layer.setWeight(0, 0, weightsComparison[0][0]);
-  layer.setBias(1, biasesComparison[1]);
-
-  CHECK(layer.getWeight(0, 0) == doctest::Approx(weightsComparison[0][0]));
-  CHECK(layer.getBias(1) == doctest::Approx(biasesComparison[1]));
-
-  CHECK(layer.weightRef(0, 0) == doctest::Approx(weightsComparison[0][0]));
-  CHECK(layer.biasRef(1) == doctest::Approx(biasesComparison[1]));
-
-  CHECK(layer.getWeights() == weightsComparison);
-  CHECK(layer.getBiases() == biasesComparison);
-}
-
-TEST_CASE("DenseLayer - Change testing via reference") {
-  neuro::DenseLayer layer(1, 2, neuro::maker::activationSigmoid());
-
-  auto& weightProxy = layer.weightRef(1, 0);
-  auto& biasProxy = layer.biasRef(0);
-
-  weightProxy = 0.75f;
-  biasProxy = 0.5f;
-
-  CHECK(layer.weightRef(1, 0) == doctest::Approx(0.75f));
-  CHECK(layer.biasRef(0) == doctest::Approx(0.5f));
-}
-
-TEST_CASE("DenseLayer - Clone") {
-  neuro::DenseLayer original;
-
-  original.setWeights({{1.0f, 2.0f}, {3.0f, 4.0f}});
-  original.setBiases({1.0f, -1.0f});
-
-  original.setActivationFunction(neuro::maker::activationSigmoid());
-
-  auto clone = original.clone();
-
-  checkEqualLayers(*clone, original);
-}
-
-TEST_CASE("DenseLayer - Copy") {
-  neuro::DenseLayer original;
-
-  original.setWeights({{1.0f, 2.0f}, {3.0f, 4.0f}});
-  original.setBiases({1.0f, -1.0f});
-
-  original.setActivationFunction(neuro::maker::activationSigmoid());
-
-  neuro::DenseLayer clone(original);
-
-  checkEqualLayers(clone, original);
-}
-
-TEST_CASE("DenseLayer - Instance attribution tests") {
-  neuro::DenseLayer ref;
-
-  ref.setWeights({{1.0f, 2.0f}, {3.0f, 4.0f}});
-  ref.setBiases({1.0f, -1.0f});
-
-  ref.setActivationFunction(neuro::maker::activationSigmoid());
-
-  neuro::DenseLayer second;
-
-  second.setWeights({{2.0f}, {4.0f}});
-  second.setBiases({5.0f});
-
-  second.setActivationFunction(neuro::maker::activationElu());
-
-  checkNotEqualLayers(second, ref);
-
-  second = ref;
-
-  checkEqualLayers(second, ref);
-}
-
-TEST_CASE("DenseLayer - Reset state") {
-  neuro::DenseLayer layer;
-
-  layer.setWeights({{1.0f, 2.0f}, {3.0f, 4.0f}});
-  layer.setBiases({1.0f, -1.0f});
-
-  layer.reset();
-
-  neuro::layer_weight_t weightsComparison = {{0.0f, 0.0f}, {0.0f, 0.0f}};
-  neuro::layer_bias_t biasesComparison = {0.0f, -0.0f};
-
-  CHECK(layer.getWeights() == weightsComparison);
-  CHECK(layer.getBiases() == biasesComparison);
-}
-
-TEST_CASE("DenseLayer - Randomization test of weights and biases") {
-  neuro::DenseLayer layer(4, 4);
-
-  layer.randomizeWeights(-1.0f, 1.0f);
-  layer.randomizeBiases(-2.0f, 2.0f);
-
-  for (const auto& neurons : layer.getWeights()) {
-    for (float weight : neurons) {
-      CHECK(weight >= -1.0f);
-      CHECK(weight <= 1.0f);
-    }
-  }
-
-  for (const float bias : layer.getBiases()) {
-    CHECK(bias >= -2.0f);
-    CHECK(bias <= 2.0f);
-  }
-}
-
-TEST_CASE("DenseLayer - Feedforward deterministic") {
-  neuro::DenseLayer layer;
-
-  layer.setWeights({{0.1f, 0.2f, 0.3f}, {0.4f, 0.5f, 0.6f}});
-  layer.setBiases({0.5f, -0.5f});
-
-  layer.setActivationFunction(neuro::maker::activationRelu());
-
-  neuro::neuro_layer_t input = {1.0f, 2.0f, 3.0f};
-  auto output = layer.feedforward(input);
-
-  CHECK(output.size() == 2);
-  CHECK(output[0] == doctest::Approx(0.1f * 1 + 0.2f * 2 + 0.3f * 3 + 0.5f));
-  CHECK(output[1] == doctest::Approx(std::max(0.0f, 0.4f * 1 + 0.5f * 2 + 0.6f * 3 - 0.5f)));
-}
-
-TEST_CASE("DenseLayer - Index exception tests outside the range of weight and bias vectors") {
-  neuro::DenseLayer layer(2, 2);
-
-  CHECK_THROWS_AS(layer.weightRef(2, 2), neuro::exception::InvalidNetworkArchitectureException);
-  CHECK_THROWS_AS(layer.biasRef(2), neuro::exception::InvalidNetworkArchitectureException);
-
-  CHECK_THROWS_AS(layer.setWeight(2, 2, 0.0f), neuro::exception::InvalidNetworkArchitectureException);
-  CHECK_THROWS_AS(layer.setBias(2, 0.0f), neuro::exception::InvalidNetworkArchitectureException);
-}
-
-TEST_CASE("DenseLayer - Index access tests within the range of weight and bias vectors") {
-  neuro::DenseLayer layer(2, 2);
-
-  CHECK_NOTHROW(layer.weightRef(1, 1));
-  CHECK_NOTHROW(layer.biasRef(1));
-
-  CHECK_NOTHROW(layer.setWeight(1, 1, 0.0f));
-  CHECK_NOTHROW(layer.setBias(1, 0.0f));
-}
-
-TEST_CASE("DenseLayer - Validating the arithmetic mean of layer weights") {
-  neuro::layer_weight_t weights = {{10.0f, -5.0f, 8.0f}, {3.0f, -2.0f, 12.0f}, {6.0f, -3.0f, 15.0f}};
-
-  neuro::DenseLayer layer(weights);
-
-  float sum = 0;
-
-  for (size_t i = 0; i < weights.size(); i++) {
-    for (size_t j = 0; j < weights[i].size(); j++) {
-      sum += weights[i][j];
-    }
-  }
-
-  CHECK(layer.meanWeight() == doctest::Approx(sum / (weights.size() * weights[0].size())));
-}
-
-TEST_CASE("DenseLayer - Validating the arithmetic mean of layer biases") {
-  neuro::layer_bias_t biases = {10.0f, -5.0f, 8.0f};
-
-  neuro::DenseLayer layer(biases);
-
-  float sum = 0;
-
-  for (size_t i = 0; i < biases.size(); i++) {
-    sum += biases[i];
-  }
-
-  CHECK(layer.meanBias() == doctest::Approx(sum / biases.size()));
-}
-
-TEST_CASE("DenseLayer - Testing the internal structure of the layer") {
-  SUBCASE("Correct inner layer") {
-    neuro::DenseLayer layer;
-
-    layer.setWeights({{1.0f, 2.0f}, {3.0f, 4.0f}});
-    layer.setBiases({1.0f, -1.0f});
-
-    CHECK(layer.validateInternalShape());
-  }
-
-  SUBCASE("Incorrect inner layer") {
-    neuro::DenseLayer layer;
-
-    layer.setWeights({{1.0f, 3.0f}});
-    layer.setBiases({1.0f, -1.0f});
-
-    CHECK(!layer.validateInternalShape());
-  }
-
-  SUBCASE("Layer with weight matrix with different outputs") {
-    neuro::DenseLayer layer;
-
-    layer.setWeights({{1.0f}, {1.0f, 3.0f}});
-    layer.setBiases({1.0f, -1.0f});
-
-    CHECK(!layer.validateInternalShape());
-
-    layer.setWeights({{1.0f, 3.0f}, {1.0f}});
-    layer.setBiases({1.0f, -1.0f});
-
-    CHECK(!layer.validateInternalShape());
-  }
-
-  SUBCASE("Constructing DenseLayer object with correct structure") {
-    neuro::DenseLayer layer({{1.0f}, {3.0f}}, {1.0f, -1.0f});
-
-    CHECK(layer.validateInternalShape());
-  }
-
-  SUBCASE("Constructing DenseLayer object with incorrect structure") {
-    neuro::DenseLayer layer({{1.0f}, {3.0f}, {2.0f}}, {1.0f, -1.0f});
-
-    CHECK(!layer.validateInternalShape());
-  }
+TEST_CASE("DenseLayer - Testing DenseLayer implementation for ILayer interface") {
+  runTestInterfaceILayer<neuro::DenseLayer>();
 }
