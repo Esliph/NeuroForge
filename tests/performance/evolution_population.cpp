@@ -2,7 +2,6 @@
 #include <random>
 
 #include "common/measure.hpp"
-#include "internal/log.hpp"
 #include "neuro/neuro.hpp"
 
 void testEvolvePopulation() {

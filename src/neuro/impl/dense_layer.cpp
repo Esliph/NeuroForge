@@ -4,7 +4,6 @@
 #include <random>
 #include <vector>
 
-#include "internal/log.hpp"
 #include "neuro/exceptions/invalid_network_architecture_exception.hpp"
 #include "neuro/interfaces/i_layer.hpp"
 #include "neuro/utils/activation.hpp"
