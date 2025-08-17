@@ -37,6 +37,8 @@ namespace neuro {
 
     virtual size_t sizeLayers() const = 0;
 
+    virtual bool empty() const = 0;
+
     virtual void setLayers(std::vector<std::unique_ptr<ILayer>>) = 0;
 
     virtual void setLayer(size_t index, std::unique_ptr<ILayer>) = 0;

@@ -79,12 +79,14 @@ void runTestInterfaceINeuralNetwork() {
     CHECK(network.sizeLayers() == 0);
     CHECK(network.inputSize() == 0);
     CHECK(network.outputSize() == 0);
+    CHECK(network.empty());
 
     network.addLayer(std::make_unique<neuro::DenseLayer>(1, 2));
 
     CHECK(network.sizeLayers() == 1);
     CHECK(network.inputSize() == 1);
     CHECK(network.outputSize() == 2);
+    CHECK(!network.empty());
 
     network.addLayer([]() { return std::make_unique<neuro::DenseLayer>(1, 3); });
 
@@ -132,6 +134,16 @@ void runTestInterfaceINeuralNetwork() {
     CHECK(network.sizeLayers() == 0);
     CHECK(network.inputSize() == 0);
     CHECK(network.outputSize() == 0);
+  }
+
+  SUBCASE("Empty layers") {
+    INeuralNetworkImpl network;
+
+    CHECK(network.empty());
+
+    network.restructure({1, 2});
+
+    CHECK(!network.empty());
   }
 
   SUBCASE("Remove layer") {

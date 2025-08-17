@@ -110,6 +110,10 @@ namespace neuro {
       return layers.size();
     }
 
+    FORCE_INLINE bool empty() const override {
+      return layers.empty();
+    }
+
     FORCE_INLINE std::vector<std::unique_ptr<ILayer>>::const_iterator begin() const override {
       return layers.begin();
     }
