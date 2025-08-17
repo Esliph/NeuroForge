@@ -1,25 +1,18 @@
 #include <doctest/doctest.h>
 
+#include "interfaces/i_individual_test.hpp"
 #include "neuro/neuro.hpp"
 
-TEST_CASE("Tests for Individual class") {
-  neuro::Individual individual({2, 3, 1}, neuro::maker::activationSigmoid());
+TEST_CASE("Individual - Object construction tests") {
+  SUBCASE("Create Individual without parameters") {
+    neuro::Individual individual;
 
-  auto& network = individual.getNeuralNetwork();
+    CHECK(individual.getNeuralNetwork().sizeLayers() == 0);
+    CHECK(individual.getNeuralNetwork().inputSize() == 0);
+    CHECK(individual.getNeuralNetwork().outputSize() == 0);
 
-  network.randomizeBiases(-1.0f, 1.0f);
-
-  CHECK(network.sizeLayers() == 2);
-
-  CHECK(network[0].inputSize() == 2);
-  CHECK(network[0].outputSize() == 3);
-
-  CHECK(network[1].inputSize() == 3);
-  CHECK(network[1].outputSize() == 1);
-
-  CHECK(individual.getFitness() == 0.0f);
-
-  individual.evaluateFitness([]([[maybe_unused]] const neuro::INeuralNetwork& network) { return 10.0f; });
-
-  CHECK(individual.getFitness() == 10.0f);
+    CHECK(individual.getFitness() == doctest::Approx(0.0f));
+  }
 }
+
+TEST_IMPL_IINDIVIDUAL("Individual", neuro::Individual);
