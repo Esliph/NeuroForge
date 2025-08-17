@@ -4,6 +4,7 @@
 
 #include "internal/attribute.hpp"
 #include "neuro/interfaces/i_layer.hpp"
+#include "neuro/makers/activation.hpp"
 #include "neuro/utils/activation.hpp"
 
 namespace neuro {
@@ -12,7 +13,7 @@ namespace neuro {
     layer_weight_t weights{};
     layer_bias_t biases{};
 
-    ActivationFunction activation;
+    ActivationFunction activation = neuro::maker::activationIdentity();
 
    public:
     DenseLayer() = default;
