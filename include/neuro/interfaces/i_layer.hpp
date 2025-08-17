@@ -20,13 +20,14 @@ namespace neuro {
 
     virtual neuro_layer_t feedforward(const neuro_layer_t& inputs) const = 0;
 
-    virtual void reset() = 0;
-    virtual void reset(size_t newInputSize, size_t newOutputSize) = 0;
-
     virtual void randomizeWeights(float min, float max) = 0;
     virtual void randomizeBiases(float min, float max) = 0;
 
     virtual bool validateInternalShape() = 0;
+
+    virtual void clear() = 0;
+
+    virtual void reset(size_t newInputSize, size_t newOutputSize) = 0;
 
     virtual float meanWeight() const = 0;
     virtual float meanBias() const = 0;

@@ -36,7 +36,7 @@ namespace neuro {
 
     neuro_layer_t feedforward(const neuro_layer_t& inputs) const override;
 
-    FORCE_INLINE void reset() override {
+    FORCE_INLINE void clear() override {
       reset(inputSize(), outputSize());
     }
 

@@ -97,7 +97,7 @@ namespace neuro {
 
   void NeuralNetwork::reset() {
     for (size_t i = 0; i < layers.size(); i++) {
-      layers[i]->reset();
+      layers[i]->clear();
     }
   }
 

@@ -112,7 +112,7 @@ void runTestInterfaceILayer() {
       layer.setWeights({{1.0f, 2.0f}, {3.0f, 4.0f}});
       layer.setBiases({1.0f, -1.0f});
 
-      layer.reset();
+      layer.clear();
 
       CHECK(layer.getWeights() == weightsComparison);
       CHECK(layer.getBiases() == biasesComparison);
