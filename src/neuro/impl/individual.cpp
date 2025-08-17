@@ -14,6 +14,10 @@ namespace neuro {
     : IIndividual(),
       neuralNetwork(std::make_unique<NeuralNetwork>()) {}
 
+  Individual::Individual(const INeuralNetwork& neuralNetwork)
+    : IIndividual(),
+      neuralNetwork(neuralNetwork.clone()) {}
+
   Individual::Individual(const Individual& individual)
     : IIndividual(),
       neuralNetwork(std::move(individual.getNeuralNetwork().clone())),
