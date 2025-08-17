@@ -5,6 +5,7 @@
 #include "neuro/impl/dense_layer.hpp"
 #include "neuro/impl/neural_network.hpp"
 #include "neuro/interfaces/i_individual.hpp"
+#include "neuro/interfaces/i_layer.hpp"
 #include "neuro/interfaces/i_neural_network.hpp"
 
 #define TEST_IMPL_IINDIVIDUAL(NAME, TYPE)                                 \
@@ -59,5 +60,19 @@ void runTestInterfaceIIndividual() {
     });
 
     CHECK(individual.getFitness() == doctest::Approx(10.0f));
+  }
+
+  SUBCASE("Clone") {
+    IIndividualImpl original;
+
+    neuro::NeuralNetwork neuralNetwork({1, 2, 3});
+
+    original.setNeuralNetwork(neuralNetwork);
+
+    auto copy = original.clone();
+
+    CHECK(copy->getNeuralNetwork().sizeLayers() == 2);
+    CHECK(copy->getNeuralNetwork().inputSize() == 1);
+    CHECK(copy->getNeuralNetwork().outputSize() == 3);
   }
 }
