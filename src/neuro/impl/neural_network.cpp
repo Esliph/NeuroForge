@@ -156,20 +156,20 @@ namespace neuro {
     return allBiases;
   }
 
-  const RefProxy<ILayer> NeuralNetwork::layer(size_t index) const {
+  const ILayer& NeuralNetwork::layer(size_t index) const {
     if (index >= layers.size()) {
       throw exception::InvalidNetworkArchitectureException("Layer vector out-of-range index");
     }
 
-    return RefProxy<ILayer>(*layers[index]);
+    return *layers[index];
   }
 
-  RefProxy<ILayer> NeuralNetwork::layer(size_t index) {
+  ILayer& NeuralNetwork::layer(size_t index) {
     if (index >= layers.size()) {
       throw exception::InvalidNetworkArchitectureException("Layer vector out-of-range index");
     }
 
-    return RefProxy<ILayer>(*layers[index]);
+    return *layers[index];
   }
 
   const ILayer& NeuralNetwork::operator[](size_t index) const {

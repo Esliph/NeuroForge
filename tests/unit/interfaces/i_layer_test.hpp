@@ -66,11 +66,11 @@ void runTestInterfaceILayer() {
 
     layer.setActivationFunction(neuro::maker::activationSigmoid());
 
-    auto& weightProxy = layer.weightRef(1, 0);
-    auto& biasProxy = layer.biasRef(0);
+    auto& weight = layer.weightRef(1, 0);
+    auto& bias = layer.biasRef(0);
 
-    weightProxy = 0.75f;
-    biasProxy = 0.5f;
+    weight = 0.75f;
+    bias = 0.5f;
 
     CHECK(layer.weightRef(1, 0) == doctest::Approx(0.75f));
     CHECK(layer.biasRef(0) == doctest::Approx(0.5f));

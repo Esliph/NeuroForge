@@ -107,8 +107,8 @@ namespace neuro {
       return layers;
     }
 
-    const RefProxy<ILayer> layer(size_t index) const override;
-    RefProxy<ILayer> layer(size_t index) override;
+    const ILayer& layer(size_t index) const override;
+    ILayer& layer(size_t index) override;
 
     FORCE_INLINE size_t sizeLayers() const override {
       return layers.size();

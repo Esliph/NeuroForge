@@ -23,7 +23,7 @@ void checkEqualNeuralNetwork(const neuro::INeuralNetwork& networkA, const neuro:
   }
 }
 
-TEST_CASE("DenseLayer - Object construction tests") {
+TEST_CASE("NeuralNetwork - Object construction tests") {
   SUBCASE("Create NeuralNetwork without parameters") {
     neuro::NeuralNetwork networkWithoutParameter;
 

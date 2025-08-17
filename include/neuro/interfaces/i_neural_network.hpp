@@ -49,8 +49,8 @@ namespace neuro {
     virtual std::vector<layer_weight_t> getAllWeights() const = 0;
     virtual std::vector<layer_bias_t> getAllBiases() const = 0;
 
-    virtual const RefProxy<ILayer> layer(size_t index) const = 0;
-    virtual RefProxy<ILayer> layer(size_t index) = 0;
+    virtual const ILayer& layer(size_t index) const = 0;
+    virtual ILayer& layer(size_t index) = 0;
 
     virtual std::unique_ptr<INeuralNetwork> clone() const = 0;
 
