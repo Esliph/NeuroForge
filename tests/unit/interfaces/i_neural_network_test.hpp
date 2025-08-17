@@ -220,9 +220,9 @@ void runTestInterfaceINeuralNetwork() {
   SUBCASE("Clone") {
     std::vector<std::unique_ptr<neuro::ILayer>> layers;
 
-    layers.push_back(std::make_unique<neuro::DenseLayer>(4, 3, neuro::maker::activationIdentity()));
-    layers.push_back(std::make_unique<neuro::DenseLayer>(4, 3, neuro::maker::activationIdentity()));
-    layers.push_back(std::make_unique<neuro::DenseLayer>(4, 3, neuro::maker::activationIdentity()));
+    layers.push_back(std::make_unique<neuro::DenseLayer>(4, 3));
+    layers.push_back(std::make_unique<neuro::DenseLayer>(4, 3));
+    layers.push_back(std::make_unique<neuro::DenseLayer>(4, 3));
 
     INeuralNetworkImpl original;
 
@@ -231,22 +231,6 @@ void runTestInterfaceINeuralNetwork() {
     auto clone = original.clone();
 
     checkEqualsINeuralNetwork(original, *clone);
-  }
-
-  SUBCASE("Copy") {
-    std::vector<std::unique_ptr<neuro::ILayer>> layers;
-
-    layers.push_back(std::make_unique<neuro::DenseLayer>(4, 3, neuro::maker::activationIdentity()));
-    layers.push_back(std::make_unique<neuro::DenseLayer>(4, 3, neuro::maker::activationIdentity()));
-    layers.push_back(std::make_unique<neuro::DenseLayer>(4, 3, neuro::maker::activationIdentity()));
-
-    INeuralNetworkImpl original;
-
-    original.setLayers(std::move(layers));
-
-    INeuralNetworkImpl copy(original);
-
-    checkEqualsINeuralNetwork(original, copy);
   }
 
   SUBCASE("Change testing via reference") {

@@ -32,6 +32,22 @@ TEST_CASE("NeuralNetwork - Object construction tests") {
     CHECK(networkWithoutParameter.outputSize() == 0);
   }
 
+  SUBCASE("Create NeuralNetwork from another NeuralNetwork") {
+    std::vector<std::unique_ptr<neuro::ILayer>> layers;
+
+    layers.push_back(std::make_unique<neuro::DenseLayer>(4, 3));
+    layers.push_back(std::make_unique<neuro::DenseLayer>(4, 3));
+    layers.push_back(std::make_unique<neuro::DenseLayer>(4, 3));
+
+    neuro::NeuralNetwork original;
+
+    original.setLayers(std::move(layers));
+
+    neuro::NeuralNetwork copy(original);
+
+    checkEqualsINeuralNetwork(original, copy);
+  }
+
   SUBCASE("Create NeuralNetwork by informing with the initializer") {
     neuro::DenseLayer layerSimple1(4, 3);
     neuro::DenseLayer layerSimple2(3, 2);
