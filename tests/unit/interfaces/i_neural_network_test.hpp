@@ -26,7 +26,7 @@ void runTestInterfaceINeuralNetwork() {
   SUBCASE("Check the neural network structure") {
     INeuralNetworkImpl network;
 
-    network.reset({2, 4, 3, 1});
+    network.restructure({2, 4, 3, 1});
 
     CHECK(network.sizeLayers() == 3);
     CHECK(network.inputSize() == 2);
@@ -137,7 +137,7 @@ void runTestInterfaceINeuralNetwork() {
   SUBCASE("Remove layer") {
     INeuralNetworkImpl network;
 
-    network.reset({1, 2, 3});
+    network.restructure({1, 2, 3});
 
     CHECK(network.sizeLayers() == 2);
     CHECK(network.inputSize() == 1);
@@ -153,7 +153,7 @@ void runTestInterfaceINeuralNetwork() {
   SUBCASE("Pop layer") {
     INeuralNetworkImpl network;
 
-    network.reset({1, 2, 3});
+    network.restructure({1, 2, 3});
 
     CHECK(network.sizeLayers() == 2);
     CHECK(network.inputSize() == 1);
@@ -169,7 +169,7 @@ void runTestInterfaceINeuralNetwork() {
   SUBCASE("Shift layer") {
     INeuralNetworkImpl network;
 
-    network.reset({1, 2, 3});
+    network.restructure({1, 2, 3});
 
     CHECK(network.sizeLayers() == 2);
     CHECK(network.inputSize() == 1);
@@ -185,7 +185,7 @@ void runTestInterfaceINeuralNetwork() {
   SUBCASE("Randomization test of weights and biases") {
     INeuralNetworkImpl network;
 
-    network.reset({2, 2, 2});
+    network.restructure({2, 2, 2});
 
     network.randomizeWeights(-1.0f, 1.0f);
     network.randomizeBiases(-2.0f, 2.0f);
@@ -240,7 +240,7 @@ void runTestInterfaceINeuralNetwork() {
   SUBCASE("Change testing via reference") {
     INeuralNetworkImpl network;
 
-    network.reset({1, 2, 3});
+    network.restructure({1, 2, 3});
 
     auto& layer = network[0];
 
@@ -273,7 +273,7 @@ void runTestInterfaceINeuralNetwork() {
       CHECK(network.inputSize() == 2);
       CHECK(network.outputSize() == 2);
 
-      network.reset();
+      network.clear();
 
       CHECK(network.sizeLayers() == 3);
       CHECK(network.inputSize() == 2);
@@ -307,7 +307,7 @@ void runTestInterfaceINeuralNetwork() {
       CHECK(network.inputSize() == 2);
       CHECK(network.outputSize() == 3);
 
-      network.reset({2, 2, 2});
+      network.restructure({2, 2, 2});
 
       CHECK(network.sizeLayers() == 2);
       CHECK(network.inputSize() == 2);

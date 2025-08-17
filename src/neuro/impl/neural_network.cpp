@@ -95,13 +95,13 @@ namespace neuro {
     return current;
   }
 
-  void NeuralNetwork::reset() {
+  void NeuralNetwork::clear() {
     for (size_t i = 0; i < layers.size(); i++) {
       layers[i]->clear();
     }
   }
 
-  void NeuralNetwork::reset(const std::vector<int>& newStructure) {
+  void NeuralNetwork::restructure(const std::vector<int>& newStructure) {
     clearLayers();
 
     for (size_t i = 0; i < newStructure.size() - 1; i++) {
