@@ -5,7 +5,6 @@
 #include <vector>
 
 #include "neuro/interfaces/i_layer.hpp"
-#include "neuro/utils/ref_proxy.hpp"
 
 namespace neuro {
 

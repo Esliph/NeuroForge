@@ -8,7 +8,6 @@
 #include "neuro/interfaces/i_layer.hpp"
 #include "neuro/interfaces/i_neural_network.hpp"
 #include "neuro/utils/activation.hpp"
-#include "neuro/utils/ref_proxy.hpp"
 
 namespace neuro {
 
