@@ -86,23 +86,15 @@ void runTestInterfaceINeuralNetwork() {
     CHECK(network.inputSize() == 1);
     CHECK(network.outputSize() == 2);
 
-    neuro::DenseLayer denseLayer(2, 3);
-
-    network.addLayer(&denseLayer);
+    network.addLayer([]() { return std::make_unique<neuro::DenseLayer>(1, 3); });
 
     CHECK(network.sizeLayers() == 2);
     CHECK(network.inputSize() == 1);
     CHECK(network.outputSize() == 3);
 
-    network.addLayer([]() { return std::make_unique<neuro::DenseLayer>(1, 2); });
-
-    CHECK(network.sizeLayers() == 3);
-    CHECK(network.inputSize() == 1);
-    CHECK(network.outputSize() == 2);
-
     network.addLayer([]() { return std::make_unique<neuro::DenseLayer>(1, 2); }, 2);
 
-    CHECK(network.sizeLayers() == 5);
+    CHECK(network.sizeLayers() == 4);
     CHECK(network.inputSize() == 1);
     CHECK(network.outputSize() == 2);
 
@@ -112,7 +104,7 @@ void runTestInterfaceINeuralNetwork() {
 
     network.addLayers(std::move(layers));
 
-    CHECK(network.sizeLayers() == 7);
+    CHECK(network.sizeLayers() == 6);
     CHECK(network.inputSize() == 1);
     CHECK(network.outputSize() == 4);
   }

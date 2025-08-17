@@ -51,10 +51,6 @@ namespace neuro {
       layers.push_back(std::move(layer));
     }
 
-    FORCE_INLINE void addLayer(const ILayer* layer) override {
-      layers.push_back(layer->clone());
-    }
-
     FORCE_INLINE void addLayer(std::function<std::unique_ptr<ILayer>()> factory, size_t size) override {
       for (size_t i = 0; i < size; i++) {
         layers.push_back(factory());

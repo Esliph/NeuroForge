@@ -20,7 +20,6 @@ namespace neuro {
 
     virtual void addLayers(std::vector<std::unique_ptr<ILayer>>&&) = 0;
     virtual void addLayer(std::unique_ptr<ILayer>) = 0;
-    virtual void addLayer(const ILayer*) = 0;
     virtual void addLayer(std::function<std::unique_ptr<ILayer>()> factory, size_t size) = 0;
     virtual void addLayer(std::function<std::unique_ptr<ILayer>()> factory) = 0;
 
