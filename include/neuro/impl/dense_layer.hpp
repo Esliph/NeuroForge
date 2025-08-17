@@ -37,10 +37,10 @@ namespace neuro {
     neuro_layer_t feedforward(const neuro_layer_t& inputs) const override;
 
     FORCE_INLINE void clear() override {
-      reset(inputSize(), outputSize());
+      reshape(inputSize(), outputSize());
     }
 
-    void reset(size_t newInputSize, size_t newOutputSize) override;
+    void reshape(size_t newInputSize, size_t newOutputSize) override;
 
     void randomizeWeights(float min, float max) override;
     void randomizeBiases(float min, float max) override;

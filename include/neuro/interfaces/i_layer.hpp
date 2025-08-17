@@ -27,7 +27,7 @@ namespace neuro {
 
     virtual void clear() = 0;
 
-    virtual void reset(size_t newInputSize, size_t newOutputSize) = 0;
+    virtual void reshape(size_t newInputSize, size_t newOutputSize) = 0;
 
     virtual float meanWeight() const = 0;
     virtual float meanBias() const = 0;

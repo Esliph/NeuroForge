@@ -75,7 +75,7 @@ namespace neuro {
     return outputs;
   }
 
-  void DenseLayer::reset(size_t newInputSize, size_t newOutputSize) {
+  void DenseLayer::reshape(size_t newInputSize, size_t newOutputSize) {
     weights = layer_weight_t(newOutputSize, neuro_layer_t(newInputSize));
     biases = layer_bias_t(newOutputSize);
   }
