@@ -4,17 +4,17 @@
 #include <memory>
 #include <vector>
 
+#include "neuro/capabilities/i_neural_network_runner.hpp"
 #include "neuro/interfaces/i_layer.hpp"
 #include "neuro/types.hpp"
 
 namespace neuro {
 
-  class INeuralNetwork {
+  class INeuralNetwork
+    : public INeuralNetworkRunner {
    public:
     INeuralNetwork() = default;
     virtual ~INeuralNetwork() = default;
-
-    virtual neuro_layer_t feedforward(const neuro_layer_t& inputs) const = 0;
 
     virtual void randomizeWeights(float min, float max) = 0;
     virtual void randomizeBiases(float min, float max) = 0;
@@ -33,12 +33,7 @@ namespace neuro {
     virtual void popLayer() = 0;
     virtual void shiftLayer() = 0;
 
-    virtual size_t inputSize() const = 0;
-    virtual size_t outputSize() const = 0;
-
     virtual size_t sizeLayers() const = 0;
-
-    virtual bool empty() const = 0;
 
     virtual void setLayers(std::vector<std::unique_ptr<ILayer>>) = 0;
 
@@ -50,9 +45,6 @@ namespace neuro {
     virtual std::vector<layer_weight_t> getAllWeights() const = 0;
     virtual std::vector<layer_bias_t> getAllBiases() const = 0;
 
-    virtual const ILayer& layer(size_t index) const = 0;
-    virtual ILayer& layer(size_t index) = 0;
-
     virtual std::unique_ptr<INeuralNetwork> clone() const = 0;
 
     virtual std::vector<std::unique_ptr<ILayer>>::const_iterator begin() const = 0;
@@ -60,8 +52,6 @@ namespace neuro {
 
     virtual std::vector<std::unique_ptr<ILayer>>::const_iterator end() const = 0;
     virtual std::vector<std::unique_ptr<ILayer>>::iterator end() = 0;
-
-    virtual neuro_layer_t operator()(const neuro_layer_t& inputs) const = 0;
 
     virtual const ILayer& operator[](size_t index) const = 0;
     virtual ILayer& operator[](size_t index) = 0;
