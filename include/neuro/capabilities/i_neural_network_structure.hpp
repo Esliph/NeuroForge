@@ -27,8 +27,17 @@ namespace neuro {
 
     virtual size_t sizeLayers() const = 0;
 
+    virtual const std::vector<std::unique_ptr<ILayer>>& getLayers() const = 0;
+    virtual std::vector<std::unique_ptr<ILayer>>& getLayers() = 0;
+
     virtual void setLayers(std::vector<std::unique_ptr<ILayer>>) = 0;
     virtual void setLayer(size_t index, std::unique_ptr<ILayer>) = 0;
+
+    virtual std::vector<layer_weight_t> getAllWeights() const = 0;
+    virtual std::vector<layer_bias_t> getAllBiases() const = 0;
+
+    virtual const ILayer& operator[](size_t index) const = 0;
+    virtual ILayer& operator[](size_t index) = 0;
   };
 
 }; // namespace neuro
