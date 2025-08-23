@@ -5,12 +5,15 @@
 #include <vector>
 
 #include "neuro/capabilities/i_layer_operation.hpp"
+#include "neuro/capabilities/i_layer_structure.hpp"
 #include "neuro/types.hpp"
 #include "neuro/utils/activation.hpp"
 
 namespace neuro {
 
-  class ILayer : public ILayerOperation {
+  class ILayer
+    : public ILayerOperation,
+      public ILayerStructure {
    public:
     ILayer() = default;
     virtual ~ILayer() = default;
@@ -18,17 +21,8 @@ namespace neuro {
     virtual void randomizeWeights(float min, float max) = 0;
     virtual void randomizeBiases(float min, float max) = 0;
 
-    virtual bool validateInternalShape() = 0;
-
-    virtual void clear() = 0;
-
-    virtual void reshape(size_t newInputSize, size_t newOutputSize) = 0;
-
     virtual float meanWeight() const = 0;
     virtual float meanBias() const = 0;
-
-    virtual size_t inputSize() const = 0;
-    virtual size_t outputSize() const = 0;
 
     virtual float& weightRef(size_t indexX, size_t indexY) = 0;
     virtual float& biasRef(size_t index) = 0;
