@@ -7,10 +7,10 @@
 #include <random>
 #include <vector>
 
+#include "internal/random_engine.hpp"
 #include "neuro/impl/population.hpp"
 #include "neuro/interfaces/i_individual.hpp"
 #include "neuro/interfaces/i_layer.hpp"
-#include "neuro/utils/random_engine.hpp"
 
 namespace neuro {
 

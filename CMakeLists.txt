@@ -10,6 +10,7 @@ set(ENVIRONMENT "production" CACHE STRING "Define the environment")
 
 file(GLOB_RECURSE LIB_SOURCES
   CONFIGURE_DEPENDS
+  src/internal/*.cpp
   src/neuro/*.cpp
 )
 

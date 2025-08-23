@@ -1,4 +1,4 @@
-#include "neuro/utils/random_engine.hpp"
+#include "internal/random_engine.hpp"
 
 namespace neuro {
 
