@@ -1,3 +1,5 @@
+#pragma once
+
 #include <doctest/doctest.h>
 
 #include "neuro/exceptions/invalid_network_architecture_exception.hpp"

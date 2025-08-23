@@ -1,11 +1,11 @@
+#pragma once
+
 #include <doctest/doctest.h>
 
 #include <memory>
 
-#include "neuro/impl/dense_layer.hpp"
 #include "neuro/impl/neural_network.hpp"
 #include "neuro/interfaces/i_individual.hpp"
-#include "neuro/interfaces/i_layer.hpp"
 #include "neuro/interfaces/i_neural_network.hpp"
 
 #define TEST_IMPL_IINDIVIDUAL(NAME, TYPE)                                 \
