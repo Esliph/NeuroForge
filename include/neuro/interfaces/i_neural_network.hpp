@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 
+#include "neuro/capabilities/i_neural_network_iterable.hpp"
 #include "neuro/capabilities/i_neural_network_runner.hpp"
 #include "neuro/capabilities/i_neural_network_structure.hpp"
 #include "neuro/interfaces/i_layer.hpp"
@@ -13,7 +14,8 @@ namespace neuro {
 
   class INeuralNetwork
     : public INeuralNetworkRunner,
-      public INeuralNetworkStructure {
+      public INeuralNetworkStructure,
+      public INeuralNetworkIterable {
    public:
     INeuralNetwork() = default;
     virtual ~INeuralNetwork() = default;
@@ -28,12 +30,6 @@ namespace neuro {
     virtual std::vector<layer_bias_t> getAllBiases() const = 0;
 
     virtual std::unique_ptr<INeuralNetwork> clone() const = 0;
-
-    virtual std::vector<std::unique_ptr<ILayer>>::const_iterator begin() const = 0;
-    virtual std::vector<std::unique_ptr<ILayer>>::iterator begin() = 0;
-
-    virtual std::vector<std::unique_ptr<ILayer>>::const_iterator end() const = 0;
-    virtual std::vector<std::unique_ptr<ILayer>>::iterator end() = 0;
 
     virtual const ILayer& operator[](size_t index) const = 0;
     virtual ILayer& operator[](size_t index) = 0;
