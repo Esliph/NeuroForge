@@ -4,17 +4,16 @@
 #include <random>
 #include <vector>
 
+#include "neuro/capabilities/i_layer_operation.hpp"
 #include "neuro/types.hpp"
 #include "neuro/utils/activation.hpp"
 
 namespace neuro {
 
-  class ILayer {
+  class ILayer : public ILayerOperation {
    public:
     ILayer() = default;
     virtual ~ILayer() = default;
-
-    virtual neuro_layer_t feedforward(const neuro_layer_t& inputs) const = 0;
 
     virtual void randomizeWeights(float min, float max) = 0;
     virtual void randomizeBiases(float min, float max) = 0;
@@ -36,10 +35,6 @@ namespace neuro {
 
     virtual const float& weightRef(size_t indexX, size_t indexY) const = 0;
     virtual const float& biasRef(size_t index) const = 0;
-
-    virtual const ActivationFunction& getActivationFunction() const = 0;
-
-    virtual void setActivationFunction(const ActivationFunction&) = 0;
 
     virtual float getWeight(size_t indexX, size_t indexY) const = 0;
     virtual float getBias(size_t index) const = 0;
