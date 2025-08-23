@@ -25,16 +25,12 @@ tests:
 	@cmake --build $(BUILD_DIR)/tests
 .PHONY: tests
 
-run_dev:
-	@make dev
-
+run_dev: dev
 	@echo "-- Running executable";
 	@./$(BUILD_DIR)/dev/NeuroForgeMain;
 .PHONY: run_build
 
-run_tests:
-	@make tests
-
+run_tests: tests
 	@echo "-- Running tests";
 	@./$(BUILD_DIR)/tests/tests/unit/NeuroForgeTests;
 .PHONY: run_tests
