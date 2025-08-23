@@ -2,6 +2,6 @@
 
 namespace neuro {
 
-  std::default_random_engine random_engine((std::random_device())());
+  std::default_random_engine random_engine(std::random_device{}());
 
 }; // namespace neuro

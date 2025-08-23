@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 
+#include "internal/attribute.hpp"
 #include "neuro/exceptions/invalid_network_architecture_exception.hpp"
 #include "neuro/impl/individual.hpp"
 #include "neuro/interfaces/i_individual.hpp"
@@ -57,10 +58,18 @@ namespace neuro {
     }
   }
 
+  FORCE_INLINE void Population::addIndividual(const IIndividual& individual) {
+    individuals.push_back(individual.clone());
+  }
+
   void Population::addIndividuals(std::vector<std::shared_ptr<IIndividual>>& individuals) {
     for (auto& individual : individuals) {
       this->individuals.push_back(individual);
     }
+  }
+
+  FORCE_INLINE void Population::addIndividual(std::shared_ptr<IIndividual> individual) {
+    individuals.push_back(individual);
   }
 
   void Population::removeIndividual(size_t index) {
@@ -69,10 +78,30 @@ namespace neuro {
     }
   }
 
+  FORCE_INLINE void Population::clearIndividuals() {
+    individuals.clear();
+  }
+
+  FORCE_INLINE void Population::popIndividual() {
+    individuals.pop_back();
+  }
+
+  FORCE_INLINE void Population::reserve(size_t size) {
+    individuals.reserve(size);
+  }
+
   const IIndividual& Population::getBestIndividual() const {
     return **std::max_element(individuals.begin(), individuals.end(), [](const std::shared_ptr<IIndividual>& individualA, const std::shared_ptr<IIndividual>& individualB) {
       return individualA->getFitness() > individualB->getFitness();
     });
+  }
+
+  FORCE_INLINE const std::vector<std::shared_ptr<IIndividual>>& Population::getIndividuals() const {
+    return individuals;
+  }
+
+  FORCE_INLINE std::vector<std::shared_ptr<IIndividual>>& Population::getIndividuals() {
+    return individuals;
   }
 
   const IIndividual& Population::get(size_t index) const {
@@ -91,6 +120,30 @@ namespace neuro {
     return *individuals[index];
   }
 
+  FORCE_INLINE size_t Population::size() const {
+    return individuals.size();
+  }
+
+  FORCE_INLINE bool Population::empty() const {
+    return individuals.empty();
+  }
+
+  FORCE_INLINE std::vector<std::shared_ptr<IIndividual>>::const_iterator Population::begin() const {
+    return individuals.begin();
+  }
+
+  FORCE_INLINE std::vector<std::shared_ptr<IIndividual>>::iterator Population::begin() {
+    return individuals.begin();
+  }
+
+  FORCE_INLINE std::vector<std::shared_ptr<IIndividual>>::const_iterator Population::end() const {
+    return individuals.end();
+  }
+
+  FORCE_INLINE std::vector<std::shared_ptr<IIndividual>>::iterator Population::end() {
+    return individuals.end();
+  }
+
   const IIndividual& Population::operator[](size_t index) const {
     if (index >= individuals.size()) {
       throw exception::InvalidNetworkArchitectureException("Individual vector out-of-range index");
@@ -105,5 +158,9 @@ namespace neuro {
     }
 
     return *individuals[index];
+  }
+
+  FORCE_INLINE std::unique_ptr<IPopulation> Population::clone() const {
+    return std::make_unique<Population>(*this);
   }
 }; // namespace neuro

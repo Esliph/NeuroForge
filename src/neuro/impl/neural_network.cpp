@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 
+#include "internal/attribute.hpp"
 #include "neuro/exceptions/invalid_network_architecture_exception.hpp"
 #include "neuro/impl/dense_layer.hpp"
 #include "neuro/interfaces/i_layer.hpp"
@@ -110,10 +111,34 @@ namespace neuro {
     }
   }
 
+  FORCE_INLINE void NeuralNetwork::clearLayers() {
+    layers.clear();
+  }
+
   void NeuralNetwork::removeLayer(size_t index) {
     if (index < layers.size()) {
       layers.erase(layers.begin() + index);
     }
+  }
+
+  FORCE_INLINE void NeuralNetwork::popLayer() {
+    layers.pop_back();
+  }
+
+  FORCE_INLINE void NeuralNetwork::shiftLayer() {
+    layers.erase(layers.begin());
+  }
+
+  FORCE_INLINE size_t NeuralNetwork::inputSize() const {
+    return layers.empty() ? 0 : layers[0]->inputSize();
+  }
+
+  FORCE_INLINE size_t NeuralNetwork::outputSize() const {
+    return layers.empty() ? 0 : layers[layers.size() - 1]->outputSize();
+  }
+
+  FORCE_INLINE void NeuralNetwork::setLayers(std::vector<std::unique_ptr<ILayer>> layers) {
+    this->layers = std::move(layers);
   }
 
   void NeuralNetwork::randomizeWeights(float min, float max) {
@@ -126,6 +151,26 @@ namespace neuro {
     for (size_t i = 0; i < layers.size(); i++) {
       layers[i]->randomizeBiases(min, max);
     }
+  }
+
+  FORCE_INLINE void NeuralNetwork::addLayers(std::vector<std::unique_ptr<ILayer>>&& layers) {
+    for (size_t i = 0; i < layers.size(); i++) {
+      this->layers.push_back(std::move(layers[i]));
+    }
+  }
+
+  FORCE_INLINE void NeuralNetwork::addLayer(std::unique_ptr<ILayer> layer) {
+    layers.push_back(std::move(layer));
+  }
+
+  FORCE_INLINE void NeuralNetwork::addLayer(std::function<std::unique_ptr<ILayer>()> factory, size_t size) {
+    for (size_t i = 0; i < size; i++) {
+      layers.push_back(factory());
+    }
+  }
+
+  FORCE_INLINE void NeuralNetwork::addLayer(std::function<std::unique_ptr<ILayer>()> factory) {
+    layers.push_back(factory());
   }
 
   void NeuralNetwork::setLayer(size_t index, std::unique_ptr<ILayer> layer) {
@@ -156,6 +201,14 @@ namespace neuro {
     return allBiases;
   }
 
+  FORCE_INLINE const std::vector<std::unique_ptr<ILayer>>& NeuralNetwork::getLayers() const {
+    return layers;
+  }
+
+  FORCE_INLINE std::vector<std::unique_ptr<ILayer>>& NeuralNetwork::getLayers() {
+    return layers;
+  }
+
   const ILayer& NeuralNetwork::layer(size_t index) const {
     if (index >= layers.size()) {
       throw exception::InvalidNetworkArchitectureException("Layer vector out-of-range index");
@@ -172,6 +225,34 @@ namespace neuro {
     return *layers[index];
   }
 
+  FORCE_INLINE size_t NeuralNetwork::sizeLayers() const {
+    return layers.size();
+  }
+
+  FORCE_INLINE bool NeuralNetwork::empty() const {
+    return layers.empty();
+  }
+
+  FORCE_INLINE std::vector<std::unique_ptr<ILayer>>::const_iterator NeuralNetwork::begin() const {
+    return layers.begin();
+  }
+
+  FORCE_INLINE std::vector<std::unique_ptr<ILayer>>::iterator NeuralNetwork::begin() {
+    return layers.begin();
+  }
+
+  FORCE_INLINE std::vector<std::unique_ptr<ILayer>>::const_iterator NeuralNetwork::end() const {
+    return layers.end();
+  }
+
+  FORCE_INLINE std::vector<std::unique_ptr<ILayer>>::iterator NeuralNetwork::end() {
+    return layers.end();
+  }
+
+  FORCE_INLINE neuro_layer_t NeuralNetwork::operator()(const neuro_layer_t& inputs) const {
+    return feedforward(inputs);
+  }
+
   const ILayer& NeuralNetwork::operator[](size_t index) const {
     if (index >= layers.size()) {
       throw exception::InvalidNetworkArchitectureException("Layer vector out-of-range index");
@@ -186,6 +267,10 @@ namespace neuro {
     }
 
     return *layers[index];
+  }
+
+  FORCE_INLINE std::unique_ptr<INeuralNetwork> NeuralNetwork::clone() const {
+    return std::make_unique<NeuralNetwork>(*this);
   }
 
 }; // namespace neuro

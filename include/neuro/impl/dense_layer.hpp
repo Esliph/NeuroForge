@@ -2,7 +2,6 @@
 
 #include <memory>
 
-#include "internal/attribute.hpp"
 #include "neuro/interfaces/i_layer.hpp"
 #include "neuro/makers/activation.hpp"
 #include "neuro/types.hpp"
@@ -37,34 +36,19 @@ namespace neuro {
 
     neuro_layer_t feedforward(const neuro_layer_t& inputs) const override;
 
-    FORCE_INLINE void clear() override {
-      reshape(inputSize(), outputSize());
-    }
-
+    void clear() override;
     void reshape(size_t newInputSize, size_t newOutputSize) override;
 
     void randomizeWeights(float min, float max) override;
     void randomizeBiases(float min, float max) override;
 
-    FORCE_INLINE bool validateInternalShape() override {
-      return validateInternalShape(weights, biases);
-    }
+    bool validateInternalShape() override;
 
     float meanWeight() const override;
     float meanBias() const override;
 
-    FORCE_INLINE size_t inputSize() const override {
-      if (weights.empty())
-        UNLIKELY {
-          return 0;
-        }
-
-      return weights[0].size();
-    }
-
-    FORCE_INLINE size_t outputSize() const override {
-      return weights.size();
-    }
+    size_t inputSize() const override;
+    size_t outputSize() const override;
 
     float& weightRef(size_t indexX, size_t indexY) override;
     float& biasRef(size_t index) override;
@@ -72,13 +56,8 @@ namespace neuro {
     const float& weightRef(size_t indexX, size_t indexY) const override;
     const float& biasRef(size_t index) const override;
 
-    FORCE_INLINE const ActivationFunction& getActivationFunction() const override {
-      return activation;
-    }
-
-    FORCE_INLINE void setActivationFunction(const ActivationFunction& activation) override {
-      this->activation = activation;
-    }
+    const ActivationFunction& getActivationFunction() const override;
+    void setActivationFunction(const ActivationFunction& activation) override;
 
     float getWeight(size_t indexX, size_t indexY) const override;
     float getBias(size_t index) const override;
@@ -86,33 +65,16 @@ namespace neuro {
     void setWeight(size_t indexX, size_t indexY, float value) override;
     void setBias(size_t index, float value) override;
 
-    FORCE_INLINE layer_weight_t& getWeights() override {
-      return weights;
-    }
+    layer_weight_t& getWeights() override;
+    layer_bias_t& getBiases() override;
 
-    FORCE_INLINE layer_bias_t& getBiases() override {
-      return biases;
-    }
+    const layer_weight_t& getWeights() const override;
+    const layer_bias_t& getBiases() const override;
 
-    FORCE_INLINE const layer_weight_t& getWeights() const override {
-      return weights;
-    }
+    void setWeights(const layer_weight_t& weights) override;
+    void setBiases(const layer_bias_t& biases) override;
 
-    FORCE_INLINE const layer_bias_t& getBiases() const override {
-      return biases;
-    }
-
-    FORCE_INLINE void setWeights(const layer_weight_t& weights) override {
-      this->weights = weights;
-    }
-
-    FORCE_INLINE void setBiases(const layer_bias_t& biases) override {
-      this->biases = biases;
-    }
-
-    FORCE_INLINE std::unique_ptr<ILayer> clone() const override {
-      return std::make_unique<DenseLayer>(*this);
-    }
+    std::unique_ptr<ILayer> clone() const override;
 
     ILayer& operator=(const ILayer&);
 
