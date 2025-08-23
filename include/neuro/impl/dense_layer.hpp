@@ -5,6 +5,7 @@
 #include "internal/attribute.hpp"
 #include "neuro/interfaces/i_layer.hpp"
 #include "neuro/makers/activation.hpp"
+#include "neuro/types.hpp"
 #include "neuro/utils/activation.hpp"
 
 namespace neuro {

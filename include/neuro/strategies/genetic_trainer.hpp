@@ -12,6 +12,7 @@
 #include "neuro/interfaces/i_neural_network.hpp"
 #include "neuro/interfaces/i_population.hpp"
 #include "neuro/strategies/i_strategy_evolution.hpp"
+#include "neuro/types.hpp"
 
 namespace neuro {
 

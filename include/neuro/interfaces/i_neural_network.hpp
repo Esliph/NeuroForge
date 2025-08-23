@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "neuro/interfaces/i_layer.hpp"
+#include "neuro/types.hpp"
 
 namespace neuro {
 

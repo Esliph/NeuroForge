@@ -4,14 +4,10 @@
 #include <random>
 #include <vector>
 
+#include "neuro/types.hpp"
 #include "neuro/utils/activation.hpp"
 
 namespace neuro {
-
-  typedef std::vector<float> neuro_layer_t;
-
-  typedef std::vector<neuro_layer_t> layer_weight_t;
-  typedef neuro_layer_t layer_bias_t;
 
   class ILayer {
    public:

@@ -11,6 +11,7 @@
 #include "neuro/impl/population.hpp"
 #include "neuro/interfaces/i_individual.hpp"
 #include "neuro/interfaces/i_layer.hpp"
+#include "neuro/types.hpp"
 
 namespace neuro {
 

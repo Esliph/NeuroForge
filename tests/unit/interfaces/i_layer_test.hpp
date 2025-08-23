@@ -3,6 +3,7 @@
 #include "neuro/exceptions/invalid_network_architecture_exception.hpp"
 #include "neuro/interfaces/i_layer.hpp"
 #include "neuro/makers/activation.hpp"
+#include "neuro/types.hpp"
 
 #define TEST_IMPL_ILAYER(NAME, TYPE)                                 \
   TEST_CASE(NAME " - Testing implementation for ILayer interface") { \

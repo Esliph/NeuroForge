@@ -5,6 +5,7 @@
 #include "neuro/interfaces/i_layer.hpp"
 #include "neuro/interfaces/i_neural_network.hpp"
 #include "neuro/makers/activation.hpp"
+#include "neuro/types.hpp"
 
 #define TEST_IMPL_INEURAL_NETWORK(NAME, TYPE)                                \
   TEST_CASE(NAME " - Testing implementation for INeuralNetwork interface") { \

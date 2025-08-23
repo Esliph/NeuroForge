@@ -4,6 +4,7 @@
 
 #include "interfaces/i_layer_test.hpp"
 #include "neuro/makers/activation.hpp"
+#include "neuro/types.hpp"
 
 TEST_CASE("DenseLayer - Object construction tests") {
   neuro::layer_weight_t weights = {{3.0f, 6.0f}};

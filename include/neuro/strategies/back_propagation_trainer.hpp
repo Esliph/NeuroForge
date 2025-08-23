@@ -6,6 +6,7 @@
 #include "neuro/interfaces/i_layer.hpp"
 #include "neuro/interfaces/i_neural_network.hpp"
 #include "neuro/strategies/i_strategy_evolution.hpp"
+#include "neuro/types.hpp"
 #include "neuro/utils/activation.hpp"
 
 namespace neuro {

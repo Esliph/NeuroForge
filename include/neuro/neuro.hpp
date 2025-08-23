@@ -5,4 +5,5 @@
 #include "neuro/interfaces/interfaces.hpp"
 #include "neuro/makers/makers.hpp"
 #include "neuro/strategies/strategies.hpp"
+#include "neuro/types.hpp"
 #include "neuro/utils/utils.hpp"

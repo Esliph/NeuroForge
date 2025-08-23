@@ -7,6 +7,7 @@
 #include "internal/random_engine.hpp"
 #include "neuro/exceptions/invalid_network_architecture_exception.hpp"
 #include "neuro/interfaces/i_layer.hpp"
+#include "neuro/types.hpp"
 #include "neuro/utils/activation.hpp"
 
 namespace neuro {
