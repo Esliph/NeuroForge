@@ -3,9 +3,13 @@
 #include <memory>
 
 #include "internal/random_engine.hpp"
+#include "neuro/impl/population.hpp"
 #include "neuro/interfaces/i_population.hpp"
 
 namespace neuro {
+
+  GeneticTrainer::GeneticTrainer()
+    : population(std::make_shared<Population>()) {}
 
   GeneticTrainer::GeneticTrainer(const std::shared_ptr<IPopulation>& population)
     : population(population) {}

@@ -29,7 +29,7 @@ namespace neuro {
     GeneticOptions options{};
 
    public:
-    GeneticTrainer() = delete;
+    GeneticTrainer();
     GeneticTrainer(const GeneticTrainer&) = default;
 
     GeneticTrainer(const std::shared_ptr<IPopulation>&);
