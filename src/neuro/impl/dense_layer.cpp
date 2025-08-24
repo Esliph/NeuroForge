@@ -102,14 +102,14 @@ namespace neuro {
   void DenseLayer::mutateWeights(const std::function<float(float)>& mutator) {
     for (size_t i = 0; i < weights.size(); i++) {
       for (size_t j = 0; j < weights[i].size(); j++) {
-        weights[i][j] = mutator(weights[i][j]);
+        weights[i][j] += mutator(weights[i][j]);
       }
     }
   }
 
   void DenseLayer::mutateBiases(const std::function<float(float)>& mutator) {
     for (size_t i = 0; i < biases.size(); i++) {
-      biases[i] = mutator(biases[i]);
+      biases[i] += mutator(biases[i]);
     }
   }
 

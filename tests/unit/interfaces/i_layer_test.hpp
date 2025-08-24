@@ -183,11 +183,10 @@ void runTestInterfaceILayer() {
     ILayerImpl layer;
 
     layer.reshape(1, 1);
-    layer.setWeight(0, 0, 1.0f);
 
-    layer.mutateWeights([&](float weight) {
-      CHECK(weight == 1.0f);
+    CHECK(layer.getWeight(0, 0) == 0.0f);
 
+    layer.mutateWeights([&](float) {
       return 10.0f;
     });
 
@@ -198,11 +197,10 @@ void runTestInterfaceILayer() {
     ILayerImpl layer;
 
     layer.reshape(1, 1);
-    layer.setBias(0, 1.0f);
 
-    layer.mutateBiases([&](float bias) {
-      CHECK(bias == 1.0f);
+    CHECK(layer.getBias(0) == 0.0f);
 
+    layer.mutateBiases([&](float) {
       return 10.0f;
     });
 
