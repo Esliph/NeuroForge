@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "internal/attribute.hpp"
+#include "internal/random_engine.hpp"
 #include "neuro/interfaces/i_population.hpp"
 
 namespace neuro {
@@ -18,32 +18,29 @@ namespace neuro {
     : population(population),
       options(options) {}
 
-  FORCE_INLINE IPopulation& GeneticTrainer::getPopulation() {
-    return *population;
+  void GeneticTrainer::evolve() {
   }
 
-  FORCE_INLINE void GeneticTrainer::setPopulation(const std::shared_ptr<IPopulation>& population) {
-    this->population = population;
+  void GeneticTrainer::mutate() {
+    auto& individuals = population->getIndividuals();
+
+    std::uniform_real_distribution<float> chance(0.0f, 1.0f);
+    std::normal_distribution<float> perturbation(-options.intensity, options.intensity);
+
+    for (auto& individual : individuals) {
+      auto& network = individual->getNeuralNetwork();
+
+      network.mutateWeights([&](float) {
+        return chance(random_engine) < options.rate ? perturbation(random_engine) : 0.0f;
+      });
+
+      network.mutateBiases([&](float) {
+        return chance(random_engine) < options.rate ? perturbation(random_engine) : 0.0f;
+      });
+    }
   }
 
-  FORCE_INLINE void GeneticTrainer::setOptions(const GeneticOptions& options) {
-    this->options = options;
-  }
-
-  FORCE_INLINE void GeneticTrainer::setRate(float rate) {
-    options.rate = rate;
-  }
-
-  FORCE_INLINE void GeneticTrainer::setIntensity(float intensity) {
-    options.intensity = intensity;
-  }
-
-  FORCE_INLINE void GeneticTrainer::setEliteCount(size_t eliteCount) {
-    options.eliteCount = eliteCount;
-  }
-
-  FORCE_INLINE const GeneticOptions& GeneticTrainer::getOptions() const {
-    return options;
+  void GeneticTrainer::crossover() {
   }
 
 }; // namespace neuro

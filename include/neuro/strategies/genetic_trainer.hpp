@@ -15,6 +15,7 @@ namespace neuro {
   };
 
   class GeneticTrainer : public IStrategyEvolution {
+   protected:
     std::shared_ptr<IPopulation> population;
 
     GeneticOptions options{};
@@ -29,15 +30,39 @@ namespace neuro {
 
     virtual ~GeneticTrainer() = default;
 
-    virtual IPopulation& getPopulation();
-    virtual void setPopulation(const std::shared_ptr<IPopulation>&);
+    virtual void evolve();
 
-    virtual const GeneticOptions& getOptions() const;
+    virtual void mutate();
 
-    virtual void setOptions(const GeneticOptions&);
-    virtual void setRate(float);
-    virtual void setIntensity(float);
-    virtual void setEliteCount(size_t);
+    virtual void crossover();
+
+    FORCE_INLINE std::shared_ptr<IPopulation> getPopulation() {
+      return population;
+    }
+
+    FORCE_INLINE void setPopulation(const std::shared_ptr<IPopulation>& population) {
+      this->population = population;
+    }
+
+    FORCE_INLINE void setOptions(const GeneticOptions& options) {
+      this->options = options;
+    }
+
+    FORCE_INLINE void setRate(float rate) {
+      options.rate = rate;
+    }
+
+    FORCE_INLINE void setIntensity(float intensity) {
+      options.intensity = intensity;
+    }
+
+    FORCE_INLINE void setEliteCount(size_t eliteCount) {
+      options.eliteCount = eliteCount;
+    }
+
+    FORCE_INLINE const GeneticOptions& getOptions() const {
+      return options;
+    }
   };
 
 }; // namespace neuro
