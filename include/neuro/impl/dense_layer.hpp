@@ -49,6 +49,8 @@ namespace neuro {
     void mutateWeights(const std::function<float(float)>& mutator) override;
     void mutateBiases(const std::function<float(float)>& mutator) override;
 
+    void blendWith(const ILayerWeight& other, float alpha) override;
+
     FORCE_INLINE bool validateInternalShape() {
       return validateInternalShape(weights, biases);
     }

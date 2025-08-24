@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "internal/random_engine.hpp"
+#include "neuro/capabilities/i_layer_weight.hpp"
 #include "neuro/exceptions/invalid_network_architecture_exception.hpp"
 #include "neuro/interfaces/i_layer.hpp"
 #include "neuro/types.hpp"
@@ -110,6 +111,18 @@ namespace neuro {
   void DenseLayer::mutateBiases(const std::function<float(float)>& mutator) {
     for (size_t i = 0; i < biases.size(); i++) {
       biases[i] += mutator(biases[i]);
+    }
+  }
+
+  void DenseLayer::blendWith(const ILayerWeight& other, float alpha) {
+    for (size_t i = 0; i < weights.size(); i++) {
+      for (size_t j = 0; j < weights[i].size(); j++) {
+        weights[i][j] = (1.0f - alpha) * weights[i][j] + alpha * other.getWeight(i, j);
+      }
+    }
+
+    for (size_t i = 0; i < biases.size(); i++) {
+      biases[i] = (1.0f - alpha) * biases[i] + alpha * other.getBias(i);
     }
   }
 

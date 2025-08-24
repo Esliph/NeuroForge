@@ -16,6 +16,8 @@ namespace neuro {
     virtual void mutateWeights(const std::function<float(float)>& mutator) = 0;
     virtual void mutateBiases(const std::function<float(float)>& mutator) = 0;
 
+    virtual void blendWith(const ILayerWeight& other, float alpha) = 0;
+
     virtual float meanWeight() const = 0;
     virtual float meanBias() const = 0;
 

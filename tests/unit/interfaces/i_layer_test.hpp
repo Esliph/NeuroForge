@@ -207,6 +207,26 @@ void runTestInterfaceILayer() {
     CHECK(layer.getBias(0) == 10.0f);
   }
 
+  SUBCASE("Deterministic mutation testing from blend with") {
+    ILayerImpl layer1;
+
+    layer1.setWeights({{1.0f, 2.0f}, {3.0f, 4.0f}});
+    layer1.setBiases({1.0f, 2.0f});
+
+    ILayerImpl layer2;
+
+    layer2.setWeights({{5.0f, 6.0f}, {7.0f, 8.0f}});
+    layer2.setBiases({3.0f, 4.0f});
+
+    layer1.blendWith(layer2, 0.5f);
+
+    neuro::layer_weight_t expectedWeights = {{3.0f, 4.0f}, {5.0f, 6.0f}};
+    neuro::layer_bias_t expectedBiases = {2.0f, 3.0f};
+
+    CHECK(layer1.getWeights() == expectedWeights);
+    CHECK(layer1.getBiases() == expectedBiases);
+  }
+
   SUBCASE("Feedforward deterministic") {
     ILayerImpl layer;
 
