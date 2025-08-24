@@ -4,7 +4,6 @@
 #include <random>
 #include <vector>
 
-#include "internal/attribute.hpp"
 #include "internal/random_engine.hpp"
 #include "neuro/exceptions/invalid_network_architecture_exception.hpp"
 #include "neuro/interfaces/i_layer.hpp"
@@ -77,10 +76,6 @@ namespace neuro {
     return outputs;
   }
 
-  FORCE_INLINE void DenseLayer::clear() {
-    reshape(inputSize(), outputSize());
-  }
-
   void DenseLayer::reshape(size_t newInputSize, size_t newOutputSize) {
     weights = layer_weight_t(newOutputSize, neuro_layer_t(newInputSize));
     biases = layer_bias_t(newOutputSize);
@@ -116,10 +111,6 @@ namespace neuro {
     for (size_t i = 0; i < biases.size(); i++) {
       biases[i] = mutator(biases[i]);
     }
-  }
-
-  FORCE_INLINE bool DenseLayer::validateInternalShape() {
-    return validateInternalShape(weights, biases);
   }
 
   bool DenseLayer::validateInternalShape(const layer_weight_t& weights, const layer_bias_t& biases) {
@@ -170,19 +161,6 @@ namespace neuro {
     return total / biases.size();
   }
 
-  FORCE_INLINE size_t DenseLayer::inputSize() const {
-    if (weights.empty())
-      UNLIKELY {
-        return 0;
-      }
-
-    return weights[0].size();
-  }
-
-  FORCE_INLINE size_t DenseLayer::outputSize() const {
-    return weights.size();
-  }
-
   float& DenseLayer::weightRef(size_t indexX, size_t indexY) {
     checkWeightIndex(indexX, indexY);
     return weights[indexX][indexY];
@@ -213,14 +191,6 @@ namespace neuro {
     return biases[index];
   }
 
-  FORCE_INLINE const ActivationFunction& DenseLayer::getActivationFunction() const {
-    return activation;
-  }
-
-  FORCE_INLINE void DenseLayer::setActivationFunction(const ActivationFunction& activation) {
-    this->activation = activation;
-  }
-
   void DenseLayer::setWeight(size_t indexX, size_t indexY, float value) {
     checkWeightIndex(indexX, indexY);
     weights[indexX][indexY] = value;
@@ -229,34 +199,6 @@ namespace neuro {
   void DenseLayer::setBias(size_t index, float value) {
     checkBiasIndex(index);
     biases[index] = value;
-  }
-
-  FORCE_INLINE layer_weight_t& DenseLayer::getWeights() {
-    return weights;
-  }
-
-  FORCE_INLINE layer_bias_t& DenseLayer::getBiases() {
-    return biases;
-  }
-
-  FORCE_INLINE const layer_weight_t& DenseLayer::getWeights() const {
-    return weights;
-  }
-
-  FORCE_INLINE const layer_bias_t& DenseLayer::getBiases() const {
-    return biases;
-  }
-
-  FORCE_INLINE void DenseLayer::setWeights(const layer_weight_t& weights) {
-    this->weights = weights;
-  }
-
-  FORCE_INLINE void DenseLayer::setBiases(const layer_bias_t& biases) {
-    this->biases = biases;
-  }
-
-  FORCE_INLINE std::unique_ptr<ILayer> DenseLayer::clone() const {
-    return std::make_unique<DenseLayer>(*this);
   }
 
   ILayer& DenseLayer::operator=(const ILayer& other) {

@@ -2,7 +2,10 @@
 
 #include <functional>
 #include <memory>
+#include <vector>
 
+#include "internal/attribute.hpp"
+#include "neuro/impl/neural_network.hpp"
 #include "neuro/interfaces/i_individual.hpp"
 #include "neuro/interfaces/i_layer.hpp"
 #include "neuro/interfaces/i_neural_network.hpp"
@@ -30,19 +33,37 @@ namespace neuro {
 
     virtual ~Individual() = default;
 
-    void evaluateFitness(const std::function<float(const INeuralNetwork&)>& evaluateFunction) override;
+    FORCE_INLINE void evaluateFitness(const std::function<float(const INeuralNetwork&)>& evaluateFunction) {
+      fitness = evaluateFunction(*neuralNetwork);
+    }
 
-    const INeuralNetwork& getNeuralNetwork() const override;
-    INeuralNetwork& getNeuralNetwork() override;
+    FORCE_INLINE const INeuralNetwork& getNeuralNetwork() const {
+      return *neuralNetwork;
+    }
 
-    void setNeuralNetwork(const INeuralNetwork& neuralNetwork) override;
-    void setNeuralNetwork(std::unique_ptr<INeuralNetwork> neuralNetwork) override;
+    FORCE_INLINE INeuralNetwork& getNeuralNetwork() {
+      return *neuralNetwork;
+    }
 
-    float getFitness() const override;
+    FORCE_INLINE void setNeuralNetwork(const INeuralNetwork& neuralNetwork) {
+      this->neuralNetwork = std::move(neuralNetwork.clone());
+    }
 
-    void setFitness(float fitness) override;
+    FORCE_INLINE void setNeuralNetwork(std::unique_ptr<INeuralNetwork> neuralNetwork) {
+      this->neuralNetwork = std::move(neuralNetwork);
+    }
 
-    std::unique_ptr<IIndividual> clone() const override;
+    FORCE_INLINE float getFitness() const {
+      return fitness;
+    }
+
+    FORCE_INLINE void setFitness(float fitness) {
+      this->fitness = fitness;
+    }
+
+    FORCE_INLINE std::unique_ptr<IIndividual> clone() const {
+      return std::make_unique<Individual>(*this);
+    };
   };
 
 }; // namespace neuro

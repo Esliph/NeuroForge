@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 
+#include "internal/attribute.hpp"
 #include "neuro/interfaces/i_layer.hpp"
 #include "neuro/interfaces/i_neural_network.hpp"
 #include "neuro/types.hpp"
@@ -44,51 +45,105 @@ namespace neuro {
     void mutateWeights(const std::function<float(float)>& mutator) override;
     void mutateBiases(const std::function<float(float)>& mutator) override;
 
-    void addLayers(std::vector<std::unique_ptr<ILayer>>&& layers) override;
-    void addLayer(std::unique_ptr<ILayer> layer) override;
-    void addLayer(std::function<std::unique_ptr<ILayer>()> factory, size_t size) override;
-    void addLayer(std::function<std::unique_ptr<ILayer>()> factory) override;
+    FORCE_INLINE void addLayers(std::vector<std::unique_ptr<ILayer>>&& layers) {
+      for (size_t i = 0; i < layers.size(); i++) {
+        this->layers.push_back(std::move(layers[i]));
+      }
+    }
+
+    FORCE_INLINE void addLayer(std::unique_ptr<ILayer> layer) {
+      layers.push_back(std::move(layer));
+    }
+
+    FORCE_INLINE void addLayer(std::function<std::unique_ptr<ILayer>()> factory, size_t size) {
+      for (size_t i = 0; i < size; i++) {
+        layers.push_back(factory());
+      }
+    }
+
+    FORCE_INLINE void addLayer(std::function<std::unique_ptr<ILayer>()> factory) {
+      layers.push_back(factory());
+    }
 
     void clear() override;
     void restructure(const std::vector<int>& newStructure) override;
 
-    void clearLayers() override;
+    FORCE_INLINE void clearLayers() {
+      layers.clear();
+    }
+
     void removeLayer(size_t index) override;
 
-    void popLayer() override;
-    void shiftLayer() override;
+    FORCE_INLINE void popLayer() {
+      layers.pop_back();
+    }
 
-    size_t inputSize() const override;
-    size_t outputSize() const override;
+    FORCE_INLINE void shiftLayer() {
+      layers.erase(layers.begin());
+    }
 
-    void setLayers(std::vector<std::unique_ptr<ILayer>> layers) override;
+    FORCE_INLINE size_t inputSize() const {
+      return layers.empty() ? 0 : layers[0]->inputSize();
+    }
+
+    FORCE_INLINE size_t outputSize() const {
+      return layers.empty() ? 0 : layers[layers.size() - 1]->outputSize();
+    }
+
+    FORCE_INLINE void setLayers(std::vector<std::unique_ptr<ILayer>> layers) {
+      this->layers = std::move(layers);
+    }
+
     void setLayer(size_t index, std::unique_ptr<ILayer>) override;
 
     std::vector<layer_weight_t> getAllWeights() const override;
     std::vector<layer_bias_t> getAllBiases() const override;
 
-    const std::vector<std::unique_ptr<ILayer>>& getLayers() const override;
-    std::vector<std::unique_ptr<ILayer>>& getLayers() override;
+    FORCE_INLINE const std::vector<std::unique_ptr<ILayer>>& getLayers() const {
+      return layers;
+    }
+
+    FORCE_INLINE std::vector<std::unique_ptr<ILayer>>& getLayers() {
+      return layers;
+    }
 
     const ILayer& layer(size_t index) const override;
     ILayer& layer(size_t index) override;
 
-    size_t sizeLayers() const override;
+    FORCE_INLINE size_t sizeLayers() const {
+      return layers.size();
+    }
 
-    bool empty() const override;
+    FORCE_INLINE bool empty() const {
+      return layers.empty();
+    }
 
-    std::vector<std::unique_ptr<ILayer>>::const_iterator begin() const override;
-    std::vector<std::unique_ptr<ILayer>>::iterator begin() override;
+    FORCE_INLINE std::vector<std::unique_ptr<ILayer>>::const_iterator begin() const {
+      return layers.begin();
+    }
 
-    std::vector<std::unique_ptr<ILayer>>::const_iterator end() const override;
-    std::vector<std::unique_ptr<ILayer>>::iterator end() override;
+    FORCE_INLINE std::vector<std::unique_ptr<ILayer>>::iterator begin() {
+      return layers.begin();
+    }
 
-    neuro_layer_t operator()(const neuro_layer_t& inputs) const override;
+    FORCE_INLINE std::vector<std::unique_ptr<ILayer>>::const_iterator end() const {
+      return layers.end();
+    }
+
+    FORCE_INLINE std::vector<std::unique_ptr<ILayer>>::iterator end() {
+      return layers.end();
+    }
+
+    FORCE_INLINE neuro_layer_t operator()(const neuro_layer_t& inputs) const {
+      return feedforward(inputs);
+    }
 
     const ILayer& operator[](size_t index) const override;
     ILayer& operator[](size_t index) override;
 
-    std::unique_ptr<INeuralNetwork> clone() const override;
+    FORCE_INLINE std::unique_ptr<INeuralNetwork> clone() const {
+      return std::make_unique<NeuralNetwork>(*this);
+    }
   };
 
 }; // namespace neuro
