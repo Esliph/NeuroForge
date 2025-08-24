@@ -1,14 +1,30 @@
 #include "neuro/strategies/genetic_trainer.hpp"
 
+#include <memory>
+
 #include "internal/attribute.hpp"
+#include "neuro/interfaces/i_population.hpp"
 
 namespace neuro {
 
-  GeneticTrainer::GeneticTrainer(float rate, float intensity, size_t eliteCount)
-    : options({rate, intensity, eliteCount}) {}
+  GeneticTrainer::GeneticTrainer(const std::shared_ptr<IPopulation>& population)
+    : population(population) {}
 
-  GeneticTrainer::GeneticTrainer(const GeneticOptions& options)
-    : options(options) {}
+  GeneticTrainer::GeneticTrainer(const std::shared_ptr<IPopulation>& population, float rate, float intensity, size_t eliteCount)
+    : population(population),
+      options({rate, intensity, eliteCount}) {}
+
+  GeneticTrainer::GeneticTrainer(const std::shared_ptr<IPopulation>& population, const GeneticOptions& options)
+    : population(population),
+      options(options) {}
+
+  FORCE_INLINE IPopulation& GeneticTrainer::getPopulation() {
+    return *population;
+  }
+
+  FORCE_INLINE void GeneticTrainer::setPopulation(const std::shared_ptr<IPopulation>& population) {
+    this->population = population;
+  }
 
   FORCE_INLINE void GeneticTrainer::setOptions(const GeneticOptions& options) {
     this->options = options;

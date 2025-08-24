@@ -1,5 +1,9 @@
 #pragma once
 
+#include <memory>
+
+#include "internal/attribute.hpp"
+#include "neuro/interfaces/i_population.hpp"
 #include "neuro/strategies/i_strategy_evolution.hpp"
 
 namespace neuro {
@@ -11,16 +15,22 @@ namespace neuro {
   };
 
   class GeneticTrainer : public IStrategyEvolution {
+    std::shared_ptr<IPopulation> population;
+
     GeneticOptions options{};
 
    public:
-    GeneticTrainer() = default;
+    GeneticTrainer() = delete;
     GeneticTrainer(const GeneticTrainer&) = default;
 
-    GeneticTrainer(float rate, float intensity = 0.5f, size_t eliteCount = 5);
-    GeneticTrainer(const GeneticOptions& options);
+    GeneticTrainer(const std::shared_ptr<IPopulation>&);
+    GeneticTrainer(const std::shared_ptr<IPopulation>&, float rate, float intensity = 0.5f, size_t eliteCount = 5);
+    GeneticTrainer(const std::shared_ptr<IPopulation>&, const GeneticOptions& options);
 
     virtual ~GeneticTrainer() = default;
+
+    virtual IPopulation& getPopulation();
+    virtual void setPopulation(const std::shared_ptr<IPopulation>&);
 
     virtual const GeneticOptions& getOptions() const;
 
