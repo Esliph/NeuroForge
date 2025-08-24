@@ -41,6 +41,9 @@ namespace neuro {
     void randomizeWeights(float min, float max) override;
     void randomizeBiases(float min, float max) override;
 
+    void mutateWeights(const std::function<float(float)>& mutator) override;
+    void mutateBiases(const std::function<float(float)>& mutator) override;
+
     void addLayers(std::vector<std::unique_ptr<ILayer>>&& layers) override;
     void addLayer(std::unique_ptr<ILayer> layer) override;
     void addLayer(std::function<std::unique_ptr<ILayer>()> factory, size_t size) override;

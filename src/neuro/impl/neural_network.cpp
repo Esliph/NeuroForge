@@ -153,6 +153,18 @@ namespace neuro {
     }
   }
 
+  void NeuralNetwork::mutateWeights(const std::function<float(float)>& mutator) {
+    for (auto& layer : layers) {
+      layer->mutateWeights(mutator);
+    }
+  }
+
+  void NeuralNetwork::mutateBiases(const std::function<float(float)>& mutator) {
+    for (auto& layer : layers) {
+      layer->mutateBiases(mutator);
+    }
+  }
+
   FORCE_INLINE void NeuralNetwork::addLayers(std::vector<std::unique_ptr<ILayer>>&& layers) {
     for (size_t i = 0; i < layers.size(); i++) {
       this->layers.push_back(std::move(layers[i]));

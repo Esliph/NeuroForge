@@ -220,6 +220,34 @@ void runTestInterfaceINeuralNetwork() {
     }
   }
 
+  SUBCASE("Change in weights by mutation methods") {
+    INeuralNetworkImpl network;
+
+    network.restructure({1, 1});
+
+    network.mutateWeights([&](float weight) {
+      CHECK(weight == 0.0f);
+
+      return 10.0f;
+    });
+
+    CHECK(network.layer(0).getWeight(0, 0) == 10.0f);
+  }
+
+  SUBCASE("Change in biases by mutation methods") {
+    INeuralNetworkImpl network;
+
+    network.restructure({1, 1});
+
+    network.mutateBiases([&](float bias) {
+      CHECK(bias == 0.0f);
+
+      return 10.0f;
+    });
+
+    CHECK(network.layer(0).getBias(0) == 10.0f);
+  }
+
   SUBCASE("Clone") {
     std::vector<std::unique_ptr<neuro::ILayer>> layers;
 
