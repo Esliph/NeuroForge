@@ -12,6 +12,14 @@ namespace neuro {
     float rate = 0.5f;
     float intensity = 0.5f;
     size_t eliteCount = 5;
+
+    bool operator!=(const GeneticOptions& other) const {
+      return !(*this == other);
+    }
+
+    bool operator==(const GeneticOptions& other) const {
+      return rate == other.rate && intensity == other.intensity && eliteCount == other.eliteCount;
+    }
   };
 
   class GeneticTrainer : public IStrategyEvolution {
