@@ -1,5 +1,7 @@
 #pragma once
 
+#include <functional>
+
 #include "neuro/types.hpp"
 
 namespace neuro {
@@ -10,6 +12,9 @@ namespace neuro {
 
     virtual void randomizeWeights(float min, float max) = 0;
     virtual void randomizeBiases(float min, float max) = 0;
+
+    virtual void mutateWeights(const std::function<float(float)>& mutator) = 0;
+    virtual void mutateBiases(const std::function<float(float)>& mutator) = 0;
 
     virtual float meanWeight() const = 0;
     virtual float meanBias() const = 0;

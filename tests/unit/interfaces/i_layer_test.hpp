@@ -2,6 +2,8 @@
 
 #include <doctest/doctest.h>
 
+#include <functional>
+
 #include "neuro/exceptions/invalid_network_architecture_exception.hpp"
 #include "neuro/interfaces/i_layer.hpp"
 #include "neuro/makers/activation.hpp"
@@ -157,7 +159,9 @@ void runTestInterfaceILayer() {
   }
 
   SUBCASE("Randomization test of weights and biases") {
-    ILayerImpl layer(4, 4);
+    ILayerImpl layer;
+
+    layer.reshape(4, 4);
 
     layer.randomizeWeights(-1.0f, 1.0f);
     layer.randomizeBiases(-2.0f, 2.0f);
@@ -173,6 +177,36 @@ void runTestInterfaceILayer() {
       CHECK(bias >= -2.0f);
       CHECK(bias <= 2.0f);
     }
+  }
+
+  SUBCASE("Change in weights by mutation methods") {
+    ILayerImpl layer;
+
+    layer.reshape(1, 1);
+    layer.setWeight(0, 0, 1.0f);
+
+    layer.mutateWeights([&](float weight) {
+      CHECK(weight == 1.0f);
+
+      return 10.0f;
+    });
+
+    CHECK(layer.getWeight(0, 0) == 10.0f);
+  }
+
+  SUBCASE("Change in biases by mutation methods") {
+    ILayerImpl layer;
+
+    layer.reshape(1, 1);
+    layer.setBias(0, 1.0f);
+
+    layer.mutateBiases([&](float bias) {
+      CHECK(bias == 1.0f);
+
+      return 10.0f;
+    });
+
+    CHECK(layer.getBias(0) == 10.0f);
   }
 
   SUBCASE("Feedforward deterministic") {

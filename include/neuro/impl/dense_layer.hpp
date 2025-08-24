@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <memory>
 
 #include "neuro/interfaces/i_layer.hpp"
@@ -41,6 +42,9 @@ namespace neuro {
 
     void randomizeWeights(float min, float max) override;
     void randomizeBiases(float min, float max) override;
+
+    void mutateWeights(const std::function<float(float)>& mutator) override;
+    void mutateBiases(const std::function<float(float)>& mutator) override;
 
     bool validateInternalShape() override;
 
