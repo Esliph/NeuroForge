@@ -27,12 +27,12 @@ tests:
 
 run_dev: dev
 	@echo "-- Running executable";
-	@./$(BUILD_DIR)/dev/NeuroForgeMain;
+	@./$(BUILD_DIR)/dev/bin/NeuroForgeMain;
 .PHONY: run_build
 
 run_tests: tests
 	@echo "-- Running tests";
-	@./$(BUILD_DIR)/tests/tests/unit/NeuroForgeTests;
+	@./$(BUILD_DIR)/tests/bin/NeuroForgeTests;
 .PHONY: run_tests
 
 all: build
