@@ -40,4 +40,4 @@ namespace neuro {
     virtual ILayer& operator[](size_t index) = 0;
   };
 
-}; // namespace neuro
+} // namespace neuro

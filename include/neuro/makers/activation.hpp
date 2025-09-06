@@ -47,6 +47,6 @@ namespace neuro {
       return {[](float x) { return x; }, [](float) { return 1.0f; }};
     }
 
-  }; // namespace maker
+  } // namespace maker
 
-}; // namespace neuro
+} // namespace neuro

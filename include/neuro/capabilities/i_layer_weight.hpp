@@ -43,4 +43,4 @@ namespace neuro {
     virtual void setBiases(const layer_bias_t&) = 0;
   };
 
-}; // namespace neuro
+} // namespace neuro

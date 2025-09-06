@@ -146,4 +146,4 @@ namespace neuro {
     }
   };
 
-}; // namespace neuro
+} // namespace neuro

@@ -18,4 +18,4 @@ namespace neuro {
     virtual std::vector<std::unique_ptr<ILayer>>::iterator end() = 0;
   };
 
-}; // namespace neuro
+} // namespace neuro

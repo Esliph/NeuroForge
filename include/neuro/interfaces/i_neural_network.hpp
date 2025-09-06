@@ -19,4 +19,4 @@ namespace neuro {
     virtual std::unique_ptr<INeuralNetwork> clone() const = 0;
   };
 
-}; // namespace neuro
+} // namespace neuro

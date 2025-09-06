@@ -12,4 +12,4 @@ namespace neuro {
     ActivationHandler derivate;
   };
 
-}; // namespace neuro
+} // namespace neuro

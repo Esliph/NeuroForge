@@ -16,4 +16,4 @@ namespace neuro {
     virtual bool validateInternalShape() = 0;
   };
 
-}; // namespace neuro
+} // namespace neuro

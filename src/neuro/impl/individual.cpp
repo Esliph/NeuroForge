@@ -45,4 +45,4 @@ namespace neuro {
     : IIndividual(),
       neuralNetwork(std::make_unique<NeuralNetwork>(structure, activations)) {}
 
-}; // namespace neuro
+} // namespace neuro

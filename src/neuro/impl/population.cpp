@@ -113,4 +113,4 @@ namespace neuro {
 
     return *individuals[index];
   }
-}; // namespace neuro
+} // namespace neuro

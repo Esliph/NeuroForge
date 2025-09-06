@@ -17,6 +17,6 @@ namespace neuro {
       const char* what() const noexcept override;
     };
 
-  }; // namespace exception
+  } // namespace exception
 
-}; // namespace neuro
+} // namespace neuro

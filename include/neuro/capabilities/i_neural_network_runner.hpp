@@ -21,4 +21,4 @@ namespace neuro {
     virtual bool empty() const = 0;
   };
 
-}; // namespace neuro
+} // namespace neuro

@@ -21,4 +21,4 @@ namespace neuro {
     ILayer& operator=(const ILayer&) = default;
   };
 
-}; // namespace neuro
+} // namespace neuro

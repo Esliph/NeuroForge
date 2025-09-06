@@ -15,4 +15,4 @@ namespace neuro {
     virtual void mutateBiases(const std::function<float(float)>& mutator) = 0;
   };
 
-}; // namespace neuro
+} // namespace neuro

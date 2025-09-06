@@ -201,4 +201,4 @@ namespace neuro {
     return *layers[index];
   }
 
-}; // namespace neuro
+} // namespace neuro

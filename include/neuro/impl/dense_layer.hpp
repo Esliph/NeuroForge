@@ -128,4 +128,4 @@ namespace neuro {
     virtual void checkBiasIndex(size_t index) const;
   };
 
-}; // namespace neuro
+} // namespace neuro

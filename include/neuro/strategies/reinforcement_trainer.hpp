@@ -105,4 +105,4 @@ namespace neuro {
     virtual const ReinforcementOptions& getOptions() const;
   };
 
-}; // namespace neuro
+} // namespace neuro

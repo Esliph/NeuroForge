@@ -9,4 +9,4 @@ namespace neuro {
   typedef std::vector<neuro_layer_t> layer_weight_t;
   typedef neuro_layer_t layer_bias_t;
 
-}; // namespace neuro
+} // namespace neuro

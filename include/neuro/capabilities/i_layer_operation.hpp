@@ -15,4 +15,4 @@ namespace neuro {
     virtual void setActivationFunction(const ActivationFunction&) = 0;
   };
 
-}; // namespace neuro
+} // namespace neuro

@@ -14,6 +14,6 @@ namespace neuro {
       return message.c_str();
     }
 
-  }; // namespace exception
+  } // namespace exception
 
-}; // namespace neuro
+} // namespace neuro
