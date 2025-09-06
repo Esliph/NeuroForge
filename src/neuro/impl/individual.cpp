@@ -34,7 +34,7 @@ namespace neuro {
 
   Individual::Individual(std::unique_ptr<INeuralNetwork>, int fitness)
     : IIndividual(),
-      neuralNetwork(std::move(neuralNetwork)),
+      neuralNetwork(std::make_unique<NeuralNetwork>()),
       fitness(fitness) {}
 
   Individual::Individual(const std::vector<int>& structure, const ActivationFunction& activation)
