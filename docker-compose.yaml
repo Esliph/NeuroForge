@@ -1,0 +1,33 @@
+name: neuro_forge
+
+services:
+    build:
+        build: .
+        volumes:
+            - .:/app
+            - ./build:/app/build
+        command: make build
+    dev:
+        build: .
+        volumes:
+            - .:/app
+            - ./build:/app/build
+        command: make dev
+    tests:
+        build: .
+        volumes:
+            - .:/app
+            - ./build:/app/build
+        command: make tests
+    run_dev:
+        build: .
+        volumes:
+            - .:/app
+            - ./build:/app/build
+        command: make run_dev
+    run_tests:
+        build: .
+        volumes:
+            - .:/app
+            - ./build:/app/build
+        command: make run_tests

@@ -1,0 +1,9 @@
+.vscode
+examples
+.clang-format
+.gitignore
+.gitattributes
+docker-compose.yaml
+Dockerfile
+README.md
+LICENSE
